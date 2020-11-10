@@ -12,14 +12,16 @@ install_gluonts <- function() {
 
     method <- "conda"
 
-    default_pkgs <- c("mxnet==1.6",
-                      "gluonts==0.5.2",
-                      "numpy==1.19.4",
-                      "pandas==1.0.5",
-                      "scikit-learn==0.23.2",
-                      "matplotlib==3.3.2",
-                      "seaborn==0.11.0",
-                      "pathlib==1.0.1")
+    default_pkgs <- c(
+        "mxnet==1.6",
+        "gluonts==0.5.2",
+        "numpy==1.19.4",
+        "pandas==1.0.5",
+        "scikit-learn==0.23.2",
+        "matplotlib==3.3.2",
+        "seaborn==0.11.0",
+        "pathlib==1.0.1"
+    )
 
     reticulate::py_install(
         packages       = default_pkgs,
