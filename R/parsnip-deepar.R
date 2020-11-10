@@ -3,8 +3,49 @@
 
 #' Bridge GluonTS DeepAR Modeling Function
 #'
+#' @param x A dataframe of xreg (exogenous regressors)
+#' @param y A numeric vector of values to fit
+#' @param freq A `pandas` timeseries frequency.
+#'  Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
+#' @param prediction_length Length of the prediction horizon
+#' @param epochs Number of epochs that the network will train (default: 100).
+#' @param context_length Number of steps to unroll the RNN for before computing predictions
+#'  (default: NULL, in which case context_length = prediction_length)
+#' @param num_layers Number of RNN layers (default: 2)
+#' @param num_cells Number of RNN cells for each layer (default: 40)
+#' @param cell_type Type of recurrent cells to use (available: 'lstm' or 'gru'; default: 'lstm')
+#' @param dropout_rate Dropout regularization parameter (default: 0.1)
+#' @param use_feat_dynamic_real Whether to use the 'feat_dynamic_real' field from the data (default: FALSE)
+#' @param use_feat_static_cat Whether to use the feat_static_cat field from the data (default: FALSE)
+#' @param use_feat_static_real Whether to use the feat_static_real field from the data (default: FALSE)
+#' @param cardinality – Number of values of each categorical feature.
+#'  This must be set if `use_feat_static_cat` == TRUE (default: NULL)
+#' @param embedding_dimension Dimension of the embeddings for categorical features (default: [min(50, (cat+1)//2) for cat in cardinality])
+#' @param distr_output – Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())
+#' @param scaling Whether to automatically scale the target values (default: TRUE)
+#' @param lags_seq Indices of the lagged target values to use as inputs of the RNN
+#'  (default: NULL, in which case these are automatically determined based on freq)
+#' @param time_features Time features to use as inputs of the RNN
+#'  (default: None, in which case these are automatically determined based on freq)
+#' @param num_parallel_samples Number of evaluation samples per time series to increase parallelism during inference.
+#'  This is a model optimization that does not affect the accuracy (default: 100)
+#' @param ctx The mxnet CPU/GPU context. Refer to using CPU/GPU in the mxnet documentation.
+#'  (defualt: NULL, uses CPU)
+#' @param batch_size Number of examples in each batch (default: 32).
+#' @param num_batches_per_epoch Number of batches at each epoch (default: 50).
+#' @param learning_rate Initial learning rate (default:  10−3 ).
+#' @param learning_rate_decay_factor Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).
+#' @param patience The patience to observe before reducing the learning rate, nonnegative integer (default: 10).
+#' @param minimum_learning_rate Lower bound for the learning rate (default:  5⋅10−5 ).
+#' @param clip_gradient Maximum value of gradient. The gradient is clipped if it is too large (default: 10).
+#' @param weight_decay The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10−8 ).
+#' @param init Initializer of the weights of the network (default: “xavier”).
+#' @param hybridize Increases efficiency by using symbolic programming. (default: TRUE)
+#'
+#'
+#'
 #' @export
-deepar_fit_impl <- function(x, y, freq, horizon,
+deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
 
                             # Algo Args
                             context_length = NULL,
@@ -25,7 +66,6 @@ deepar_fit_impl <- function(x, y, freq, horizon,
 
                             # Trainer Args
                             ctx = NULL,
-                            epochs = 100,
                             batch_size = 32,
                             num_batches_per_epoch = 50,
                             learning_rate = 0.001,
@@ -61,7 +101,7 @@ deepar_fit_impl <- function(x, y, freq, horizon,
     if (is.null(time_features)) time_features <- reticulate::py_none()
     # if (is.null(imputation_method)) imputation_method <- reticulate::py_none()
 
-    HORIZON <- horizon
+    HORIZON <- prediction_length
     FREQ    <- freq
     EPOCHS  <- epochs
 
@@ -133,10 +173,7 @@ deepar_fit_impl <- function(x, y, freq, horizon,
         )
 
     # Extras - Pass on transformation recipe
-    extras <- list(
-        x = x,
-        y = y
-    )
+    extras <- NULL
 
     # Model Description - Gets printed to describe the high-level model structure
     desc <- "DeepAR"
@@ -158,6 +195,51 @@ print.deepar_fit_impl <- function(x, ...) {
     cat(x$desc)
     cat("\n")
     cat("--------")
+    cat("\n")
     print(x$models$model_1$prediction_net)
     invisible(x)
+}
+
+#' Bridge prediction Function for DeepAR Models
+#'
+#' @inheritParams parsnip::predict.model_fit
+#'
+#' @export
+deepar_predict_impl <- function(object, new_data) {
+
+    # PREPARE INPUTS
+    deepar_model  <- object$models$model_1
+    idx_train     <- object$data %>% timetk::tk_index()
+    y             <- object$data %>% dplyr::pull(.actual)
+    h_horizon     <- nrow(new_data)
+    freq          <- deepar_model$freq
+
+    # RECONSTRUCT GLUON DATA
+    gluon_data <- py$prepare_data_univariate(
+        index  = idx_train,
+        values = y,
+        freq   = freq
+    )
+
+    # PREDICTIONS
+    prediction <- deepar_model$predict(gluon_data)
+    res        <- reticulate::iter_next(prediction)
+    preds      <- as.numeric(res$mean)
+
+    # HANDLE DELTA BETWEEN NEW DATA & PREDICTION LENGTH
+    if (length(preds) < h_horizon) {
+        warning(stringr::str_glue("The number of rows in 'new_data' is greater than GluonTS model's 'prediction_length'. Reconciling by padding NA values. Consider using a 'prediction_length' = {h_horizon}."))
+        preds  <- c(preds, rep(NA, h_horizon))
+    } else if (length(preds) < h_horizon) {
+        # warning("The GluonTS model's 'prediction_length' is greater than the number of rows in 'new_data'. Reconciling by trimming values.")
+    }
+    preds <- preds[1:h_horizon]
+
+    return(preds)
+
+}
+
+#' @export
+predict.deepar_fit_impl <- function(object, new_data, ...) {
+    deepar_predict_impl(object, new_data, ...)
 }
