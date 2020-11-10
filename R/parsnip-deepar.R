@@ -15,8 +15,8 @@ gluonts_deepar_fit_impl <- function(x, y, freq, horizon, epochs) {
 
     # INDEX & PERIOD
     # Determine Period, Index Col, and Index
-    index_tbl <- parse_index_from_data(predictor)
-    period    <- parse_period_from_index(index_tbl, period)
+    index_tbl <- modeltime::parse_index_from_data(predictor)
+    # period    <- modeltime::parse_period_from_index(index_tbl, period)
     idx_col   <- names(index_tbl)
     idx       <- timetk::tk_index(index_tbl)
 
