@@ -15,8 +15,8 @@ pkg.env$conda_envs <- reticulate::conda_list() %>%
 # ONLOAD ----
 
 gluonts <- NULL
-pandas  <- NULL
-main    <- NULL
+pd      <- NULL
+np      <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
@@ -31,9 +31,10 @@ main    <- NULL
             delay_load = TRUE
         )
 
-        pandas   <<- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
-        main     <<- reticulate::import("__main__", delay_load = TRUE, convert = TRUE)
+        np <<- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
+        pd <<- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
 
+        # Python source files (inst/ folder)
         system.file("python", "prepare_data.py", package = "modeltime.gluonts") %>%
             reticulate::source_python()
     }

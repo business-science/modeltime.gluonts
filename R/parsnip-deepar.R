@@ -1,5 +1,5 @@
 
-
+# DEEP AR ----
 
 #' Bridge GluonTS DeepAR Modeling Function
 #'
@@ -18,10 +18,10 @@
 #' @param use_feat_dynamic_real Whether to use the 'feat_dynamic_real' field from the data (default: FALSE)
 #' @param use_feat_static_cat Whether to use the feat_static_cat field from the data (default: FALSE)
 #' @param use_feat_static_real Whether to use the feat_static_real field from the data (default: FALSE)
-#' @param cardinality – Number of values of each categorical feature.
+#' @param cardinality Number of values of each categorical feature.
 #'  This must be set if `use_feat_static_cat` == TRUE (default: NULL)
 #' @param embedding_dimension Dimension of the embeddings for categorical features (default: [min(50, (cat+1)//2) for cat in cardinality])
-#' @param distr_output – Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())
+#' @param distr_output Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())
 #' @param scaling Whether to automatically scale the target values (default: TRUE)
 #' @param lags_seq Indices of the lagged target values to use as inputs of the RNN
 #'  (default: NULL, in which case these are automatically determined based on freq)
@@ -73,7 +73,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
                             patience = 10,
                             minimum_learning_rate = 5e-5,
                             clip_gradient = 10,
-                            weight_decay = 10-8,
+                            weight_decay = 1e-8,
                             init = "xavier",
                             hybridize = TRUE
                             ) {
@@ -106,6 +106,10 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
     EPOCHS  <- epochs
 
     # Construct GluonTS dataset
+    # Resources:
+    # 1. Univariate: https://ts.gluon.ai/examples/extended_forecasting_tutorial/extended_tutorial.html
+    # 2. Multivariate: https://github.com/awslabs/gluon-ts/issues/494
+    # 3. NBEATS: https://github.com/Mcompetitions/M5-methods/blob/master/Code%20of%20Winning%20Methods/A2/M5_NBEATS_TopLevel.py
     gluon_data <- py$prepare_data_univariate(
         index  = idx,
         values = y,
@@ -153,6 +157,10 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
 
     # Train the model
     model_fit  <- model_spec$train(training_data = gluon_data)
+
+    # GET FITTED
+
+    # gluon_data
 
     # RETURN A NEW MODELTIME BRIDGE
 

@@ -67,12 +67,12 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{use_feat_static_real}{Whether to use the feat_static_real field from the data (default: FALSE)}
 
-\item{cardinality}{– Number of values of each categorical feature.
+\item{cardinality}{Number of values of each categorical feature.
 This must be set if \code{use_feat_static_cat} == TRUE (default: NULL)}
 
 \item{embedding_dimension}{Dimension of the embeddings for categorical features (default: \link{min(50, (cat+1)//2) for cat in cardinality})}
 
-\item{distr_output}{– Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())}
+\item{distr_output}{Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())}
 
 \item{scaling}{Whether to automatically scale the target values (default: TRUE)}
 

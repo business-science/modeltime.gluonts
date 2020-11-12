@@ -12,7 +12,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Depends:
-    modeltime (>= 0.3.0)
+    modeltime (>= 0.3.1)
 Imports: 
     magrittr,
     rlang (>= 0.1.2),
