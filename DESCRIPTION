@@ -18,10 +18,13 @@ Imports:
     magrittr,
     rlang (>= 0.1.2),
     reticulate,
+    tibble, 
     forcats, 
     dplyr,
+    tidyr,
     purrr,
-    stringr
+    stringr,
+    glue
 Suggests: 
     tidyverse,
     knitr,

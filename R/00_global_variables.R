@@ -1,5 +1,5 @@
 utils::globalVariables(
     names = c(
-        ".actual", ".fitted"
+        ".actual", ".fitted", "fail_check"
     )
 )

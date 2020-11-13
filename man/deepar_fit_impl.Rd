@@ -9,7 +9,19 @@ deepar_fit_impl(
   y,
   freq,
   prediction_length,
+  id_column = "item_id",
   epochs = 100,
+  batch_size = 32,
+  num_batches_per_epoch = 50,
+  learning_rate = 0.001,
+  learning_rate_decay_factor = 0.5,
+  patience = 10,
+  minimum_learning_rate = 5e-05,
+  clip_gradient = 10,
+  weight_decay = 1e-08,
+  init = "xavier",
+  ctx = NULL,
+  hybridize = TRUE,
   context_length = NULL,
   num_layers = 2,
   num_cells = 40,
@@ -24,18 +36,7 @@ deepar_fit_impl(
   scaling = TRUE,
   lags_seq = NULL,
   time_features = NULL,
-  num_parallel_samples = 100,
-  ctx = NULL,
-  batch_size = 32,
-  num_batches_per_epoch = 50,
-  learning_rate = 0.001,
-  learning_rate_decay_factor = 0.5,
-  patience = 10,
-  minimum_learning_rate = 5e-05,
-  clip_gradient = 10,
-  weight_decay = 1e-08,
-  init = "xavier",
-  hybridize = TRUE
+  num_parallel_samples = 100
 )
 }
 \arguments{
@@ -43,12 +44,37 @@ deepar_fit_impl(
 
 \item{y}{A numeric vector of values to fit}
 
-\item{freq}{A \code{pandas} timeseries frequency.
+\item{freq}{A \code{pandas} timeseries frequency such as "5min" for 5-minutes or "D" for daily.
 Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases}{Pandas Offset Aliases}.}
 
-\item{prediction_length}{Length of the prediction horizon}
+\item{prediction_length}{Numeric value indicating the length of the prediction horizon}
+
+\item{id_column}{A quoted column name that tracks the GluonTS FieldName "item_id"}
 
 \item{epochs}{Number of epochs that the network will train (default: 100).}
+
+\item{batch_size}{Number of examples in each batch (default: 32).}
+
+\item{num_batches_per_epoch}{Number of batches at each epoch (default: 50).}
+
+\item{learning_rate}{Initial learning rate (default:  10−3 ).}
+
+\item{learning_rate_decay_factor}{Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).}
+
+\item{patience}{The patience to observe before reducing the learning rate, nonnegative integer (default: 10).}
+
+\item{minimum_learning_rate}{Lower bound for the learning rate (default:  5⋅10−5 ).}
+
+\item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
+
+\item{weight_decay}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10−8 ).}
+
+\item{init}{Initializer of the weights of the network (default: “xavier”).}
+
+\item{ctx}{The mxnet CPU/GPU context. Refer to using CPU/GPU in the mxnet documentation.
+(default: NULL, uses CPU)}
+
+\item{hybridize}{Increases efficiency by using symbolic programming. (default: TRUE)}
 
 \item{context_length}{Number of steps to unroll the RNN for before computing predictions
 (default: NULL, in which case context_length = prediction_length)}
@@ -84,29 +110,6 @@ This must be set if \code{use_feat_static_cat} == TRUE (default: NULL)}
 
 \item{num_parallel_samples}{Number of evaluation samples per time series to increase parallelism during inference.
 This is a model optimization that does not affect the accuracy (default: 100)}
-
-\item{ctx}{The mxnet CPU/GPU context. Refer to using CPU/GPU in the mxnet documentation.
-(defualt: NULL, uses CPU)}
-
-\item{batch_size}{Number of examples in each batch (default: 32).}
-
-\item{num_batches_per_epoch}{Number of batches at each epoch (default: 50).}
-
-\item{learning_rate}{Initial learning rate (default:  10−3 ).}
-
-\item{learning_rate_decay_factor}{Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).}
-
-\item{patience}{The patience to observe before reducing the learning rate, nonnegative integer (default: 10).}
-
-\item{minimum_learning_rate}{Lower bound for the learning rate (default:  5⋅10−5 ).}
-
-\item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
-
-\item{weight_decay}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10−8 ).}
-
-\item{init}{Initializer of the weights of the network (default: “xavier”).}
-
-\item{hybridize}{Increases efficiency by using symbolic programming. (default: TRUE)}
 }
 \description{
 Bridge GluonTS DeepAR Modeling Function

@@ -4,7 +4,7 @@
 \alias{to_gluon_list_dataset}
 \title{Convert a data frame to a GluonTS ListDataset}
 \usage{
-to_gluon_list_dataset(data, date_var, value_var, group_var = NULL, freq = "D")
+to_gluon_list_dataset(data, date_var, value_var, id_var = NULL, freq = "D")
 }
 \arguments{
 \item{data}{A data.frame}
@@ -13,7 +13,7 @@ to_gluon_list_dataset(data, date_var, value_var, group_var = NULL, freq = "D")
 
 \item{value_var}{The value column (Target)}
 
-\item{group_var}{The grouping column if Time Series Groups}
+\item{id_var}{The Time Series ID column for tracking time series in GluonTS}
 
 \item{freq}{the Pandas Timestamp Frequency.}
 }
@@ -28,7 +28,7 @@ m4_daily \%>\%
     to_gluon_list_dataset(
         date_var  = date,
         value_var = value,
-        group_var = id,
+        id_var    = id,
         freq      = "D"
     )
 

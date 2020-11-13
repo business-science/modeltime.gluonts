@@ -5,9 +5,10 @@
 #'
 #' @param x A dataframe of xreg (exogenous regressors)
 #' @param y A numeric vector of values to fit
-#' @param freq A `pandas` timeseries frequency.
+#' @param freq A `pandas` timeseries frequency such as "5min" for 5-minutes or "D" for daily.
 #'  Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
-#' @param prediction_length Length of the prediction horizon
+#' @param prediction_length Numeric value indicating the length of the prediction horizon
+#' @param id_column A quoted column name that tracks the GluonTS FieldName "item_id"
 #' @param epochs Number of epochs that the network will train (default: 100).
 #' @param context_length Number of steps to unroll the RNN for before computing predictions
 #'  (default: NULL, in which case context_length = prediction_length)
@@ -30,7 +31,7 @@
 #' @param num_parallel_samples Number of evaluation samples per time series to increase parallelism during inference.
 #'  This is a model optimization that does not affect the accuracy (default: 100)
 #' @param ctx The mxnet CPU/GPU context. Refer to using CPU/GPU in the mxnet documentation.
-#'  (defualt: NULL, uses CPU)
+#'  (default: NULL, uses CPU)
 #' @param batch_size Number of examples in each batch (default: 32).
 #' @param num_batches_per_epoch Number of batches at each epoch (default: 50).
 #' @param learning_rate Initial learning rate (default:  10−3 ).
@@ -45,7 +46,21 @@
 #'
 #'
 #' @export
-deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
+deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id",
+
+                            # Trainer Args
+                            epochs = 100,
+                            batch_size = 32,
+                            num_batches_per_epoch = 50,
+                            learning_rate = 0.001,
+                            learning_rate_decay_factor = 0.5,
+                            patience = 10,
+                            minimum_learning_rate = 5e-5,
+                            clip_gradient = 10,
+                            weight_decay = 1e-8,
+                            init = "xavier",
+                            ctx = NULL,
+                            hybridize = TRUE,
 
                             # Algo Args
                             context_length = NULL,
@@ -62,34 +77,12 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
                             scaling = TRUE,
                             lags_seq = NULL,
                             time_features = NULL,
-                            num_parallel_samples = 100,
+                            num_parallel_samples = 100
 
-                            # Trainer Args
-                            ctx = NULL,
-                            batch_size = 32,
-                            num_batches_per_epoch = 50,
-                            learning_rate = 0.001,
-                            learning_rate_decay_factor = 0.5,
-                            patience = 10,
-                            minimum_learning_rate = 5e-5,
-                            clip_gradient = 10,
-                            weight_decay = 1e-8,
-                            init = "xavier",
-                            hybridize = TRUE
                             ) {
 
-    # X & Y
-    # Expect outcomes  = vector
-    # Expect predictor = data.frame
-    outcome    <- y
-    predictor  <- x
-
-    # INDEX & PERIOD
-    # Determine Period, Index Col, and Index
-    index_tbl <- modeltime::parse_index_from_data(predictor)
-    # period    <- modeltime::parse_period_from_index(index_tbl, period)
-    idx_col   <- names(index_tbl)
-    idx       <- timetk::tk_index(index_tbl)
+    # ARG CHECKS ----
+    validate_gluonts_required_args(x, prediction_length, freq, id_column)
 
     # Convert args
     if (is.null(context_length)) context_length <- reticulate::py_none()
@@ -105,16 +98,50 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
     FREQ    <- freq
     EPOCHS  <- epochs
 
-    # Construct GluonTS dataset
+    # X & Y
+    # Expect outcomes  = vector
+    # Expect predictor = data.frame
+    outcome    <- y
+    predictor  <- x
+
+
+    # INDEX & PERIOD
+    # Determine Period, Index Col, and Index
+    index_tbl <- modeltime::parse_index_from_data(predictor)
+    # period    <- modeltime::parse_period_from_index(index_tbl, period)
+    idx_col   <- names(index_tbl)
+    idx       <- timetk::tk_index(index_tbl)
+
+    # ID COLUMN
+    id_tbl <- x %>% dplyr::select(dplyr::all_of(id_column))
+
+    # VALUE COLUMN
+    value_tbl <- tibble::tibble(value = y)
+
+    # CONSTRUCT GLUONTS LISTDATASET
     # Resources:
     # 1. Univariate: https://ts.gluon.ai/examples/extended_forecasting_tutorial/extended_tutorial.html
     # 2. Multivariate: https://github.com/awslabs/gluon-ts/issues/494
     # 3. NBEATS: https://github.com/Mcompetitions/M5-methods/blob/master/Code%20of%20Winning%20Methods/A2/M5_NBEATS_TopLevel.py
-    gluon_data <- py$prepare_data_univariate(
-        index  = idx,
-        values = y,
-        freq   = freq
-    )
+
+    constructed_tbl <- dplyr::bind_cols(id_tbl, index_tbl, value_tbl)
+
+    gluon_listdataset <- constructed_tbl %>%
+        to_gluon_list_dataset(
+            date_var  = !! rlang::sym(idx_col),
+            value_var = value,
+            id_var    = !! rlang::sym(id_column),
+            freq      = freq
+        )
+
+    # OLD
+    # gluon_data <- py$prepare_data_univariate(
+    #     index  = idx,
+    #     values = y,
+    #     freq   = freq
+    # )
+
+
 
     # Construct GluonTS Trainer
     trainer    <- gluonts$trainer$Trainer(
@@ -134,8 +161,9 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
 
     # Construct GluonTS Model
     model_spec <- gluonts$model$deepar$DeepAREstimator(
-        freq                   = FREQ,
-        prediction_length      = HORIZON,
+        freq                   = freq,
+        prediction_length      = prediction_length,
+
         trainer                = trainer,
 
         context_length         = context_length,
@@ -156,11 +184,10 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
     )
 
     # Train the model
-    model_fit  <- model_spec$train(training_data = gluon_data)
+    model_fit  <- model_spec$train(training_data = gluon_listdataset)
 
     # GET FITTED
-
-    # gluon_data
+    # TODO - Not sure if this is possible. Return fitted values as NA for now
 
     # RETURN A NEW MODELTIME BRIDGE
 
@@ -181,7 +208,13 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, epochs = 100,
         )
 
     # Extras - Pass on transformation recipe
-    extras <- NULL
+    extras <- list(
+        id_column       = id_column,
+        idx_column      = idx_col,
+        value_column    = "value",
+        freq            = freq,
+        constructed_tbl = list(constructed_tbl)
+    )
 
     # Model Description - Gets printed to describe the high-level model structure
     desc <- "DeepAR"
@@ -216,32 +249,79 @@ print.deepar_fit_impl <- function(x, ...) {
 deepar_predict_impl <- function(object, new_data) {
 
     # PREPARE INPUTS
-    deepar_model  <- object$models$model_1
-    idx_train     <- object$data %>% timetk::tk_index()
-    y             <- object$data %>% dplyr::pull(.actual)
-    h_horizon     <- nrow(new_data)
-    freq          <- deepar_model$freq
+    model           <- object$models$model_1
+    id_column       <- object$extras$id_column
+    idx_col         <- object$extras$idx_col
+    freq            <- object$extras$freq
+    constructed_tbl <- object$extras$constructed_tbl[[1]]
 
     # RECONSTRUCT GLUON DATA
-    gluon_data <- py$prepare_data_univariate(
-        index  = idx_train,
-        values = y,
-        freq   = freq
-    )
+    gluon_listdataset <- constructed_tbl %>%
+        to_gluon_list_dataset(
+            date_var  = !! rlang::sym(idx_col),
+            value_var = value,
+            id_var    = !! rlang::sym(id_column),
+            freq      = freq
+        )
 
     # PREDICTIONS
-    prediction <- deepar_model$predict(gluon_data)
-    res        <- reticulate::iter_next(prediction)
-    preds      <- as.numeric(res$mean)
+    prediction <- model$predict(gluon_listdataset)
 
-    # HANDLE DELTA BETWEEN NEW DATA & PREDICTION LENGTH
-    if (length(preds) < h_horizon) {
-        warning(stringr::str_glue("The number of rows in 'new_data' is greater than GluonTS model's 'prediction_length'. Reconciling by padding NA values. Consider using a 'prediction_length' = {h_horizon}."))
-        preds  <- c(preds, rep(NA, h_horizon))
-    } else if (length(preds) < h_horizon) {
-        # warning("The GluonTS model's 'prediction_length' is greater than the number of rows in 'new_data'. Reconciling by trimming values.")
+    ids  <- list()
+    vals <- list()
+    dict <- reticulate::iter_next(prediction)
+    i    <- 1
+    while (!is.null(dict)) {
+
+        ids[[i]]  <- dict$item_id %>% as.character()
+        vals[[i]] <- as.numeric(dict$mean)
+
+        i    <- i + 1
+        dict <- iter_next(prediction)
     }
-    preds <- preds[1:h_horizon]
+
+    reconstructed <- map2(ids, vals, .f = function(x, y) {
+        tibble::tibble(
+            id    = x,
+            value = y
+        )
+    }) %>%
+        dplyr::bind_rows() %>%
+        dplyr::group_by(id) %>%
+        dplyr::mutate(seq = 1:length(id)) %>%
+        ungroup()
+
+    new_data_merged <- new_data %>%
+
+        tibble::rowid_to_column(var = ".row_id") %>%
+        dplyr::mutate(id = !! rlang::sym(id_column)) %>%
+        dplyr::select(.row_id, id, !! rlang::sym(idx_col)) %>%
+
+        dplyr::group_by(id) %>%
+        dplyr::arrange(!! rlang::sym(idx_col)) %>%
+        dplyr::mutate(seq = 1:length(id)) %>%
+        dplyr::ungroup() %>%
+
+        dplyr::left_join(reconstructed, by = c("id" = "id", "seq" = "seq")) %>%
+        dplyr::arrange(.row_id)
+
+    # print(new_data_merged)
+
+    preds <- new_data_merged$value
+
+    # CHECKS
+    # If new_data contains new groups - pass NA values
+    # If new_data is longer than prediction_length, Pad each group with NA values
+    # If new_data is shorter than prediction_length, trim
+
+    # # HANDLE DELTA BETWEEN NEW DATA & PREDICTION LENGTH
+    # if (length(preds) < h_horizon) {
+    #     warning(stringr::str_glue("The number of rows in 'new_data' is greater than GluonTS model's 'prediction_length'. Reconciling by padding NA values. Consider using a 'prediction_length' = {h_horizon}."))
+    #     preds  <- c(preds, rep(NA, h_horizon))
+    # } else if (length(preds) < h_horizon) {
+    #     # warning("The GluonTS model's 'prediction_length' is greater than the number of rows in 'new_data'. Reconciling by trimming values.")
+    # }
+    # preds <- preds[1:h_horizon]
 
     return(preds)
 
