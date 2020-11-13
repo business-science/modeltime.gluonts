@@ -14,10 +14,16 @@ Roxygen: list(markdown = TRUE)
 Depends:
     modeltime (>= 0.3.1)
 Imports: 
+    timetk, 
     magrittr,
     rlang (>= 0.1.2),
-    reticulate
+    reticulate,
+    forcats, 
+    dplyr,
+    purrr,
+    stringr
 Suggests: 
+    tidyverse,
     knitr,
     rmarkdown,
     roxygen2,

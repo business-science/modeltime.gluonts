@@ -33,7 +33,7 @@ deepar_fit_impl(
   patience = 10,
   minimum_learning_rate = 5e-05,
   clip_gradient = 10,
-  weight_decay = 10 - 8,
+  weight_decay = 1e-08,
   init = "xavier",
   hybridize = TRUE
 )
@@ -70,7 +70,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 \item{cardinality}{Number of values of each categorical feature.
 This must be set if \code{use_feat_static_cat} == TRUE (default: NULL)}
 
-\item{embedding_dimension}{Dimension of the embeddings for categorical features (default: \link{min(50, (cat+1)//2) for cat in cardinality})}
+\item{embedding_dimension}{Dimension of the embeddings for categorical features (default: \verb{min(50, (cat+1)//2)} for cat in cardinality)}
 
 \item{distr_output}{Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())}
 

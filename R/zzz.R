@@ -2,6 +2,7 @@
 # PACKAGE IMPORTS ----
 
 #' @import modeltime
+#' @importFrom reticulate py
 
 # PACKAGE ENVIRONMENT ----
 pkg.env            <- new.env()

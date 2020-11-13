@@ -20,7 +20,7 @@
 #' @param use_feat_static_real Whether to use the feat_static_real field from the data (default: FALSE)
 #' @param cardinality Number of values of each categorical feature.
 #'  This must be set if `use_feat_static_cat` == TRUE (default: NULL)
-#' @param embedding_dimension Dimension of the embeddings for categorical features (default: [min(50, (cat+1)//2) for cat in cardinality])
+#' @param embedding_dimension Dimension of the embeddings for categorical features (default: `min(50, (cat+1)//2)` for cat in cardinality)
 #' @param distr_output Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())
 #' @param scaling Whether to automatically scale the target values (default: TRUE)
 #' @param lags_seq Indices of the lagged target values to use as inputs of the RNN
