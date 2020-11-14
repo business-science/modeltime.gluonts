@@ -1,7 +1,7 @@
 
 # DEEP AR ----
 
-#' Bridge GluonTS DeepAR Modeling Function
+#' GluonTS DeepAR Modeling Function (Bridge)
 #'
 #' @param x A dataframe of xreg (exogenous regressors)
 #' @param y A numeric vector of values to fit
@@ -94,10 +94,6 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
     if (is.null(time_features)) time_features <- reticulate::py_none()
     # if (is.null(imputation_method)) imputation_method <- reticulate::py_none()
 
-    HORIZON <- prediction_length
-    FREQ    <- freq
-    EPOCHS  <- epochs
-
     # X & Y
     # Expect outcomes  = vector
     # Expect predictor = data.frame
@@ -133,15 +129,6 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
             id_var    = !! rlang::sym(id_column),
             freq      = freq
         )
-
-    # OLD
-    # gluon_data <- py$prepare_data_univariate(
-    #     index  = idx,
-    #     values = y,
-    #     freq   = freq
-    # )
-
-
 
     # Construct GluonTS Trainer
     trainer    <- gluonts$trainer$Trainer(
@@ -277,10 +264,10 @@ deepar_predict_impl <- function(object, new_data) {
         vals[[i]] <- as.numeric(dict$mean)
 
         i    <- i + 1
-        dict <- iter_next(prediction)
+        dict <- reticulate::iter_next(prediction)
     }
 
-    reconstructed <- map2(ids, vals, .f = function(x, y) {
+    reconstructed <- purrr::map2(ids, vals, .f = function(x, y) {
         tibble::tibble(
             id    = x,
             value = y
@@ -289,7 +276,7 @@ deepar_predict_impl <- function(object, new_data) {
         dplyr::bind_rows() %>%
         dplyr::group_by(id) %>%
         dplyr::mutate(seq = 1:length(id)) %>%
-        ungroup()
+        dplyr::ungroup()
 
     new_data_merged <- new_data %>%
 
@@ -305,23 +292,7 @@ deepar_predict_impl <- function(object, new_data) {
         dplyr::left_join(reconstructed, by = c("id" = "id", "seq" = "seq")) %>%
         dplyr::arrange(.row_id)
 
-    # print(new_data_merged)
-
     preds <- new_data_merged$value
-
-    # CHECKS
-    # If new_data contains new groups - pass NA values
-    # If new_data is longer than prediction_length, Pad each group with NA values
-    # If new_data is shorter than prediction_length, trim
-
-    # # HANDLE DELTA BETWEEN NEW DATA & PREDICTION LENGTH
-    # if (length(preds) < h_horizon) {
-    #     warning(stringr::str_glue("The number of rows in 'new_data' is greater than GluonTS model's 'prediction_length'. Reconciling by padding NA values. Consider using a 'prediction_length' = {h_horizon}."))
-    #     preds  <- c(preds, rep(NA, h_horizon))
-    # } else if (length(preds) < h_horizon) {
-    #     # warning("The GluonTS model's 'prediction_length' is greater than the number of rows in 'new_data'. Reconciling by trimming values.")
-    # }
-    # preds <- preds[1:h_horizon]
 
     return(preds)
 

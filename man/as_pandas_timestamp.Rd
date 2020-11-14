@@ -11,7 +11,9 @@ as_pandas_timestamp(x, ..., pass_time_zone = FALSE)
 
 \item{...}{Additional parameters passed to Pandas Timestamp}
 
-\item{pass_time_zone}{}
+\item{pass_time_zone}{Whether or not to include the time zone in the
+conversion to Pandas. GluonTS does not work with Pandas
+Time Zones. Default: FALSE.}
 }
 \description{
 Convert R Date or POSIXt to Pandas Timestamp

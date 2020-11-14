@@ -3,7 +3,9 @@
 #'
 #' @param x A Date or Date Time
 #' @param ... Additional parameters passed to Pandas Timestamp
-#' @param pass_time_zone
+#' @param pass_time_zone Whether or not to include the time zone in the
+#' conversion to Pandas. GluonTS does not work with Pandas
+#' Time Zones. Default: FALSE.
 #'
 #' @examples
 #'
