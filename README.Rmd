@@ -56,7 +56,7 @@ modeltime_table(
 ```
 
 ```{r, echo = F}
-knitr::include_graphics("man/figures/deepar_example.png")
+knitr::include_graphics("man/figures/deepar_example_1.png")
 ```
 
 ## Installation

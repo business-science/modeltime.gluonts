@@ -42,7 +42,7 @@ modeltime_table(
     plot_modeltime_forecast(.interactive = FALSE)
 ```
 
-<img src="man/figures/deepar_example.png" width="100%" />
+<img src="man/figures/deepar_example_1.png" width="100%" />
 
 ## Installation
 
