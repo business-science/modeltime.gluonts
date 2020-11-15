@@ -7,47 +7,102 @@
 
 <!-- badges: end -->
 
-The goal of modeltime.gluonts is to …
+Deep Learning for Time Series is simplified with `modeltime.gluonts`.
 
 ## Installation
 
-You can install the released version of modeltime.gluonts from
-[CRAN](https://CRAN.R-project.org) with:
+`modeltime.gluonts` is currently available on GitHub only. No CRAN yet.
 
 ``` r
-install.packages("modeltime.gluonts")
+remotes::install_github("business-science/modeltime.gluonts")
+```
+
+## Setup
+
+Use `install_gluonts()` to set up the `python` environment used by
+`modeltime.gluonts`:
+
+``` r
+modeltime.gluonts::install_gluonts()
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Using `deep_ar()`, which connects to
 
 ``` r
 library(modeltime.gluonts)
-#> Loading required package: modeltime
-## basic example code
-```
+library(tidymodels)
+library(tidyverse)
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+model_fit_deepar <- deep_ar(
+    id                    = "id",
+    freq                  = "M",
+    prediction_length     = 24,
+    epochs                = 10, 
+    num_batches_per_epoch = 50,
+    learn_rate            = 0.001,
+    num_layers            = 2,
+    dropout               = 0.10
+) %>%
+    set_engine("gluonts") %>%
+    fit(value ~ ., training(m750_splits))
+
+modeltime_table(
+    model_fit_deepar
+) %>%
+    modeltime_calibrate(new_data = testing(m750_splits)) %>%
+    modeltime_forecast(
+        new_data    = testing(m750_splits),
+        actual_data = m750
+    ) %>%
+    plot_modeltime_forecast(.interactive = FALSE)
+```
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+knitr::include_graphics("man/figures/deepar_example.png")
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
+<img src="man/figures/deepar_example.png" width="100%" />
 
-You can also embed plots, for example:
+# Learning More
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+<a href="https://www.youtube.com/embed/elQb4VzRINg" target="_blank"><img src="http://img.youtube.com/vi/elQb4VzRINg/0.jpg" alt="Anomalize" width="100%" height="450"/></a>
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
+[*My Talk on High-Performance Time Series
+Forecasting*](https://youtu.be/elQb4VzRINg)
+
+Time series is changing. **Businesses now need 10,000+ time series
+forecasts every day.** This is what I call a *High-Performance Time
+Series Forecasting System (HPTSF)* - Accurate, Robust, and Scalable
+Forecasting.
+
+**High-Performance Forecasting Systems will save companies MILLIONS of
+dollars.** Imagine what will happen to your career if you can provide
+your organization a “High-Performance Time Series Forecasting System”
+(HPTSF System).
+
+I teach how to build a HPTFS System in my **High-Performance Time Series
+Forecasting Course**. If interested in learning Scalable
+High-Performance Forecasting Strategies then [take my
+course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
+You will learn:
+
+  - Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
+    Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+  - NEW - Deep Learning with `GluonTS` (Competition Winners)
+  - Time Series Preprocessing, Noise Reduction, & Anomaly Detection
+  - Feature engineering using lagged variables & external regressors
+  - Hyperparameter Tuning
+  - Time series cross-validation
+  - Ensembling Multiple Machine Learning & Univariate Modeling
+    Techniques (Competition Winner)
+  - Scalable Forecasting - Forecast 1000+ time series in parallel
+  - and more.
+
+<p class="text-center" style="font-size:30px;">
+
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock
+the High-Performance Time Series Forecasting Course</a>
+
+</p>
