@@ -30,15 +30,24 @@ check_no_duplicated_timestamps_by_group <- function(data, date_var, group_var = 
 }
 
 # VALIDATIONS ----
-validate_gluonts_required_args <- function(data, prediction_length, freq, id_column) {
+validate_gluonts_required_args <- function(data, prediction_length, freq, id) {
 
-    if (rlang::is_missing(prediction_length)) rlang::abort("GluonTS requires a numeric 'prediction_length'.")
-    if (!is.numeric(prediction_length)) rlang::abort("GluonTS requires a numeric 'prediction_length'.")
+    # PREDICTION LENGTH CHECKS
+    msg <- "GluonTS requires a numeric 'prediction_length'."
+    if (rlang::is_missing(prediction_length) || is.null(prediction_length)) rlang::abort(msg)
+    if (!is.numeric(prediction_length)) rlang::abort(msg)
+    if (prediction_length <= 0) rlang::abort("'prediction_length' must be positive.")
 
-    if (rlang::is_missing(freq)) rlang::abort("GluonTS requires a 'freq' in the format of a Pandas Timestamp Frequency. Try using a Pandas frequency like '5min' for 5-minute or 'D' for Daily." )
-    if (!is.character(freq)) rlang::abort("GluonTS requires a 'freq' in the format of a Pandas Timestamp Frequency. Try using a Pandas frequency like '5min' for 5-minute or 'D' for Daily." )
+    # FREQ CHECKS
+    msg <- "GluonTS requires a 'freq' in the format of a Pandas Timestamp Frequency. Try using a Pandas frequency like '5min' for 5-minute or 'D' for Daily."
+    if (rlang::is_missing(freq) || is.null(freq)) rlang::abort(msg)
+    if (!is.character(freq)) rlang::abort(msg)
 
-    if (!id_column %in% names(data)) rlang::abort(glue::glue("GluonTS Item ID Not Found: id_column = '{id_column}'. Make sure your dataset includes a column with unique IDs for each time series. Then indicate the ID column using 'id_column'"))
+    # ID CHECKS
+    msg <- "Missing: 'id' argument. Make sure your dataset and model specification includes a column with unique IDs for each time series. Then indicate the ID column using 'id' argument in the model specification."
+    if (rlang::is_missing(id) || is.null(id)) rlang::abort(msg)
+    msg <- glue::glue("Column not found: id = '{id}'. Make sure your dataset includes a column with unique IDs for each time series. Then indicate the ID column using 'id'.")
+    if (!id %in% names(data)) rlang::abort(msg)
 
 }
 

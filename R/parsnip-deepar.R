@@ -1,6 +1,332 @@
 
 # DEEP AR ----
 
+#' General Interface for DeepAR Time Series Models
+#'
+#' `deep_ar()` is a way to generate a _specification_ of a DeepAR model
+#'  before fitting and allows the model to be created using
+#'  different packages. Currently the only package is `gluonts`.
+#'
+#' @inheritParams deepar_fit_impl
+#' @param mode A single character string for the type of model.
+#'  The only possible value for this model is "regression".
+#' @param learn_rate Initial learning rate (default: 10−3).
+#' @param learn_rate_decay_factor Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).
+#' @param learn_rate_min Lower bound for the learning rate (default: 5⋅10−5 ).
+#' @param dropout Dropout regularization parameter (default: 0.1)
+#' @param penalty The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10−8 ).
+#'
+#' @details
+#'
+#' These arguments are converted to their specific names at the time that
+#' the model is fit. Other options and arguments can be set using
+#' `set_engine()`. If left to their defaults here (see above),
+#' the values are taken from the underlying model functions.
+#' If parameters need to be modified, `update()` can be used in lieu of recreating
+#' the object from scratch.
+#'
+#' The model can be created using the fit() function using the following engines:
+#'
+#' - __GluonTS:__ "gluonts" (the default)
+#'
+#' @section Engine Details:
+#'
+#' The standardized parameter names in `modeltime` can be mapped to their original
+#' names in each engine:
+#'
+#' ```{r echo = FALSE}
+#' tibble::tribble(
+#'     ~ "modeltime", ~ "DeepAREstimator",
+#'     "id", "NA",
+#'     "freq", "freq",
+#'     "prediction_length", "prediction_length",
+#'     "epochs", "epochs (20)",
+#'     "batch_size", "batch_size (32)",
+#'     "num_batches_per_epoch", "num_batches_per_epoch (4)",
+#'     "learn_rate", "learning_rate (0.0001)",
+#'     "learn_rate_decay_factor", "learning_rate_decay_factor (0.5)",
+#'     "learn_rate_min", "minimum_learning_rate (5e-5)",
+#'     "patience", "patience (10)",
+#'     "clip_gradient", "clip_gradient (10)",
+#'     "penalty", "weight_decay (1e-8)",
+#'     "cell_type", "cell_type ('lstm')",
+#'     "num_layers", "num_layers (2)",
+#'     "num_cells", "num_cells (40)",
+#'     "dropout", "dropout_rate (0.1)"
+#' ) %>% knitr::kable()
+#' ```
+#'
+#' Other options can be set using `set_engine()`.
+#'
+#'
+#' __gluonts__
+#'
+#' The engine uses `gluonts.model.deepar.DeepAREstimator()`.
+#' Default values that have been changed to speed up computations
+#' and increase stability:
+#'
+#' - `epochs = 20`: GluonTS uses 100 by default.
+#' - `num_batches_per_epoch = 4`: GluonTS uses 50 by default.
+#' - `learn_rate = 0.0001`: GluonTS uses 0.001 by default.
+#'
+#' This implementation has several _Required Parameters_,
+#' which are user defined.
+#'
+#' _ID Variable (Required):_
+#'
+#' An important difference between other parsnip models is that
+#' each time series (even single time series) must be uniquely identified
+#' by an ID variable.
+#'
+#' - The ID feature must be of class `character` or `factor`.
+#' - This ID feature is provided as a quoted expression
+#' during the model specification process (e.g. `deep_ar(id = "ID")` assuming
+#' you have a column in your data named "ID").
+#'
+#' _Frequency (Required):_
+#'
+#' The GluonTS models use a Pandas Timestamp Frequency `freq` to generate
+#' features internally. Examples:
+#'
+#' - `freq = "5min` for timestamps that are 5-minutes apart
+#' - `freq = "D` for Daily Timestamps
+#'
+#' The Pandas Timestamps are quite flexible.
+#' Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
+#'
+#' _Prediction Length (Required:_
+#'
+#' Unlike other parsnip models, a `prediction_length` is required
+#' during the model specification and fitting process.
+#'
+#' _Regressors (Not Used):_
+#'
+#' - The implementation is Univariate Only.
+#' - No external regressors are currently used.
+#'
+#'
+#' @section Fit Details:
+#'
+#' The following features are REQUIRED to be available in the incoming data for the
+#' fitting process.
+#'
+#' __ID Variable__
+#'
+#' An ID feature must be included in the recipe or formula fitting
+#' process. The column name must match the quoted feature name specified in the
+#' `deep_ar(id)` argument.
+#'
+#' __Date and Date-Time Variable__
+#'
+#' It's a requirement to have a date or date-time variable as a predictor.
+#' The `fit()` interface accepts date and date-time features and handles them internally.
+#'
+#' __Example__
+#'
+#' - `fit(y ~ date + id)`: Includes a target feature that is a
+#' function of a date and id feature.
+#'
+#'
+#' @seealso [fit.model_spec()], [set_engine()]
+#'
+#' @examples
+#' library(tidymodels)
+#' library(tidyverse)
+#' library(timetk)
+#'
+#' # Data
+#' m750 <- m4_monthly %>% filter(id == "M750")
+#' m750
+#'
+#'
+#' # ---- DEEP AR ----
+#'
+#' # Model Spec
+#' model_spec <- deep_ar(
+#'     id                = "id",
+#'     freq              = "M",
+#'     prediction_length = 24,
+#'     epochs            = 1,
+#'     batch_size        = 4
+#' ) %>%
+#'     set_engine("gluonts")
+#'
+#' model_spec
+#'
+#' # Trained Model
+#' model_fitted <- model_spec %>%
+#'     fit(value ~ date + id, m750)
+#'
+#' model_fitted
+#'
+#' @export
+deep_ar <- function(
+    mode = "regression",
+
+    # Required Args
+    id,
+    freq,
+    prediction_length,
+
+    # Trainer Args
+    epochs = NULL,
+    batch_size = NULL,
+    num_batches_per_epoch = NULL, # 50
+    learn_rate = NULL, # learning_rate, 0.001
+    learn_rate_decay_factor = NULL, # learning_rate_decay_factor
+    learn_rate_min = NULL, #minimum_learning_rate
+    patience = NULL,
+    clip_gradient = NULL,
+    penalty = NULL, # weight_decay
+
+    # LSTM Args
+    cell_type = NULL,
+    num_layers = NULL,
+    num_cells = NULL,
+    dropout = NULL # dropout_rate
+) {
+
+    args <- list(
+        # Required Args
+        id                      = rlang::enquo(id),
+        freq                    = rlang::enquo(freq),
+        prediction_length       = rlang::enquo(prediction_length),
+
+        # Trainer Args
+        epochs                  = rlang::enquo(epochs),
+        batch_size              = rlang::enquo(batch_size),
+        num_batches_per_epoch   = rlang::enquo(num_batches_per_epoch),
+        learn_rate              = rlang::enquo(learn_rate),
+        learn_rate_decay_factor = rlang::enquo(learn_rate_decay_factor),
+        learn_rate_min          = rlang::enquo(learn_rate_min),
+        patience                = rlang::enquo(patience),
+        clip_gradient           = rlang::enquo(clip_gradient),
+        penalty                 = rlang::enquo(penalty), # weight_decay
+
+        # LSTM Args
+        cell_type               = rlang::enquo(cell_type),
+        num_layers              = rlang::enquo(num_layers),
+        num_cells               = rlang::enquo(num_cells),
+        dropout                 = rlang::enquo(dropout)
+    )
+
+    parsnip::new_model_spec(
+        "deep_ar",
+        args     = args,
+        eng_args = NULL,
+        mode     = mode,
+        method   = NULL,
+        engine   = NULL
+    )
+
+}
+
+#' @export
+print.deep_ar <- function(x, ...) {
+    cat("DeepAR Model Specification (", x$mode, ")\n\n", sep = "")
+    parsnip::model_printer(x, ...)
+
+    if(!is.null(x$method$fit$args)) {
+        cat("Model fit template:\n")
+        print(parsnip::show_call(x))
+    }
+
+    invisible(x)
+}
+
+#' @export
+#' @importFrom stats update
+update.deep_ar <- function(object, parameters = NULL,
+                           id                      = NULL,
+                           freq                    = NULL,
+                           prediction_length       = NULL,
+
+                           # Trainer Args
+                           epochs                  = NULL,
+                           batch_size              = NULL,
+                           num_batches_per_epoch   = NULL,
+                           learn_rate              = NULL,
+                           learn_rate_decay_factor = NULL,
+                           learn_rate_min          = NULL,
+                           patience                = NULL,
+                           clip_gradient           = NULL,
+                           penalty                 = NULL,
+
+                           # LSTM Args
+                           cell_type               = NULL,
+                           num_layers              = NULL,
+                           num_cells               = NULL,
+                           dropout                 = NULL,
+
+                           fresh = FALSE, ...) {
+
+    parsnip::update_dot_check(...)
+
+    if (!is.null(parameters)) {
+        parameters <- parsnip::check_final_param(parameters)
+    }
+
+    args <- list(
+        # Required Args
+        id                      = rlang::enquo(id),
+        freq                    = rlang::enquo(freq),
+        prediction_length       = rlang::enquo(prediction_length),
+
+        # Trainer Args
+        epochs                  = rlang::enquo(epochs),
+        batch_size              = rlang::enquo(batch_size),
+        num_batches_per_epoch   = rlang::enquo(num_batches_per_epoch),
+        learn_rate              = rlang::enquo(learn_rate),
+        learn_rate_decay_factor = rlang::enquo(learn_rate_decay_factor),
+        learn_rate_min          = rlang::enquo(learn_rate_min),
+        patience                = rlang::enquo(patience),
+        clip_gradient           = rlang::enquo(clip_gradient),
+        penalty                 = rlang::enquo(penalty), # weight_decay
+
+        # LSTM Args
+        cell_type               = rlang::enquo(cell_type),
+        num_layers              = rlang::enquo(num_layers),
+        num_cells               = rlang::enquo(num_cells),
+        dropout                 = rlang::enquo(dropout)
+    )
+
+    args <- parsnip::update_main_parameters(args, parameters)
+
+    if (fresh) {
+        object$args <- args
+    } else {
+        null_args <- purrr::map_lgl(args, parsnip::null_value)
+        if (any(null_args))
+            args <- args[!null_args]
+        if (length(args) > 0)
+            object$args[names(args)] <- args
+    }
+
+    parsnip::new_model_spec(
+        "deep_ar",
+        args     = object$args,
+        eng_args = object$eng_args,
+        mode     = object$mode,
+        method   = NULL,
+        engine   = object$engine
+    )
+}
+
+
+#' @export
+#' @importFrom parsnip translate
+translate.deep_ar <- function(x, engine = x$engine, ...) {
+    if (is.null(engine)) {
+        message("Used `engine = 'gluonts'` for translation.")
+        engine <- "gluonts"
+    }
+    x <- parsnip::translate.default(x, engine, ...)
+
+    x
+}
+
+# FIT -----
+
 #' GluonTS DeepAR Modeling Function (Bridge)
 #'
 #' @param x A dataframe of xreg (exogenous regressors)
@@ -8,7 +334,7 @@
 #' @param freq A `pandas` timeseries frequency such as "5min" for 5-minutes or "D" for daily.
 #'  Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
 #' @param prediction_length Numeric value indicating the length of the prediction horizon
-#' @param id_column A quoted column name that tracks the GluonTS FieldName "item_id"
+#' @param id A quoted column name that tracks the GluonTS FieldName "item_id"
 #' @param epochs Number of epochs that the network will train (default: 100).
 #' @param context_length Number of steps to unroll the RNN for before computing predictions
 #'  (default: NULL, in which case context_length = prediction_length)
@@ -46,13 +372,13 @@
 #'
 #'
 #' @export
-deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id",
+deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
                             # Trainer Args
-                            epochs = 100,
+                            epochs = 20,
                             batch_size = 32,
-                            num_batches_per_epoch = 50,
-                            learning_rate = 0.001,
+                            num_batches_per_epoch = 4,
+                            learning_rate = 0.0001,
                             learning_rate_decay_factor = 0.5,
                             patience = 10,
                             minimum_learning_rate = 5e-5,
@@ -82,7 +408,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
                             ) {
 
     # ARG CHECKS ----
-    validate_gluonts_required_args(x, prediction_length, freq, id_column)
+    validate_gluonts_required_args(x, prediction_length, freq, id)
 
     # Convert args
     if (is.null(context_length)) context_length <- reticulate::py_none()
@@ -109,7 +435,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
     idx       <- timetk::tk_index(index_tbl)
 
     # ID COLUMN
-    id_tbl <- x %>% dplyr::select(dplyr::all_of(id_column))
+    id_tbl <- x %>% dplyr::select(dplyr::all_of(id))
 
     # VALUE COLUMN
     value_tbl <- tibble::tibble(value = y)
@@ -126,7 +452,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
         to_gluon_list_dataset(
             date_var  = !! rlang::sym(idx_col),
             value_var = value,
-            id_var    = !! rlang::sym(id_column),
+            id_var    = !! rlang::sym(id),
             freq      = freq
         )
 
@@ -196,7 +522,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id_column = "item_id"
 
     # Extras - Pass on transformation recipe
     extras <- list(
-        id_column       = id_column,
+        id       = id,
         idx_column      = idx_col,
         value_column    = "value",
         freq            = freq,
@@ -228,6 +554,8 @@ print.deepar_fit_impl <- function(x, ...) {
     invisible(x)
 }
 
+# PREDICT ----
+
 #' Bridge prediction Function for DeepAR Models
 #'
 #' @inheritParams parsnip::predict.model_fit
@@ -237,7 +565,7 @@ deepar_predict_impl <- function(object, new_data) {
 
     # PREPARE INPUTS
     model           <- object$models$model_1
-    id_column       <- object$extras$id_column
+    id       <- object$extras$id
     idx_col         <- object$extras$idx_col
     freq            <- object$extras$freq
     constructed_tbl <- object$extras$constructed_tbl[[1]]
@@ -247,7 +575,7 @@ deepar_predict_impl <- function(object, new_data) {
         to_gluon_list_dataset(
             date_var  = !! rlang::sym(idx_col),
             value_var = value,
-            id_var    = !! rlang::sym(id_column),
+            id_var    = !! rlang::sym(id),
             freq      = freq
         )
 
@@ -256,7 +584,7 @@ deepar_predict_impl <- function(object, new_data) {
         model             = model,
         gluon_listdataset = gluon_listdataset,
         new_data          = new_data,
-        id_col            = id_column,
+        id_col            = id,
         idx_col           = idx_col
     )
 

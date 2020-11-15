@@ -14,6 +14,7 @@ Roxygen: list(markdown = TRUE)
 Depends:
     modeltime (>= 0.3.1)
 Imports: 
+    parsnip,
     timetk, 
     magrittr,
     rlang (>= 0.1.2),
@@ -27,6 +28,7 @@ Imports:
     glue
 Suggests: 
     tidyverse,
+    tidymodels,
     knitr,
     rmarkdown,
     roxygen2,

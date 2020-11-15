@@ -41,7 +41,8 @@ np      <- NULL
     }
 
     # LOAD MODELS ----
-    # TODO
+
+    make_deep_ar()
 
 }
 
