@@ -100,7 +100,7 @@ make_deep_ar <- function() {
         model        = model,
         eng          = eng,
         parsnip      = "learn_rate_min",
-        original     = "learning_rate_min",
+        original     = "minimum_learning_rate",
         func         = list(pkg = "modeltime.gluonts", fun = "learn_rate_min"),
         has_submodel = FALSE
     )

@@ -185,10 +185,6 @@ library(tidymodels)
 library(tidyverse)
 library(timetk)
 
-# Data
-m750 <- m4_monthly \%>\% filter(id == "M750")
-m750
-
 
 # ---- DEEP AR ----
 

@@ -134,10 +134,6 @@
 #' library(tidyverse)
 #' library(timetk)
 #'
-#' # Data
-#' m750 <- m4_monthly %>% filter(id == "M750")
-#' m750
-#'
 #'
 #' # ---- DEEP AR ----
 #'
@@ -281,7 +277,7 @@ update.deep_ar <- function(object, parameters = NULL,
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty), # weight_decay
+        penalty                 = rlang::enquo(penalty),
 
         # LSTM Args
         cell_type               = rlang::enquo(cell_type),

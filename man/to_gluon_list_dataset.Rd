@@ -19,7 +19,7 @@ to_gluon_list_dataset(data, date_var, value_var, id_var = NULL, freq = "D")
 }
 \description{
 A ListDataset is the format required by \code{GluonTS}. This function
-simplifies creating
+simplifies creating a \code{GluonTS} ListDataset.
 }
 \examples{
 library(timetk)

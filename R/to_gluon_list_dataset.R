@@ -3,7 +3,7 @@
 #' Convert a data frame to a GluonTS ListDataset
 #'
 #' A ListDataset is the format required by `GluonTS`. This function
-#' simplifies creating
+#' simplifies creating a `GluonTS` ListDataset.
 #'
 #' @param data A data.frame
 #' @param date_var The date column (Timestamps)

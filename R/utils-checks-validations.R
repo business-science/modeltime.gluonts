@@ -44,7 +44,7 @@ validate_gluonts_required_args <- function(data, prediction_length, freq, id) {
     if (!is.character(freq)) rlang::abort(msg)
 
     # ID CHECKS
-    msg <- "Missing: 'id' argument. Make sure your dataset and model specification includes a column with unique IDs for each time series. Then indicate the ID column using 'id' argument in the model specification."
+    msg <- "Missing: 'id' parameter. Make sure your dataset and model specification includes a column with unique IDs for each time series. Then indicate the ID column using 'id' parameter in the model specification."
     if (rlang::is_missing(id) || is.null(id)) rlang::abort(msg)
     msg <- glue::glue("Column not found: id = '{id}'. Make sure your dataset includes a column with unique IDs for each time series. Then indicate the ID column using 'id'.")
     if (!id %in% names(data)) rlang::abort(msg)
