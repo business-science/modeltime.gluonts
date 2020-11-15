@@ -21,6 +21,7 @@ library(modeltime.gluonts)
 library(tidymodels)
 library(tidyverse)
 
+# Fit a GluonTS DeepAR Model
 model_fit_deepar <- deep_ar(
     id                    = "id",
     freq                  = "M",
@@ -34,13 +35,15 @@ model_fit_deepar <- deep_ar(
     set_engine("gluonts") %>%
     fit(value ~ ., training(m750_splits))
 
+# Forecast with 95% Confidence Interval
 modeltime_table(
     model_fit_deepar
 ) %>%
     modeltime_calibrate(new_data = testing(m750_splits)) %>%
     modeltime_forecast(
-        new_data    = testing(m750_splits),
-        actual_data = m750
+        new_data      = testing(m750_splits),
+        actual_data   = m750,
+        conf_interval = 0.95
     ) %>%
     plot_modeltime_forecast(.interactive = FALSE)
 ```
@@ -56,10 +59,10 @@ yet.**
 remotes::install_github("business-science/modeltime.gluonts")
 ```
 
-## Setup
+## Required: Python Environment Setup
 
-Use `install_gluonts()` to set up the `python` environment used by
-`modeltime.gluonts`:
+**Important:** Use `install_gluonts()` to set up the “r-gluonts”
+`python` environment used by `modeltime.gluonts`.
 
 ``` r
 modeltime.gluonts::install_gluonts()
