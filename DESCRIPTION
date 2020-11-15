@@ -1,11 +1,14 @@
 Package: modeltime.gluonts
 Type: Package
-Title: What the Package Does (Title Case)
+Title: GluonTS Deep Learning with Modeltime
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
+    person("Business Science", role = "cph"))
+Description: 
+    Use 'GluonTS' deep learning framework inside of 'modeltime'.
+    Refer to "GluonTS - Probabilistic Time Series Modeling" 
+    (<https://ts.gluon.ai/index.html>.).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -34,4 +37,5 @@ Suggests:
     roxygen2,
     testthat
 VignetteBuilder: knitr
-
+URL: https://github.com/business-science/modeltime.gluonts
+BugReports: https://github.com/business-science/modeltime.gluonts/issues
