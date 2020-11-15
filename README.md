@@ -9,26 +9,9 @@
 
 Deep Learning for Time Series is simplified with `modeltime.gluonts`.
 
-## Installation
+## GluonTS in R
 
-`modeltime.gluonts` is currently available on GitHub only. No CRAN yet.
-
-``` r
-remotes::install_github("business-science/modeltime.gluonts")
-```
-
-## Setup
-
-Use `install_gluonts()` to set up the `python` environment used by
-`modeltime.gluonts`:
-
-``` r
-modeltime.gluonts::install_gluonts()
-```
-
-## Example
-
-Using `deep_ar()`, which connects to
+Using `deep_ar()`, which connects to `GluonTS DeepAREstimator()`.
 
 ``` r
 library(modeltime.gluonts)
@@ -59,11 +42,25 @@ modeltime_table(
     plot_modeltime_forecast(.interactive = FALSE)
 ```
 
+<img src="man/figures/deepar_example.png" width="100%" />
+
+## Installation
+
+`modeltime.gluonts` is currently available on GitHub only. **Not on CRAN
+yet.**
+
 ``` r
-knitr::include_graphics("man/figures/deepar_example.png")
+remotes::install_github("business-science/modeltime.gluonts")
 ```
 
-<img src="man/figures/deepar_example.png" width="100%" />
+## Setup
+
+Use `install_gluonts()` to set up the `python` environment used by
+`modeltime.gluonts`:
+
+``` r
+modeltime.gluonts::install_gluonts()
+```
 
 # Learning More
 
