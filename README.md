@@ -9,6 +9,9 @@
 
 Deep Learning for Time Series is simplified with `modeltime.gluonts`.
 
+**Important: This package is exprimental. Functions may change until the
+package matures.**
+
 ## GluonTS in R
 
 Using `deep_ar()`, which connects to `GluonTS DeepAREstimator()`.
