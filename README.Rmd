@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 __Important: This package is exprimental. Functions may change until the package matures.__
 
-Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to use for those that are comfortable with [Modeltime](https://business-science.github.io/modeltime/). 
+Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to use for those that are comfortable with the [Modeltime Forecasting Workflow](https://business-science.github.io/modeltime/). 
 
 ## GluonTS in R
 
@@ -76,7 +76,7 @@ remotes::install_github("business-science/modeltime.gluonts")
 
 ## Required: Python Environment Setup
 
-__Important:__ Use `install_gluonts()` to set up the "r-gluonts" `python` environment used by `modeltime.gluonts`. 
+__Important:__ Use `install_gluonts()` to set up the "r-gluonts" `python` environment used by `modeltime.gluonts`. You only need to do this once, when you first set up the package.
 
 ```{r, eval=FALSE}
 modeltime.gluonts::install_gluonts()
