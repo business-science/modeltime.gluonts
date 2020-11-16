@@ -5,6 +5,7 @@
 #'
 #' @param object A fitted model object
 #' @param path A directory to store the GluonTS model files
+#' @param overwrite Whether or not to allow overwriting a GluonTS model's directory. Default: FALSE.
 #'
 #' @export
 save_gluonts_model <- function(object, path, overwrite = FALSE) {

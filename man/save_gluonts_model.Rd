@@ -13,6 +13,8 @@ load_gluonts_model(path)
 \item{object}{A fitted model object}
 
 \item{path}{A directory to store the GluonTS model files}
+
+\item{overwrite}{Whether or not to allow overwriting a GluonTS model's directory. Default: FALSE.}
 }
 \description{
 Saving and Loading GluonTS Models
