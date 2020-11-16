@@ -51,10 +51,10 @@ validate_gluonts_required_args <- function(data, prediction_length, freq, id) {
 
 }
 
-validate_gluonts_trainer_args <- function(epochs, batch_size, num_batches_per_epoch) {
-
-    # TODO
-}
+# validate_gluonts_trainer_args <- function(epochs, batch_size, num_batches_per_epoch) {
+#
+#     # TODO
+# }
 
 validate_no_duplicated_timestamps_by_group <- function(data, date_var, group_var = NULL,
                                                        fail_msg = "Overlapping time stamps detected.") {

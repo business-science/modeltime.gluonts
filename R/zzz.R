@@ -16,6 +16,7 @@ pkg.env$conda_envs <- reticulate::conda_list() %>%
 # ONLOAD ----
 
 gluonts <- NULL
+pathlib <- NULL
 pd      <- NULL
 np      <- NULL
 
@@ -26,14 +27,10 @@ np      <- NULL
     # PYTHON IMPORTS ----
     if (pkg.env$activated && check_python_dependencies()) {
 
-        gluonts  <<- reticulate::import(
-            module     = "gluonts",
-            convert    = FALSE,
-            delay_load = TRUE
-        )
-
-        np <<- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
-        pd <<- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
+        gluonts <<- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
+        pathlib <<- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
+        np      <<- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
+        pd      <<- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
 
         # Python source files (inst/ folder)
         system.file("python", "prepare_data.py", package = "modeltime.gluonts") %>%
@@ -78,7 +75,8 @@ check_python_dependencies <- function() {
         reticulate::py_module_available("numpy"),
         reticulate::py_module_available("pandas"),
         reticulate::py_module_available("gluonts"),
-        reticulate::py_module_available("mxnet")
+        reticulate::py_module_available("mxnet"),
+        reticulate::py_module_available("pathlib")
     )
 }
 

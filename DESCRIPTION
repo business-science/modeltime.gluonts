@@ -28,7 +28,8 @@ Imports:
     tidyr,
     purrr,
     stringr,
-    glue
+    glue,
+    fs
 Suggests: 
     tidyverse,
     tidymodels,

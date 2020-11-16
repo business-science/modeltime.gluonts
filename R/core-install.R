@@ -1,10 +1,10 @@
 #' Install GluonTS
 #'
-#' Installs `GluonTS` Probabilisitic Time Series Modeling software
+#' Installs `GluonTS` Probabilisitic Deep Learning Time Series Forecasting Software
 #' using `reticulate::py_install()`.
 #' - A `Python` Environment will be created
 #' named `r-gluonts`.
-#' - The Modletime GluonTS R package will connect to the Python environment to use `GluonTS`
+#' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment to use `GluonTS`
 #'
 #'
 #' @export
