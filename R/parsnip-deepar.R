@@ -40,10 +40,10 @@
 #'     "id", "NA",
 #'     "freq", "freq",
 #'     "prediction_length", "prediction_length",
-#'     "epochs", "epochs (20)",
+#'     "epochs", "epochs (5)",
 #'     "batch_size", "batch_size (32)",
-#'     "num_batches_per_epoch", "num_batches_per_epoch (4)",
-#'     "learn_rate", "learning_rate (0.0001)",
+#'     "num_batches_per_epoch", "num_batches_per_epoch (50)",
+#'     "learn_rate", "learning_rate (0.001)",
 #'     "learn_rate_decay_factor", "learning_rate_decay_factor (0.5)",
 #'     "learn_rate_min", "minimum_learning_rate (5e-5)",
 #'     "patience", "patience (10)",
@@ -62,15 +62,12 @@
 #' __gluonts__
 #'
 #' The engine uses `gluonts.model.deepar.DeepAREstimator()`.
-#' Default values that have been changed to speed up computations
-#' and increase stability:
+#' Default values that have been changed to prevent long-running computations:
 #'
-#' - `epochs = 20`: GluonTS uses 100 by default.
-#' - `num_batches_per_epoch = 4`: GluonTS uses 50 by default.
-#' - `learn_rate = 0.0001`: GluonTS uses 0.001 by default.
+#' - `epochs = 5`: GluonTS uses 100 by default.
 #'
 #' This implementation has several _Required Parameters_,
-#' which are user defined.
+#' which are user-defined.
 #'
 #' _ID Variable (Required):_
 #'
@@ -88,21 +85,17 @@
 #' The GluonTS models use a Pandas Timestamp Frequency `freq` to generate
 #' features internally. Examples:
 #'
-#' - `freq = "5min` for timestamps that are 5-minutes apart
-#' - `freq = "D` for Daily Timestamps
+#' - `freq = "5min"` for timestamps that are 5-minutes apart
+#' - `freq = "D"` for Daily Timestamps
 #'
 #' The Pandas Timestamps are quite flexible.
 #' Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
 #'
-#' _Prediction Length (Required:_
+#' _Prediction Length (Required):_
 #'
 #' Unlike other parsnip models, a `prediction_length` is required
 #' during the model specification and fitting process.
 #'
-#' _Regressors (Not Used):_
-#'
-#' - The implementation is Univariate Only.
-#' - No external regressors are currently used.
 #'
 #'
 #' @section Fit Details:
@@ -110,21 +103,25 @@
 #' The following features are REQUIRED to be available in the incoming data for the
 #' fitting process.
 #'
+#' - __Fit:__ `fit(y ~ date + id, data)`: Includes a target feature that is a
+#' function of a "date" and "id" feature. The ID feature must be pre-specified
+#' in the model_specification.
+#' - __Predict:__ `predict(model, new_data)` where `new_data` contains both
+#'  a column named "date" and "id".
+#'
 #' __ID Variable__
 #'
 #' An ID feature must be included in the recipe or formula fitting
-#' process. The column name must match the quoted feature name specified in the
-#' `deep_ar(id)` argument.
+#' process. This assists with cataloging the time series inside `GluonTS` ListDataset.
+#' The column name must match the quoted feature name specified in the
+#' `deep_ar(id = "id")` expects a column inside your data named "id".
 #'
 #' __Date and Date-Time Variable__
 #'
 #' It's a requirement to have a date or date-time variable as a predictor.
 #' The `fit()` interface accepts date and date-time features and handles them internally.
 #'
-#' __Example__
 #'
-#' - `fit(y ~ date + id)`: Includes a target feature that is a
-#' function of a date and id feature.
 #'
 #'
 #' @seealso [fit.model_spec()], [set_engine()]
@@ -135,15 +132,13 @@
 #' library(timetk)
 #'
 #'
-#' # ---- DEEP AR ----
-#'
 #' # Model Spec
 #' model_spec <- deep_ar(
-#'     id                = "id",
-#'     freq              = "M",
-#'     prediction_length = 24,
-#'     epochs            = 1,
-#'     batch_size        = 4
+#'     id                    = "id",
+#'     freq                  = "M",
+#'     prediction_length     = 24,
+#'     epochs                = 1,
+#'     num_batches_per_epoch = 4
 #' ) %>%
 #'     set_engine("gluonts")
 #'
@@ -154,6 +149,14 @@
 #'     fit(value ~ date + id, m750)
 #'
 #' model_fitted
+#'
+#' # Predict
+#' new_data <- tibble(
+#'     id   = factor("M750"),
+#'     date = as.Date("2015-07-01")
+#' )
+#'
+#' predict(model_fitted, new_data)
 #'
 #' @export
 deep_ar <- function(
@@ -331,7 +334,7 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #'  Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
 #' @param prediction_length Numeric value indicating the length of the prediction horizon
 #' @param id A quoted column name that tracks the GluonTS FieldName "item_id"
-#' @param epochs Number of epochs that the network will train (default: 100).
+#' @param epochs Number of epochs that the network will train (default: 5).
 #' @param context_length Number of steps to unroll the RNN for before computing predictions
 #'  (default: NULL, in which case context_length = prediction_length)
 #' @param num_layers Number of RNN layers (default: 2)
@@ -371,10 +374,10 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
                             # Trainer Args
-                            epochs = 20,
+                            epochs = 5,
                             batch_size = 32,
-                            num_batches_per_epoch = 4,
-                            learning_rate = 0.0001,
+                            num_batches_per_epoch = 50,
+                            learning_rate = 0.001,
                             learning_rate_decay_factor = 0.5,
                             patience = 10,
                             minimum_learning_rate = 5e-5,
@@ -518,10 +521,11 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # Extras - Pass on transformation recipe
     extras <- list(
-        id       = id,
+        id              = id,
         idx_column      = idx_col,
         value_column    = "value",
         freq            = freq,
+        grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
         constructed_tbl = list(constructed_tbl)
     )
 
@@ -561,7 +565,7 @@ deepar_predict_impl <- function(object, new_data) {
 
     # PREPARE INPUTS
     model           <- object$models$model_1
-    id       <- object$extras$id
+    id              <- object$extras$id
     idx_col         <- object$extras$idx_col
     freq            <- object$extras$freq
     constructed_tbl <- object$extras$constructed_tbl[[1]]

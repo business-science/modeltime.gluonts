@@ -5,6 +5,7 @@
 
 # nocov
 
+# DeepAR ----
 
 make_deep_ar <- function() {
 
@@ -16,7 +17,7 @@ make_deep_ar <- function() {
     parsnip::set_new_model(model)
     parsnip::set_model_mode(model, mode)
 
-    # prophet ----
+    # deep_ar: regression ----
 
     # * Model ----
     parsnip::set_model_engine(model, mode = mode, eng = eng)

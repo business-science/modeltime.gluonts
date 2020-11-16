@@ -35,7 +35,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{prediction_length}{Numeric value indicating the length of the prediction horizon}
 
-\item{epochs}{Number of epochs that the network will train (default: 100).}
+\item{epochs}{Number of epochs that the network will train (default: 5).}
 
 \item{batch_size}{Number of examples in each batch (default: 32).}
 
@@ -88,10 +88,10 @@ names in each engine:\tabular{ll}{
    id \tab NA \cr
    freq \tab freq \cr
    prediction_length \tab prediction_length \cr
-   epochs \tab epochs (20) \cr
+   epochs \tab epochs (5) \cr
    batch_size \tab batch_size (32) \cr
-   num_batches_per_epoch \tab num_batches_per_epoch (4) \cr
-   learn_rate \tab learning_rate (0.0001) \cr
+   num_batches_per_epoch \tab num_batches_per_epoch (50) \cr
+   learn_rate \tab learning_rate (0.001) \cr
    learn_rate_decay_factor \tab learning_rate_decay_factor (0.5) \cr
    learn_rate_min \tab minimum_learning_rate (5e-5) \cr
    patience \tab patience (10) \cr
@@ -109,16 +109,13 @@ Other options can be set using \code{set_engine()}.
 \strong{gluonts}
 
 The engine uses \code{gluonts.model.deepar.DeepAREstimator()}.
-Default values that have been changed to speed up computations
-and increase stability:
+Default values that have been changed to prevent long-running computations:
 \itemize{
-\item \code{epochs = 20}: GluonTS uses 100 by default.
-\item \code{num_batches_per_epoch = 4}: GluonTS uses 50 by default.
-\item \code{learn_rate = 0.0001}: GluonTS uses 0.001 by default.
+\item \code{epochs = 5}: GluonTS uses 100 by default.
 }
 
 This implementation has several \emph{Required Parameters},
-which are user defined.
+which are user-defined.
 
 \emph{ID Variable (Required):}
 
@@ -137,23 +134,17 @@ you have a column in your data named "ID").
 The GluonTS models use a Pandas Timestamp Frequency \code{freq} to generate
 features internally. Examples:
 \itemize{
-\item \verb{freq = "5min} for timestamps that are 5-minutes apart
-\item \verb{freq = "D} for Daily Timestamps
+\item \code{freq = "5min"} for timestamps that are 5-minutes apart
+\item \code{freq = "D"} for Daily Timestamps
 }
 
 The Pandas Timestamps are quite flexible.
 Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases}{Pandas Offset Aliases}.
 
-\emph{Prediction Length (Required:}
+\emph{Prediction Length (Required):}
 
 Unlike other parsnip models, a \code{prediction_length} is required
 during the model specification and fitting process.
-
-\emph{Regressors (Not Used):}
-\itemize{
-\item The implementation is Univariate Only.
-\item No external regressors are currently used.
-}
 }
 
 \section{Fit Details}{
@@ -161,23 +152,25 @@ during the model specification and fitting process.
 
 The following features are REQUIRED to be available in the incoming data for the
 fitting process.
+\itemize{
+\item \strong{Fit:} \code{fit(y ~ date + id, data)}: Includes a target feature that is a
+function of a "date" and "id" feature. The ID feature must be pre-specified
+in the model_specification.
+\item \strong{Predict:} \code{predict(model, new_data)} where \code{new_data} contains both
+a column named "date" and "id".
+}
 
 \strong{ID Variable}
 
 An ID feature must be included in the recipe or formula fitting
-process. The column name must match the quoted feature name specified in the
-\code{deep_ar(id)} argument.
+process. This assists with cataloging the time series inside \code{GluonTS} ListDataset.
+The column name must match the quoted feature name specified in the
+\code{deep_ar(id = "id")} expects a column inside your data named "id".
 
 \strong{Date and Date-Time Variable}
 
 It's a requirement to have a date or date-time variable as a predictor.
 The \code{fit()} interface accepts date and date-time features and handles them internally.
-
-\strong{Example}
-\itemize{
-\item \code{fit(y ~ date + id)}: Includes a target feature that is a
-function of a date and id feature.
-}
 }
 
 \examples{
@@ -186,15 +179,13 @@ library(tidyverse)
 library(timetk)
 
 
-# ---- DEEP AR ----
-
 # Model Spec
 model_spec <- deep_ar(
-    id                = "id",
-    freq              = "M",
-    prediction_length = 24,
-    epochs            = 1,
-    batch_size        = 4
+    id                    = "id",
+    freq                  = "M",
+    prediction_length     = 24,
+    epochs                = 1,
+    num_batches_per_epoch = 4
 ) \%>\%
     set_engine("gluonts")
 
@@ -205,6 +196,14 @@ model_fitted <- model_spec \%>\%
     fit(value ~ date + id, m750)
 
 model_fitted
+
+# Predict
+new_data <- tibble(
+    id   = factor("M750"),
+    date = as.Date("2015-07-01")
+)
+
+predict(model_fitted, new_data)
 
 }
 \seealso{

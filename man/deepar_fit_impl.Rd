@@ -10,10 +10,10 @@ deepar_fit_impl(
   freq,
   prediction_length,
   id,
-  epochs = 20,
+  epochs = 5,
   batch_size = 32,
-  num_batches_per_epoch = 4,
-  learning_rate = 1e-04,
+  num_batches_per_epoch = 50,
+  learning_rate = 0.001,
   learning_rate_decay_factor = 0.5,
   patience = 10,
   minimum_learning_rate = 5e-05,
@@ -51,7 +51,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{id}{A quoted column name that tracks the GluonTS FieldName "item_id"}
 
-\item{epochs}{Number of epochs that the network will train (default: 100).}
+\item{epochs}{Number of epochs that the network will train (default: 5).}
 
 \item{batch_size}{Number of examples in each batch (default: 32).}
 
