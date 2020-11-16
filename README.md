@@ -7,10 +7,14 @@
 
 <!-- badges: end -->
 
-Deep Learning for Time Series is simplified with `modeltime.gluonts`.
+> Deep Learning for Time Series is simplified with `modeltime.gluonts`.
 
 **Important: This package is exprimental. Functions may change until the
 package matures.**
+
+Modeltime GluonTS integrates the **Python GluonTS Deep Learning
+Library**, making it easy to use for those that are comfortable with
+[Modeltime](https://business-science.github.io/modeltime/).
 
 ## GluonTS in R
 
