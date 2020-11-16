@@ -179,11 +179,16 @@ library(tidyverse)
 library(timetk)
 
 
-# Model Spec
+# ---- MODEL SPEC ----
+# - Important: Make sure *required* parameters are provided
 model_spec <- deep_ar(
+
+    # User Defined (Required) Parameters
     id                    = "id",
     freq                  = "M",
     prediction_length     = 24,
+
+    # Hyper Parameters
     epochs                = 1,
     num_batches_per_epoch = 4
 ) \%>\%
@@ -191,13 +196,15 @@ model_spec <- deep_ar(
 
 model_spec
 
-# Trained Model
+# ---- TRAINING ----
+# Important: Make sure the date and id features are included as regressors
 model_fitted <- model_spec \%>\%
     fit(value ~ date + id, m750)
 
 model_fitted
 
-# Predict
+# ---- PREDICT ----
+# - IMPORTANT: New Data must have id and date features
 new_data <- tibble(
     id   = factor("M750"),
     date = as.Date("2015-07-01")
