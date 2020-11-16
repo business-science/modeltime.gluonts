@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 __Important: This package is exprimental. Functions may change until the package matures.__
 
-Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to use for those that are comfortable with the [Modeltime Forecasting Workflow](https://business-science.github.io/modeltime/). 
+Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to develop forecasts using Deep Learning for those that are comfortable with the [Modeltime Forecasting Workflow](https://business-science.github.io/modeltime/). 
 
 ## GluonTS in R
 

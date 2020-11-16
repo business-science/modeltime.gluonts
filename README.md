@@ -13,8 +13,8 @@
 package matures.**
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning
-Library**, making it easy to use for those that are comfortable with the
-[Modeltime Forecasting
+Library**, making it easy to develop forecasts using Deep Learning for
+those that are comfortable with the [Modeltime Forecasting
 Workflow](https://business-science.github.io/modeltime/).
 
 ## GluonTS in R
