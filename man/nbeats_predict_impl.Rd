@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsnip-nbeats.R
 \name{nbeats_predict_impl}
 \alias{nbeats_predict_impl}
-\title{Bridge prediction Function for DeepAR Models}
+\title{Bridge prediction Function for N-BEATS Models}
 \usage{
 nbeats_predict_impl(object, new_data)
 }
@@ -12,5 +12,5 @@ nbeats_predict_impl(object, new_data)
 \item{new_data}{A rectangular data object, such as a data frame.}
 }
 \description{
-Bridge prediction Function for DeepAR Models
+Bridge prediction Function for N-BEATS Models
 }

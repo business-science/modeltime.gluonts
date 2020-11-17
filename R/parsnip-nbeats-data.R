@@ -1,3 +1,5 @@
+
+
 # These functions are tested indirectly when the models are used. Since this
 # function is executed on package startup, you can't execute them to test since
 # they are already in the parsnip model database. We'll exclude them from
@@ -5,19 +7,19 @@
 
 # nocov
 
-# DeepAR ----
+# NBEATS ----
 
-make_deep_ar <- function() {
+make_nbeats <- function() {
 
     # SETUP
-    model <- "deep_ar"
+    model <- "nbeats"
     mode  <- "regression"
     eng   <- "gluonts"
 
     parsnip::set_new_model(model)
     parsnip::set_model_mode(model, mode)
 
-    # deep_ar: regression ----
+    # Regression ----
 
     # * Model ----
     parsnip::set_model_engine(model, mode = mode, eng = eng)
@@ -49,15 +51,6 @@ make_deep_ar <- function() {
         parsnip      = "prediction_length",
         original     = "prediction_length",
         func         = list(pkg = "modeltime.gluonts", fun = "prediction_length"),
-        has_submodel = FALSE
-    )
-
-    parsnip::set_model_arg(
-        model        = model,
-        eng          = eng,
-        parsnip      = "lookback_length",
-        original     = "context_length",
-        func         = list(pkg = "modeltime.gluonts", fun = "lookback_length"),
         has_submodel = FALSE
     )
 
@@ -142,39 +135,41 @@ make_deep_ar <- function() {
         has_submodel = FALSE
     )
 
+    # ** ALGORITHM ARGS ----
+
     parsnip::set_model_arg(
         model        = model,
         eng          = eng,
-        parsnip      = "cell_type",
-        original     = "cell_type",
-        func         = list(pkg = "modeltime.gluonts", fun = "cell_type"),
+        parsnip      = "lookback_length",
+        original     = "context_length",
+        func         = list(pkg = "modeltime.gluonts", fun = "lookback_length"),
         has_submodel = FALSE
     )
 
     parsnip::set_model_arg(
         model        = model,
         eng          = eng,
-        parsnip      = "num_layers",
-        original     = "num_layers",
-        func         = list(pkg = "modeltime.gluonts", fun = "num_layers"),
+        parsnip      = "loss_function",
+        original     = "loss_function",
+        func         = list(pkg = "modeltime.gluonts", fun = "loss_function"),
         has_submodel = FALSE
     )
 
     parsnip::set_model_arg(
         model        = model,
         eng          = eng,
-        parsnip      = "num_cells",
-        original     = "num_cells",
-        func         = list(pkg = "modeltime.gluonts", fun = "num_cells"),
+        parsnip      = "num_stacks",
+        original     = "num_stacks",
+        func         = list(pkg = "modeltime.gluonts", fun = "num_stacks"),
         has_submodel = FALSE
     )
 
     parsnip::set_model_arg(
         model        = model,
         eng          = eng,
-        parsnip      = "dropout",
-        original     = "dropout_rate",
-        func         = list(pkg = "dials", fun = "dropout"),
+        parsnip      = "num_blocks",
+        original     = "num_blocks",
+        func         = list(pkg = "modeltime.gluonts", fun = "num_blocks"),
         has_submodel = FALSE
     )
 
@@ -199,7 +194,7 @@ make_deep_ar <- function() {
         value         = list(
             interface = "data.frame",
             protect   = c("x", "y"),
-            func      = c(fun = "deepar_fit_impl"),
+            func      = c(fun = "nbeats_fit_impl"),
             defaults  = list()
         )
     )

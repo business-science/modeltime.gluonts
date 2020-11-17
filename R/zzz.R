@@ -40,6 +40,7 @@ np      <- NULL
     # LOAD MODELS ----
 
     make_deep_ar()
+    make_nbeats()
 
 }
 

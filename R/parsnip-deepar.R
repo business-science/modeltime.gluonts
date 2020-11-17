@@ -10,6 +10,8 @@
 #' @inheritParams deepar_fit_impl
 #' @param mode A single character string for the type of model.
 #'  The only possible value for this model is "regression".
+#' @param lookback_length Number of steps to unroll the RNN for before computing predictions
+#'  (default: NULL, in which case context_length = prediction_length)
 #' @param learn_rate Initial learning rate (default: 10−3).
 #' @param learn_rate_decay_factor Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).
 #' @param learn_rate_min Lower bound for the learning rate (default: 5⋅10−5 ).
@@ -40,6 +42,7 @@
 #'     "id", "NA",
 #'     "freq", "freq",
 #'     "prediction_length", "prediction_length",
+#'     "lookback_length", "context_length (= prediction_length)",
 #'     "epochs", "epochs (5)",
 #'     "batch_size", "batch_size (32)",
 #'     "num_batches_per_epoch", "num_batches_per_epoch (50)",
@@ -186,6 +189,7 @@ deep_ar <- function(
     penalty = NULL, # weight_decay
 
     # LSTM Args
+    lookback_length = NULL,
     cell_type = NULL,
     num_layers = NULL,
     num_cells = NULL,
@@ -210,6 +214,7 @@ deep_ar <- function(
         penalty                 = rlang::enquo(penalty), # weight_decay
 
         # LSTM Args
+        lookback_length         = rlang::enquo(lookback_length), # context_length
         cell_type               = rlang::enquo(cell_type),
         num_layers              = rlang::enquo(num_layers),
         num_cells               = rlang::enquo(num_cells),
@@ -259,6 +264,7 @@ update.deep_ar <- function(object, parameters = NULL,
                            penalty                 = NULL,
 
                            # LSTM Args
+                           lookback_length         = NULL,
                            cell_type               = NULL,
                            num_layers              = NULL,
                            num_cells               = NULL,
@@ -290,6 +296,7 @@ update.deep_ar <- function(object, parameters = NULL,
         penalty                 = rlang::enquo(penalty),
 
         # LSTM Args
+        lookback_length         = rlang::enquo(lookback_length),
         cell_type               = rlang::enquo(cell_type),
         num_layers              = rlang::enquo(num_layers),
         num_cells               = rlang::enquo(num_cells),
