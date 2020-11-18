@@ -69,10 +69,12 @@
 #'
 #' - `epochs = 5`: GluonTS uses 100 by default.
 #'
-#' This implementation has several _Required Parameters_,
+#' _Required Parameters_
+#'
+#' The `gluonts` implementation has several _Required Parameters_,
 #' which are user-defined.
 #'
-#' _ID Variable (Required):_
+#' _1. ID Variable (Required):_
 #'
 #' An important difference between other parsnip models is that
 #' each time series (even single time series) must be uniquely identified
@@ -83,7 +85,7 @@
 #' during the model specification process (e.g. `deep_ar(id = "ID")` assuming
 #' you have a column in your data named "ID").
 #'
-#' _Frequency (Required):_
+#' _2. Frequency (Required):_
 #'
 #' The GluonTS models use a Pandas Timestamp Frequency `freq` to generate
 #' features internally. Examples:
@@ -94,7 +96,7 @@
 #' The Pandas Timestamps are quite flexible.
 #' Refer to [Pandas Offset Aliases](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases).
 #'
-#' _Prediction Length (Required):_
+#' _3. Prediction Length (Required):_
 #'
 #' Unlike other parsnip models, a `prediction_length` is required
 #' during the model specification and fitting process.

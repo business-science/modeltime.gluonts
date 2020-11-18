@@ -1,5 +1,5 @@
 
-# NBEATS -----
+# NBEATS & NBEATS ENSEMBLE -----
 
 #' General Interface for N-BEATS Time Series Models
 #'
@@ -301,20 +301,20 @@ print.nbeats <- function(x, ...) {
 #' @export
 #' @importFrom stats update
 update.nbeats <- function(object, parameters = NULL,
-                           id                      = NULL,
-                           freq                    = NULL,
-                           prediction_length       = NULL,
+                          id                      = NULL,
+                          freq                    = NULL,
+                          prediction_length       = NULL,
 
-                           # Trainer Args
-                           epochs                  = NULL,
-                           batch_size              = NULL,
-                           num_batches_per_epoch   = NULL,
-                           learn_rate              = NULL,
-                           learn_rate_decay_factor = NULL,
-                           learn_rate_min          = NULL,
-                           patience                = NULL,
-                           clip_gradient           = NULL,
-                           penalty                 = NULL,
+                          # Trainer Args
+                          epochs                  = NULL,
+                          batch_size              = NULL,
+                          num_batches_per_epoch   = NULL,
+                          learn_rate              = NULL,
+                          learn_rate_decay_factor = NULL,
+                          learn_rate_min          = NULL,
+                          patience                = NULL,
+                          clip_gradient           = NULL,
+                          penalty                 = NULL,
 
                           # NBEATS Args
                           lookback_length         = NULL,

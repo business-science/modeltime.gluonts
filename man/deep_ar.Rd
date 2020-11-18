@@ -119,10 +119,12 @@ Default values that have been changed to prevent long-running computations:
 \item \code{epochs = 5}: GluonTS uses 100 by default.
 }
 
-This implementation has several \emph{Required Parameters},
+\emph{Required Parameters}
+
+The \code{gluonts} implementation has several \emph{Required Parameters},
 which are user-defined.
 
-\emph{ID Variable (Required):}
+\emph{1. ID Variable (Required):}
 
 An important difference between other parsnip models is that
 each time series (even single time series) must be uniquely identified
@@ -134,7 +136,7 @@ during the model specification process (e.g. \code{deep_ar(id = "ID")} assuming
 you have a column in your data named "ID").
 }
 
-\emph{Frequency (Required):}
+\emph{2. Frequency (Required):}
 
 The GluonTS models use a Pandas Timestamp Frequency \code{freq} to generate
 features internally. Examples:
@@ -146,7 +148,7 @@ features internally. Examples:
 The Pandas Timestamps are quite flexible.
 Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases}{Pandas Offset Aliases}.
 
-\emph{Prediction Length (Required):}
+\emph{3. Prediction Length (Required):}
 
 Unlike other parsnip models, a \code{prediction_length} is required
 during the model specification and fitting process.
