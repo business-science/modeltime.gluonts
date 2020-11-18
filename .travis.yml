@@ -26,9 +26,6 @@ notifications:
     on_success: change
     on_failure: change
 
-script:
-  - Rscript -e "modeltime.gluonts::install_gluonts()"
-
 after_success:
   - Rscript -e 'covr::codecov()'
 
