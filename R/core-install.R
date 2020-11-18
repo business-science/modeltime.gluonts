@@ -6,6 +6,11 @@
 #' named `r-gluonts`.
 #' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment to use `GluonTS`
 #'
+#' @examples
+#' \dontrun{
+#' install_gluonts()
+#' }
+#'
 #'
 #' @export
 install_gluonts <- function() {

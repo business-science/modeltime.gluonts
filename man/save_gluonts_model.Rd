@@ -17,5 +17,36 @@ load_gluonts_model(path)
 \item{overwrite}{Whether or not to allow overwriting a GluonTS model's directory. Default: FALSE.}
 }
 \description{
-Saving and Loading GluonTS Models
+GluonTS models require a special storage process that saves / loads the
+recipe used to recreate a model to / from a directory that the user
+defines.
+}
+\examples{
+\dontrun{
+library(tidymodels)
+library(tidyverse)
+library(timetk)
+
+model_fit <- nbeats(
+
+    # User Defined (Required) Parameters
+    id                    = "id",
+    freq                  = "M",
+    prediction_length     = 24,
+
+    # Hyper Parameters
+    epochs                = 1,
+    num_batches_per_epoch = 4
+) \%>\%
+    set_engine("gluonts_nbeats") \%>\%
+    fit(value ~ date + id, m750)
+
+# Saves the related files needed to recreate the model
+model_fit \%>\% save_gluonts_model(path = "/dir_nbeats_model/")
+
+# Loads the model
+load_gluonts_model(path = "/dir_nbeats_model/")
+
+}
+
 }

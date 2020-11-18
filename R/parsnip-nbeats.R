@@ -182,6 +182,7 @@
 #' @seealso [fit.model_spec()], [set_engine()]
 #'
 #' @examples
+#' \donttest{
 #' library(tidymodels)
 #' library(tidyverse)
 #' library(timetk)
@@ -219,6 +220,7 @@
 #' )
 #'
 #' predict(model_fitted, new_data)
+#' }
 #'
 #' @export
 nbeats <- function(

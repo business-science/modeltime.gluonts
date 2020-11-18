@@ -15,3 +15,10 @@ named \code{r-gluonts}.
 \item The Modletime GluonTS R package will connect to the \code{r-gluonts} Python environment to use \code{GluonTS}
 }
 }
+\examples{
+\dontrun{
+install_gluonts()
+}
+
+
+}

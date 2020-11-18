@@ -19,11 +19,12 @@ Time Zones. Default: FALSE.}
 Convert R Date or POSIXt to Pandas Timestamp
 }
 \examples{
-
+\donttest{
 dt <- as.Date("2011-01-01")
 as_pandas_timestamp(dt)
 
 dt_time <- as.POSIXct("2011-01-01 12:43:01", tz = "GMT")
 as_pandas_timestamp(dt_time, pass_time_zone = TRUE)
+}
 
 }

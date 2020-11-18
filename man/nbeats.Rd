@@ -240,6 +240,7 @@ The \code{fit()} interface accepts date and date-time features and handles them 
 }
 
 \examples{
+\donttest{
 library(tidymodels)
 library(tidyverse)
 library(timetk)
@@ -277,6 +278,7 @@ new_data <- tibble(
 )
 
 predict(model_fitted, new_data)
+}
 
 }
 \seealso{
