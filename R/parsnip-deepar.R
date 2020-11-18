@@ -565,6 +565,8 @@ print.deepar_fit_impl <- function(x, ...) {
     cat(x$desc)
     cat("\n")
     cat("--------")
+    cat("\nModel: ")
+    print(x$models$model_1)
     cat("\n")
     print(x$models$model_1$prediction_net)
     invisible(x)

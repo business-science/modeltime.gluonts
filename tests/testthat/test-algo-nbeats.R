@@ -39,6 +39,9 @@ test_that("nbeats: model fitting", {
     model_fit <- model_spec %>%
         fit(log(value) ~ date + id, data = training(m750_splits))
 
+    # Test print
+    expect_equal(print(model_fit), model_fit)
+
     # Structure
 
     testthat::expect_s3_class(model_fit$fit, "nbeats_fit_impl")
