@@ -31,6 +31,7 @@ model_spec <- deep_ar(
 
 test_that("deep_ar: model fitting", {
 
+    skip_if_no_gluonts()
 
     # ** MODEL FIT
 
@@ -134,6 +135,8 @@ testthat::test_that("deep_ar: update model spec", {
 # CHECKS / VALIDATIONS ----
 
 testthat::test_that("deep_ar: checks/validations", {
+
+    skip_if_no_gluonts()
 
     # Missing prediction length
     expect_error({

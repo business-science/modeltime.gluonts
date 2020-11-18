@@ -32,6 +32,7 @@ model_spec <- nbeats(
 
 test_that("nbeats: model fitting", {
 
+    skip_if_no_gluonts()
 
     # ** MODEL FIT
 
@@ -131,6 +132,8 @@ testthat::test_that("nbeats: update model spec", {
 # CHECKS / VALIDATIONS ----
 
 testthat::test_that("nbeats: checks/validations", {
+
+    skip_if_no_gluonts()
 
     # Missing prediction length
     expect_error({

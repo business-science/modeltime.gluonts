@@ -3,13 +3,15 @@ context("TESTING GLUON LIST DATASET")
 # No Groups ----
 test_that("NO GROUPS - Gluon ListDataset Created Properly", {
 
+    skip_if_no_gluonts()
+
     original          <- m750
     gluon_listdataset <- original %>% to_gluon_list_dataset(date, value, freq = "M")
     gluon_iter        <- as_iterator(gluon_listdataset$list_data)
 
     ids  <- list()
     vals <- list()
-    dict <- iter_next(gluon_iter)
+    dict <- reticulate::iter_next(gluon_iter)
     i    <- 1
     while (!is.null(dict)) {
 
@@ -17,10 +19,10 @@ test_that("NO GROUPS - Gluon ListDataset Created Properly", {
         vals[[i]] <- dict$target %>% as.numeric()
 
         i    <- i + 1
-        dict <- iter_next(gluon_iter)
+        dict <- reticulate::iter_next(gluon_iter)
     }
 
-    reconstructed <- map2(ids, vals, .f = function(x, y) {
+    reconstructed <- purrr::map2(ids, vals, .f = function(x, y) {
         tibble(
             id    = x,
             value = y
@@ -40,6 +42,8 @@ test_that("NO GROUPS - Gluon ListDataset Created Properly", {
 # Groups ----
 test_that("GROUPS - Gluon ListDataset Created Properly", {
 
+    skip_if_no_gluonts()
+
     original   <- m4_daily
     gluon_list <- original %>% to_gluon_list_dataset(
         date_var  = date,
@@ -47,11 +51,11 @@ test_that("GROUPS - Gluon ListDataset Created Properly", {
         id_var    = id,
         freq      = "M"
     )
-    gluon_iter <- as_iterator(gluon_list$list_data)
+    gluon_iter <- reticulate::as_iterator(gluon_list$list_data)
 
     ids  <- list()
     vals <- list()
-    dict <- iter_next(gluon_iter)
+    dict <- reticulate::iter_next(gluon_iter)
     i    <- 1
     while (!is.null(dict)) {
 
@@ -62,7 +66,7 @@ test_that("GROUPS - Gluon ListDataset Created Properly", {
         dict <- iter_next(gluon_iter)
     }
 
-    reconstructed <- map2(ids, vals, .f = function(x, y) {
+    reconstructed <- purrr::map2(ids, vals, .f = function(x, y) {
         tibble(
             id    = x,
             value = y

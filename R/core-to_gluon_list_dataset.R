@@ -12,6 +12,7 @@
 #' @param freq the Pandas Timestamp Frequency.
 #'
 #' @examples
+#' \donttest{
 #' library(timetk)
 #'
 #' m4_daily %>%
@@ -21,6 +22,7 @@
 #'         id_var    = id,
 #'         freq      = "D"
 #'     )
+#' }
 #'
 #'
 #' @export
