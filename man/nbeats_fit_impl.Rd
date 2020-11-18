@@ -23,7 +23,7 @@ nbeats_fit_impl(
   ctx = NULL,
   hybridize = TRUE,
   context_length = NULL,
-  loss_function = "MAPE",
+  loss_function = "sMAPE",
   num_stacks = 30,
   num_blocks = list(1),
   widths = list(512),
@@ -69,21 +69,21 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{hybridize}{Increases efficiency by using symbolic programming. (default: TRUE)}
 
-\item{context_length}{Number of time units that condition the predictions Also known as ‘lookback period’. Default is 2 * prediction_length}
+\item{context_length}{Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length}
 
 \item{loss_function}{The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".}
 
 \item{num_stacks}{The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2}
 
-\item{num_blocks}{The number of blocks per stack. A list of ints of length 1 or ‘num_stacks’. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.}
+\item{num_blocks}{The number of blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.}
 
-\item{widths}{Widths of the fully connected layers with ReLu activation in the blocks. A list of ints of length 1 or ‘num_stacks’. Default and recommended value for generic mode: \code{list(512)} Recommended value for interpretable mode: \code{list(256, 2048)}}
+\item{widths}{Widths of the fully connected layers with ReLu activation in the blocks. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: \code{list(512)} Recommended value for interpretable mode: \code{list(256, 2048)}}
 
-\item{sharing}{Whether the weights are shared with the other blocks per stack. A list of ints of length 1 or ‘num_stacks’. Default and recommended value for generic mode: \code{list(FALSE)} Recommended value for interpretable mode: \code{list(TRUE)}}
+\item{sharing}{Whether the weights are shared with the other blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: \code{list(FALSE)} Recommended value for interpretable mode: \code{list(TRUE)}}
 
-\item{expansion_coefficient_lengths}{If the type is "G" (generic), then the length of the expansion coefficient. If type is "T" (trend), then it corresponds to the degree of the polynomial. If the type is "S" (seasonal) then its not used. A list of ints of length 1 or ‘num_stacks’. Default value for generic mode: \code{list(32)} Recommended value for interpretable mode: \code{list(3)}}
+\item{expansion_coefficient_lengths}{If the type is "G" (generic), then the length of the expansion coefficient. If type is "T" (trend), then it corresponds to the degree of the polynomial. If the type is "S" (seasonal) then its not used. A list of ints of length 1 or 'num_stacks'. Default value for generic mode: \code{list(32)} Recommended value for interpretable mode: \code{list(3)}}
 
-\item{stack_types}{One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or ‘num_stacks’. Default and recommended value for generic mode: \code{list("G")} Recommended value for interpretable mode: \code{list("T","S")}}
+\item{stack_types}{One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: \code{list("G")} Recommended value for interpretable mode: \code{list("T","S")}}
 }
 \description{
 GluonTS N-BEATS Modeling Function (Bridge)
