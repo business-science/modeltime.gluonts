@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=master)](https://travis-ci.com/business-science/modeltime.gluonts)
 <!-- badges: end -->
 
 > Deep Learning for Time Series is simplified with `modeltime.gluonts`.
@@ -71,7 +73,10 @@ remotes::install_github("business-science/modeltime.gluonts")
 this once, when you first set up the package.
 
 ``` r
-modeltime.gluonts::install_gluonts()
+# GluonTS Installation
+# - This sets up the Python Environment
+# - Only need to run 1-time, then you're set!
+install_gluonts()
 ```
 
 # Learning More

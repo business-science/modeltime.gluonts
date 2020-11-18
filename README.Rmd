@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 # modeltime.gluonts
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=master)](https://travis-ci.com/business-science/modeltime.gluonts)
 <!-- badges: end -->
 
 > Deep Learning for Time Series is simplified with `modeltime.gluonts`. 
@@ -79,7 +80,10 @@ remotes::install_github("business-science/modeltime.gluonts")
 __Important:__ Use `install_gluonts()` to set up the "r-gluonts" `python` environment used by `modeltime.gluonts`. You only need to do this once, when you first set up the package.
 
 ```{r, eval=FALSE}
-modeltime.gluonts::install_gluonts()
+# GluonTS Installation
+# - This sets up the Python Environment
+# - Only need to run 1-time, then you're set!
+install_gluonts()
 ```
 
 # Learning More
