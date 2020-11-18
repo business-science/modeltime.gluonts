@@ -29,7 +29,7 @@
 #'
 #' The model can be created using the fit() function using the following engines:
 #'
-#' - __GluonTS:__ "gluonts" (the default)
+#' - __GluonTS DeepAR:__ "gluonts_deepar" (the default)
 #'
 #' @section Engine Details:
 #'
@@ -150,7 +150,7 @@
 #'     epochs                = 1,
 #'     num_batches_per_epoch = 4
 #' ) %>%
-#'     set_engine("gluonts")
+#'     set_engine("gluonts_deepar")
 #'
 #' model_spec
 #'
@@ -333,7 +333,7 @@ update.deep_ar <- function(object, parameters = NULL,
 translate.deep_ar <- function(x, engine = x$engine, ...) {
     if (is.null(engine)) {
         message("Used `engine = 'gluonts'` for translation.")
-        engine <- "gluonts"
+        engine <- "gluonts_deepar"
     }
     x <- parsnip::translate.default(x, engine, ...)
 

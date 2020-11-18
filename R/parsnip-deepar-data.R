@@ -12,7 +12,7 @@ make_deep_ar <- function() {
     # SETUP
     model <- "deep_ar"
     mode  <- "regression"
-    eng   <- "gluonts"
+    eng   <- "gluonts_deepar"
 
     parsnip::set_new_model(model)
     parsnip::set_model_mode(model, mode)

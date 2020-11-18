@@ -9,7 +9,7 @@
 status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=master)](https://travis-ci.com/business-science/modeltime.gluonts)
 <!-- badges: end -->
 
-> Deep Learning for Time Series is simplified with `modeltime.gluonts`.
+> Deep Learning for Time Series, simplified.
 
 **Important: This package is exprimental. Functions may change until the
 package matures.**
@@ -18,6 +18,8 @@ Modeltime GluonTS integrates the **Python GluonTS Deep Learning
 Library**, making it easy to develop forecasts using Deep Learning for
 those that are comfortable with the [Modeltime Forecasting
 Workflow](https://business-science.github.io/modeltime/).
+
+<img src="man/figures/deepar_epochs.jpg" width="100%" />
 
 ## GluonTS in R
 
@@ -33,13 +35,14 @@ model_fit_deepar <- deep_ar(
     id                    = "id",
     freq                  = "M",
     prediction_length     = 24,
+    lookback_length       = 36,
     epochs                = 10, 
     num_batches_per_epoch = 50,
     learn_rate            = 0.001,
     num_layers            = 2,
     dropout               = 0.10
 ) %>%
-    set_engine("gluonts") %>%
+    set_engine("gluonts_deepar") %>%
     fit(value ~ ., training(m750_splits))
 
 # Forecast with 95% Confidence Interval

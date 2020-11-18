@@ -80,7 +80,7 @@ the object from scratch.
 
 The model can be created using the fit() function using the following engines:
 \itemize{
-\item \strong{GluonTS:} "gluonts" (the default)
+\item \strong{GluonTS DeepAR:} "gluonts_deepar" (the default)
 }
 }
 \section{Engine Details}{
@@ -199,7 +199,7 @@ model_spec <- deep_ar(
     epochs                = 1,
     num_batches_per_epoch = 4
 ) \%>\%
-    set_engine("gluonts")
+    set_engine("gluonts_deepar")
 
 model_spec
 

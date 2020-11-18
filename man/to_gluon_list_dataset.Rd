@@ -22,6 +22,7 @@ A ListDataset is the format required by \code{GluonTS}. This function
 simplifies creating a \code{GluonTS} ListDataset.
 }
 \examples{
+\donttest{
 library(timetk)
 
 m4_daily \%>\%
@@ -31,6 +32,7 @@ m4_daily \%>\%
         id_var    = id,
         freq      = "D"
     )
+}
 
 
 }
