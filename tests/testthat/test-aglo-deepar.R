@@ -1,7 +1,6 @@
 # DEEP AR TEST ----
 context("Test DeepAR")
 
-
 # SETUP ----
 
 # Model Spec
@@ -23,7 +22,7 @@ model_spec <- deep_ar(
     num_cells               = 20,
     dropout                 = 0.2
 ) %>%
-    set_engine("gluonts")
+    set_engine("gluonts_deepar")
 
 
 
