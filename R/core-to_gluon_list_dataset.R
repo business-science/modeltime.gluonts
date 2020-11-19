@@ -12,7 +12,7 @@
 #' @param freq the Pandas Timestamp Frequency.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(timetk)
 #'
 #' m4_daily %>%

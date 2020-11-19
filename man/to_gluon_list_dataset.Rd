@@ -22,7 +22,7 @@ A ListDataset is the format required by \code{GluonTS}. This function
 simplifies creating a \code{GluonTS} ListDataset.
 }
 \examples{
-\donttest{
+\dontrun{
 library(timetk)
 
 m4_daily \%>\%

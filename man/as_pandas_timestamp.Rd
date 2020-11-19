@@ -19,7 +19,7 @@ Time Zones. Default: FALSE.}
 Convert R Date or POSIXt to Pandas Timestamp
 }
 \examples{
-\donttest{
+\dontrun{
 dt <- as.Date("2011-01-01")
 as_pandas_timestamp(dt)
 
