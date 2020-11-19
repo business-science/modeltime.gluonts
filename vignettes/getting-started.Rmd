@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
   warning = FALSE, 
   message = FALSE,
   fig.align = "center",
-  out.width = "100%",
+  out.width = "90%",
   fig.width = 7,
-  fig.height = 7
+  fig.height = 5
 )
 ```
 
@@ -48,6 +48,9 @@ library(tidymodels)
 library(tidyverse)
 library(timetk)
 ```
+
+Next, set up the Python Environment with `install_gluonts()`. You only need to run this one time, and then 
+
 
 ## Time Series Data
 

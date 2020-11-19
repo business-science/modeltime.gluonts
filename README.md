@@ -19,7 +19,7 @@ Library**, making it easy to develop forecasts using Deep Learning for
 those that are comfortable with the [Modeltime Forecasting
 Workflow](https://business-science.github.io/modeltime/).
 
-<img src="man/figures/deepar_epochs.jpg" width="100%" />
+<img src="man/figures/m4_hourly_forecast.jpg" width="90%" style="display: block; margin: auto;" />
 
 ## GluonTS in R
 
@@ -58,7 +58,7 @@ modeltime_table(
     plot_modeltime_forecast(.interactive = FALSE)
 ```
 
-<img src="man/figures/deepar_example_1.png" width="100%" />
+<img src="man/figures/deepar_example_1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Installation
 

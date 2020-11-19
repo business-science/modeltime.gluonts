@@ -1,0 +1,40 @@
+template:
+  params:
+    bootswatch: flatly
+    ganalytics: UA-76139189-2
+
+navbar:
+  title: "modeltime"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Getting Started"
+      href: articles/getting-started.html
+    - text: "Key Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+
+  right:
+    - icon: fa-github
+      href: https://github.com/business-science/modeltime.gluonts
+
+reference:
+  - title: GluonTS Algorithm Integrations
+    desc: The main algorithms that have been integrated with modeltime.
+    contents:
+    - deep_ar
+    - nbeats
+  - title: Saving and Loading Models
+    desc: The `parsnip`-adjacent algorithms that implement time series models.
+    contents:
+    - save_gluonts_model
+  - title: GluonTS Helpers
+    contents:
+    - to_gluon_list_dataset
+
+repo:
+  url:
+    home: https://github.com/business-science/modeltime.gluonts
+    source: https://github.com/business-science/modeltime.gluonts/blob/master/
+    issue: https://github.com/business-science/modeltime.gluonts/issues/
