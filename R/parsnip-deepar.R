@@ -179,6 +179,13 @@ deep_ar <- function(
     freq,
     prediction_length,
 
+    # LSTM Args
+    lookback_length = NULL,
+    cell_type = NULL,
+    num_layers = NULL,
+    num_cells = NULL,
+    dropout = NULL, # dropout_rate
+
     # Trainer Args
     epochs = NULL,
     batch_size = NULL,
@@ -188,14 +195,9 @@ deep_ar <- function(
     learn_rate_min = NULL, #minimum_learning_rate
     patience = NULL,
     clip_gradient = NULL,
-    penalty = NULL, # weight_decay
+    penalty = NULL # weight_decay
 
-    # LSTM Args
-    lookback_length = NULL,
-    cell_type = NULL,
-    num_layers = NULL,
-    num_cells = NULL,
-    dropout = NULL # dropout_rate
+
 ) {
 
     args <- list(
@@ -203,6 +205,13 @@ deep_ar <- function(
         id                      = rlang::enquo(id),
         freq                    = rlang::enquo(freq),
         prediction_length       = rlang::enquo(prediction_length),
+
+        # LSTM Args
+        lookback_length         = rlang::enquo(lookback_length), # context_length
+        cell_type               = rlang::enquo(cell_type),
+        num_layers              = rlang::enquo(num_layers),
+        num_cells               = rlang::enquo(num_cells),
+        dropout                 = rlang::enquo(dropout),
 
         # Trainer Args
         epochs                  = rlang::enquo(epochs),
@@ -213,14 +222,7 @@ deep_ar <- function(
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty), # weight_decay
-
-        # LSTM Args
-        lookback_length         = rlang::enquo(lookback_length), # context_length
-        cell_type               = rlang::enquo(cell_type),
-        num_layers              = rlang::enquo(num_layers),
-        num_cells               = rlang::enquo(num_cells),
-        dropout                 = rlang::enquo(dropout)
+        penalty                 = rlang::enquo(penalty) # weight_decay
     )
 
     parsnip::new_model_spec(
@@ -254,6 +256,13 @@ update.deep_ar <- function(object, parameters = NULL,
                            freq                    = NULL,
                            prediction_length       = NULL,
 
+                           # LSTM Args
+                           lookback_length         = NULL,
+                           cell_type               = NULL,
+                           num_layers              = NULL,
+                           num_cells               = NULL,
+                           dropout                 = NULL,
+
                            # Trainer Args
                            epochs                  = NULL,
                            batch_size              = NULL,
@@ -264,13 +273,6 @@ update.deep_ar <- function(object, parameters = NULL,
                            patience                = NULL,
                            clip_gradient           = NULL,
                            penalty                 = NULL,
-
-                           # LSTM Args
-                           lookback_length         = NULL,
-                           cell_type               = NULL,
-                           num_layers              = NULL,
-                           num_cells               = NULL,
-                           dropout                 = NULL,
 
                            fresh = FALSE, ...) {
 
@@ -286,6 +288,13 @@ update.deep_ar <- function(object, parameters = NULL,
         freq                    = rlang::enquo(freq),
         prediction_length       = rlang::enquo(prediction_length),
 
+        # LSTM Args
+        lookback_length         = rlang::enquo(lookback_length),
+        cell_type               = rlang::enquo(cell_type),
+        num_layers              = rlang::enquo(num_layers),
+        num_cells               = rlang::enquo(num_cells),
+        dropout                 = rlang::enquo(dropout),
+
         # Trainer Args
         epochs                  = rlang::enquo(epochs),
         batch_size              = rlang::enquo(batch_size),
@@ -295,14 +304,7 @@ update.deep_ar <- function(object, parameters = NULL,
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty),
-
-        # LSTM Args
-        lookback_length         = rlang::enquo(lookback_length),
-        cell_type               = rlang::enquo(cell_type),
-        num_layers              = rlang::enquo(num_layers),
-        num_cells               = rlang::enquo(num_cells),
-        dropout                 = rlang::enquo(dropout)
+        penalty                 = rlang::enquo(penalty)
     )
 
     args <- parsnip::update_main_parameters(args, parameters)

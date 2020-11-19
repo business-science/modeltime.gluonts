@@ -231,6 +231,13 @@ nbeats <- function(
     freq,
     prediction_length,
 
+    # N-BEATS Args
+    lookback_length = NULL, # context_length
+    loss_function = NULL,
+    bagging_size = NULL,
+    num_stacks = NULL,
+    num_blocks = NULL,
+
     # Trainer Args
     epochs = NULL,
     batch_size = NULL,
@@ -240,14 +247,7 @@ nbeats <- function(
     learn_rate_min = NULL, #minimum_learning_rate
     patience = NULL,
     clip_gradient = NULL,
-    penalty = NULL, # weight_decay
-
-    # N-BEATS Args
-    lookback_length = NULL, # context_length
-    loss_function = NULL,
-    bagging_size = NULL,
-    num_stacks = NULL,
-    num_blocks = NULL
+    penalty = NULL # weight_decay
 
 ) {
 
@@ -256,6 +256,13 @@ nbeats <- function(
         id                      = rlang::enquo(id),
         freq                    = rlang::enquo(freq),
         prediction_length       = rlang::enquo(prediction_length),
+
+        # NBEATS Args
+        lookback_length         = rlang::enquo(lookback_length),
+        loss_function           = rlang::enquo(loss_function),
+        bagging_size            = rlang::enquo(bagging_size),
+        num_stacks              = rlang::enquo(num_stacks),
+        num_blocks              = rlang::enquo(num_blocks),
 
         # Trainer Args
         epochs                  = rlang::enquo(epochs),
@@ -266,14 +273,8 @@ nbeats <- function(
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty), # weight_decay
+        penalty                 = rlang::enquo(penalty) # weight_decay
 
-        # NBEATS Args
-        lookback_length         = rlang::enquo(lookback_length),
-        loss_function           = rlang::enquo(loss_function),
-        bagging_size            = rlang::enquo(bagging_size),
-        num_stacks              = rlang::enquo(num_stacks),
-        num_blocks              = rlang::enquo(num_blocks)
     )
 
     parsnip::new_model_spec(
@@ -307,6 +308,13 @@ update.nbeats <- function(object, parameters = NULL,
                           freq                    = NULL,
                           prediction_length       = NULL,
 
+                          # NBEATS Args
+                          lookback_length         = NULL,
+                          loss_function           = NULL,
+                          bagging_size            = NULL,
+                          num_stacks              = NULL,
+                          num_blocks              = NULL,
+
                           # Trainer Args
                           epochs                  = NULL,
                           batch_size              = NULL,
@@ -317,13 +325,6 @@ update.nbeats <- function(object, parameters = NULL,
                           patience                = NULL,
                           clip_gradient           = NULL,
                           penalty                 = NULL,
-
-                          # NBEATS Args
-                          lookback_length         = NULL,
-                          loss_function           = NULL,
-                          bagging_size            = NULL,
-                          num_stacks              = NULL,
-                          num_blocks              = NULL,
 
                           fresh = FALSE, ...) {
 
@@ -339,6 +340,13 @@ update.nbeats <- function(object, parameters = NULL,
         freq                    = rlang::enquo(freq),
         prediction_length       = rlang::enquo(prediction_length),
 
+        # NBEATS Args
+        lookback_length         = rlang::enquo(lookback_length),
+        loss_function           = rlang::enquo(loss_function),
+        bagging_size            = rlang::enquo(bagging_size),
+        num_stacks              = rlang::enquo(num_stacks),
+        num_blocks              = rlang::enquo(num_blocks),
+
         # Trainer Args
         epochs                  = rlang::enquo(epochs),
         batch_size              = rlang::enquo(batch_size),
@@ -348,14 +356,8 @@ update.nbeats <- function(object, parameters = NULL,
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty),
+        penalty                 = rlang::enquo(penalty)
 
-        # NBEATS Args
-        lookback_length         = rlang::enquo(lookback_length),
-        loss_function           = rlang::enquo(loss_function),
-        bagging_size            = rlang::enquo(bagging_size),
-        num_stacks              = rlang::enquo(num_stacks),
-        num_blocks              = rlang::enquo(num_blocks)
     )
 
     args <- parsnip::update_main_parameters(args, parameters)
@@ -440,6 +442,11 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
     # Convert args
     if (is.null(context_length)) context_length <- reticulate::py_none()
     if (is.null(ctx)) ctx <- reticulate::py_none()
+    num_blocks <- as.list(num_blocks)
+    widths <- as.list(widths)
+    sharing <- as.list(sharing)
+    expansion_coefficient_lengths <- as.list(expansion_coefficient_lengths)
+    stack_types <- as.list(stack_types)
 
 
     # X & Y
@@ -676,9 +683,21 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
     validate_gluonts_required_args(x, prediction_length, freq, id)
 
     # Convert args
-    if (is.null(meta_context_length)) meta_context_length <- reticulate::py_none()
-    if (is.null(meta_loss_function)) meta_loss_function <- reticulate::py_none()
+    if (is.null(meta_context_length)) {
+        meta_context_length <- reticulate::py_none()
+    } else {
+        meta_context_length <- as.list(meta_context_length)
+    }
+    if (is.null(meta_loss_function)) {
+        meta_loss_function <- reticulate::py_none()
+    } else {
+        meta_loss_function <- as.list(meta_loss_function)
+    }
     if (is.null(ctx)) ctx <- reticulate::py_none()
+    stack_types <- as.list(stack_types)
+    expansion_coefficient_lengths <- as.list(expansion_coefficient_lengths)
+    widths <- as.list(widths)
+    num_blocks <- as.list(num_blocks)
 
 
     # X & Y

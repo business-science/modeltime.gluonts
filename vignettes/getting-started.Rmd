@@ -12,12 +12,180 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE, 
-  message = FALSE
+  message = FALSE,
+  fig.align = "center",
+  out.width = "100%",
+  fig.width = 7,
+  fig.height = 7
 )
 ```
 
-```{r setup}
-library(modeltime.gluonts)
+## Making an N-Beats Ensemble
+
+Let's get started by making an N-BEATS ENSEMBLE. In a matter of minutes, you'll generate the 4 forecasts shown below. 
+
+```{r, echo=F}
+library(tidyverse)
+library(modeltime)
+modeltime_forecast_tbl <- read_rds("modeltime_forecast_tbl.rds")
+
+modeltime_forecast_tbl %>%
+  plot_modeltime_forecast(
+    .facet_ncol   = 2, 
+    .facet_scales = "free",
+    .interactive  = FALSE
+  )
 ```
 
 
+## Libraries
+
+Load the following libraries. 
+
+```{r setup}
+library(modeltime.gluonts)
+library(tidymodels)
+library(tidyverse)
+library(timetk)
+```
+
+## Time Series Data
+
+We'll use the `m4_hourly` dataset, which contains 4 hourly time series.
+
+```{r}
+data <- m4_hourly %>%
+  select(id, date, value) %>%
+  group_by(id) %>%
+  mutate(value = standardize_vec(value)) %>%
+  ungroup()
+
+data
+```
+
+We'll create the forecast region using `future_frame()`. We are forecasting 1 week (24x7 timestamps) into the future.
+
+```{r}
+HORIZON <- 24*7
+
+new_data <- data %>%
+  group_by(id) %>%
+  future_frame(.length_out = HORIZON) %>%
+  ungroup()
+
+new_data
+```
+
+
+## Making an N-Beats Ensemble Model
+
+We'll create a model using the N-BEATS ENSEMBLE algorithm using the `nbeats()` function. 
+
+- This is a univariate modeling algorithm that ensembles (combines) multiple N-BEATS Deep Learning models. 
+- We select the Ensemble Version of N-BEATS by setting the engine to `gluonts_nbeats_ensemble`.
+- The meta-learner uses 3 sub-models by adjusting the `lookback_length`. We can include more sub-models adjusting the `bagging_size`. 
+
+
+```{r, eval = FALSE}
+model_fit_nbeats_ensemble <- nbeats(
+  id                    = "id",
+  freq                  = "H",
+  prediction_length     = HORIZON,
+  lookback_length       = c(HORIZON, 4*HORIZON),
+  epochs                = 5,
+  num_batches_per_epoch = 15,
+  batch_size            = 1 
+) %>%
+  set_engine("gluonts_nbeats") %>%
+  fit(value ~ date + id, data)
+```
+
+
+An NBEATS ENSEMBLE is produced. 
+
+```{r, eval=F}
+model_fit_nbeats_ensemble
+```
+
+```{r, echo=F}
+knitr::include_graphics("nbeats_model.jpg")
+```
+
+
+## Forecasting 
+
+With a model in hand, we can simply follow the [Modeltime Workflow](https://business-science.github.io/modeltime/) to generate a forecast for the multiple time series groups. 
+
+```{r, eval=F}
+modeltime_forecast_tbl <- modeltime_table(
+  model_fit_nbeats_ensemble
+) %>%
+  modeltime_forecast(
+    new_data    = new_data,
+    actual_data = data,
+    keep_data   = TRUE
+  ) %>%
+  group_by(id) 
+```
+
+We can visualize the forecast with `plot_modeltime_forecast()`.
+
+```{r}
+modeltime_forecast_tbl %>%
+  plot_modeltime_forecast(
+    .facet_ncol   = 2, 
+    .facet_scales = "free",
+    .interactive  = FALSE
+  )
+```
+
+
+## Saving and Loading Models
+
+GluonTS models will need to "serialized" (a fancy word for saved to a directory that contains the recipe for recreating the models). To save the models, use `save_gluonts_model()`.
+
+- Provide a directory where you want to save the model. 
+- This saves all of the model files in the directory.
+
+```{r, eval = FALSE}
+model_fit_nbeats %>%
+  save_gluonts_model(path = "nbeats_model", overwrite = TRUE)
+```
+
+
+You can reload the model into R using `load_gluonts_model()`.
+
+```{r, eval=FALSE}
+model_fit_nbeats_ensemble <- load_gluonts_model("nbeats_model")
+```
+
+
+
+## Learning More
+
+Time series is changing. __Businesses now need 10,000+ time series forecasts every day.__ This is what I call a _High-Performance Time Series Forecasting System (HPTSF)_ - Accurate, Robust, and Scalable Forecasting. 
+
+
+_My Talk on High-Performance Time Series Forecasting_
+
+<p>
+	<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
+	</iframe>
+</p>
+
+
+I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__]((https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting)). If interested in learning Scalable High-Performance Forecasting Strategies then, by taking my course, you will learn:
+
+- Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+- NEW - Deep Learning with `GluonTS` (Competition Winners)
+- Time Series Preprocessing, Noise Reduction, & Anomaly Detection
+- Feature engineering using lagged variables & external regressors
+- Hyperparameter Tuning
+- Time series cross-validation
+- Ensembling Multiple Machine Learning & Univariate Modeling Techniques (Competition Winner)
+- Scalable Forecasting - Forecast 1000+ time series in parallel
+- and more.
+
+<p class="text-center" style="font-size:30px;">
+<a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock the High-Performance Time Series Forecasting Course</a>
+</p>

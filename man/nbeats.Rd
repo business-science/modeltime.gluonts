@@ -9,6 +9,11 @@ nbeats(
   id,
   freq,
   prediction_length,
+  lookback_length = NULL,
+  loss_function = NULL,
+  bagging_size = NULL,
+  num_stacks = NULL,
+  num_blocks = NULL,
   epochs = NULL,
   batch_size = NULL,
   num_batches_per_epoch = NULL,
@@ -17,12 +22,7 @@ nbeats(
   learn_rate_min = NULL,
   patience = NULL,
   clip_gradient = NULL,
-  penalty = NULL,
-  lookback_length = NULL,
-  loss_function = NULL,
-  bagging_size = NULL,
-  num_stacks = NULL,
-  num_blocks = NULL
+  penalty = NULL
 )
 }
 \arguments{
@@ -35,6 +35,17 @@ The only possible value for this model is "regression".}
 Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases}{Pandas Offset Aliases}.}
 
 \item{prediction_length}{Numeric value indicating the length of the prediction horizon}
+
+\item{lookback_length}{Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length.}
+
+\item{loss_function}{The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".}
+
+\item{bagging_size}{(Applicable to Ensemble N-Beats). The number of models that share the parameter combination of 'context_length' and 'loss_function'.
+Each of these models gets a different initialization random initialization. Default and recommended value: 10.}
+
+\item{num_stacks}{The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2}
+
+\item{num_blocks}{The number of blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.}
 
 \item{epochs}{Number of epochs that the network will train (default: 5).}
 
@@ -53,17 +64,6 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 \item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
 
 \item{penalty}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10−8 ).}
-
-\item{lookback_length}{Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length.}
-
-\item{loss_function}{The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".}
-
-\item{bagging_size}{(Applicable to Ensemble N-Beats). The number of models that share the parameter combination of 'context_length' and 'loss_function'.
-Each of these models gets a different initialization random initialization. Default and recommended value: 10.}
-
-\item{num_stacks}{The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2}
-
-\item{num_blocks}{The number of blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.}
 }
 \description{
 \code{nbeats()} is a way to generate a \emph{specification} of a N-BEATS model
