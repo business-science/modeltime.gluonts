@@ -1,36 +1,33 @@
 # DEEP AR TEST ----
 context("Test DeepAR")
 
-# SETUP ----
-
-# Model Spec
-model_spec <- deep_ar(
-    id                      = "id",
-    freq                    = "M",
-    prediction_length       = 24,
-    epochs                  = 1,
-    batch_size              = 2,
-    num_batches_per_epoch   = 10,
-    learn_rate              = 0.01,
-    learn_rate_decay_factor = 0.25,
-    learn_rate_min          = 2e-5,
-    patience                = 100,
-    clip_gradient           = 1,
-    penalty                 = 0.2,
-    cell_type               = "gru",
-    num_layers              = 1,
-    num_cells               = 20,
-    dropout                 = 0.2
-) %>%
-    set_engine("gluonts_deepar")
-
-
 
 # MODEL FITTING ----
 
 test_that("deep_ar: model fitting", {
 
     skip_if_no_gluonts()
+
+    # Model Spec
+    model_spec <<- deep_ar(
+        id                      = "id",
+        freq                    = "M",
+        prediction_length       = 24,
+        epochs                  = 1,
+        batch_size              = 2,
+        num_batches_per_epoch   = 10,
+        learn_rate              = 0.01,
+        learn_rate_decay_factor = 0.25,
+        learn_rate_min          = 2e-5,
+        patience                = 100,
+        clip_gradient           = 1,
+        penalty                 = 0.2,
+        cell_type               = "gru",
+        num_layers              = 1,
+        num_cells               = 20,
+        dropout                 = 0.2
+    ) %>%
+        set_engine("gluonts_deepar")
 
     # ** MODEL FIT
 
@@ -90,27 +87,29 @@ test_that("deep_ar: model fitting", {
 
 # UPDATE MODEL SPEC ----
 
-model_spec_updated <- model_spec %>%
-    update(
-        id                      = "id_2",
-        freq                    = "D",
-        prediction_length       = 36,
-        epochs                  = 2,
-        batch_size              = 4,
-        num_batches_per_epoch   = 6,
-        learn_rate              = 0.0001,
-        learn_rate_decay_factor = 0.5,
-        learn_rate_min          = 1e-5,
-        patience                = 10,
-        clip_gradient           = 10,
-        penalty                 = 0.1,
-        cell_type               = "lstm",
-        num_layers              = 2,
-        num_cells               = 40,
-        dropout                 = 0.1
-    )
-
 testthat::test_that("deep_ar: update model spec", {
+
+    skip_if_no_gluonts()
+
+    model_spec_updated <- model_spec %>%
+        update(
+            id                      = "id_2",
+            freq                    = "D",
+            prediction_length       = 36,
+            epochs                  = 2,
+            batch_size              = 4,
+            num_batches_per_epoch   = 6,
+            learn_rate              = 0.0001,
+            learn_rate_decay_factor = 0.5,
+            learn_rate_min          = 1e-5,
+            patience                = 10,
+            clip_gradient           = 10,
+            penalty                 = 0.1,
+            cell_type               = "lstm",
+            num_layers              = 2,
+            num_cells               = 40,
+            dropout                 = 0.1
+        )
 
     expect_equal(eval_tidy(model_spec_updated$args$id), "id_2")
     expect_equal(eval_tidy(model_spec_updated$args$freq), "D")

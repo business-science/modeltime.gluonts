@@ -2,38 +2,34 @@
 context("Test NBEATS ENSEMBLE")
 
 
-# SETUP ----
-
-# Model Spec
-model_spec <- nbeats(
-    id                      = "id",
-    freq                    = "M",
-    prediction_length       = 24,
-    epochs                  = 1,
-    batch_size              = 2,
-    num_batches_per_epoch   = 10,
-    learn_rate              = 0.01,
-    learn_rate_decay_factor = 0.25,
-    learn_rate_min          = 2e-5,
-    patience                = 100,
-    clip_gradient           = 1,
-    penalty                 = 0.2,
-
-    lookback_length         = list(12),
-    loss_function           = list("MAPE"),
-    bagging_size            = 2,
-    num_stacks              = 10,
-    num_blocks              = list(2)
-) %>%
-    set_engine("gluonts_nbeats_ensemble")
-
-
-
 # MODEL FITTING ----
 
 test_that("nbeats ensemble: model fitting", {
 
     skip_if_no_gluonts()
+
+    # Model Spec
+    model_spec <<- nbeats(
+        id                      = "id",
+        freq                    = "M",
+        prediction_length       = 24,
+        epochs                  = 1,
+        batch_size              = 2,
+        num_batches_per_epoch   = 10,
+        learn_rate              = 0.01,
+        learn_rate_decay_factor = 0.25,
+        learn_rate_min          = 2e-5,
+        patience                = 100,
+        clip_gradient           = 1,
+        penalty                 = 0.2,
+
+        lookback_length         = list(12),
+        loss_function           = list("MAPE"),
+        bagging_size            = 2,
+        num_stacks              = 10,
+        num_blocks              = list(2)
+    ) %>%
+        set_engine("gluonts_nbeats_ensemble")
 
     # ** MODEL FIT
 
@@ -88,22 +84,24 @@ test_that("nbeats ensemble: model fitting", {
 
 # UPDATE MODEL SPEC ----
 
-model_spec_updated <- model_spec %>%
-    update(
-        id                      = "id_2",
-        freq                    = "D",
-        prediction_length       = 36,
-        epochs                  = 2,
-        batch_size              = 4,
-        num_batches_per_epoch   = 6,
-        learn_rate              = 0.0001,
-        learn_rate_decay_factor = 0.5,
-        learn_rate_min          = 1e-5,
-        patience                = 10,
-        clip_gradient           = 10
-    )
-
 testthat::test_that("nbeats ensemble: update model spec", {
+
+    skip_if_no_gluonts()
+
+    model_spec_updated <- model_spec %>%
+        update(
+            id                      = "id_2",
+            freq                    = "D",
+            prediction_length       = 36,
+            epochs                  = 2,
+            batch_size              = 4,
+            num_batches_per_epoch   = 6,
+            learn_rate              = 0.0001,
+            learn_rate_decay_factor = 0.5,
+            learn_rate_min          = 1e-5,
+            patience                = 10,
+            clip_gradient           = 10
+        )
 
     expect_equal(eval_tidy(model_spec_updated$args$id), "id_2")
     expect_equal(eval_tidy(model_spec_updated$args$freq), "D")
