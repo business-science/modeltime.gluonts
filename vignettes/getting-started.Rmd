@@ -49,7 +49,12 @@ library(tidyverse)
 library(timetk)
 ```
 
-Next, set up the Python Environment with `install_gluonts()`. You only need to run this one time, and then 
+Next, set up the Python Environment with `install_gluonts()`. You only need to run this one time, and then you are good to go. 
+
+```{r, eval=F}
+install_gluonts()
+```
+
 
 
 ## Time Series Data
@@ -149,17 +154,18 @@ GluonTS models will need to "serialized" (a fancy word for saved to a directory 
 
 - Provide a directory where you want to save the model. 
 - This saves all of the model files in the directory.
+- __Note that N-BEATS models can be VERY LARGE.__
 
 ```{r, eval = FALSE}
-model_fit_nbeats %>%
-  save_gluonts_model(path = "nbeats_model", overwrite = TRUE)
+model_fit_nbeats_ensemble %>%
+  save_gluonts_model(path = "nbeats_ensemble_model", overwrite = TRUE)
 ```
 
 
 You can reload the model into R using `load_gluonts_model()`.
 
 ```{r, eval=FALSE}
-model_fit_nbeats_ensemble <- load_gluonts_model("nbeats_model")
+model_fit_nbeats_ensemble <- load_gluonts_model("nbeats_ensemble_model")
 ```
 
 

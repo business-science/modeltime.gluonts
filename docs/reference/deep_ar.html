@@ -280,7 +280,9 @@ names in each engine:</p><table class='table'>
 
 
 <p>Other options can be set using <code>set_engine()</code>.</p>
-<p><strong>gluonts</strong></p>
+    <h2 class="hasAnchor" id="engine"><a class="anchor" href="#engine"></a>Engine</h2>
+
+    <p>gluonts_deepar</p>
 <p>The engine uses <code>gluonts.model.deepar.DeepAREstimator()</code>.
 Default values that have been changed to prevent long-running computations:</p><ul>
 <li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
@@ -338,27 +340,10 @@ The <code>fit()</code> interface accepts date and date-time features and handles
     <div class='dont-index'><p><code>fit.model_spec()</code>, <code>set_engine()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ────────────────────────────────────── tidymodels 0.1.1 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>broom    </span><span> 0.7.2          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>recipes  </span><span> 0.1.14    </span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dials    </span><span> 0.0.9.</span><span style='color: #BB0000;'>9000</span><span>     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>rsample  </span><span> 0.0.8.</span><span style='color: #BB0000;'>9000</span><span></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dplyr    </span><span> 1.0.2          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tibble   </span><span> 3.0.4     </span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>ggplot2  </span><span> 3.3.2          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tidyr    </span><span> 1.1.2     </span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>infer    </span><span> 0.5.3          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tune     </span><span> 0.1.1.</span><span style='color: #BB0000;'>9000</span><span></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>modeldata</span><span> 0.1.0          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>workflows</span><span> 0.2.1.</span><span style='color: #BB0000;'>9000</span><span></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>parsnip  </span><span> 0.1.4          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>yardstick</span><span> 0.0.7     </span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>purrr    </span><span> 0.3.4          </span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ───────────────────────────────────────── tidymodels_conflicts() ──</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>discard()</span><span> masks </span><span style='color: #0000BB;'>scales</span><span>::discard()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>  masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>     masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>recipes</span><span>::</span><span style='color: #00BB00;'>step()</span><span>  masks </span><span style='color: #0000BB;'>stats</span><span>::step()</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Attaching packages</span><span> ─────────────────────────────────────── tidyverse 1.3.0 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.4.0     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0     </span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ────────────────────────────────────────── tidyverse_conflicts() ──</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>readr</span><span>::</span><span style='color: #00BB00;'>col_factor()</span><span> masks </span><span style='color: #0000BB;'>scales</span><span>::col_factor()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>purrr</span><span>::</span><span style='color: #00BB00;'>discard()</span><span>    masks </span><span style='color: #0000BB;'>scales</span><span>::discard()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span>     masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>stringr</span><span>::</span><span style='color: #00BB00;'>fixed()</span><span>    masks </span><span style='color: #0000BB;'>recipes</span><span>::fixed()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>        masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>readr</span><span>::</span><span style='color: #00BB00;'>spec()</span><span>       masks </span><span style='color: #0000BB;'>yardstick</span><span>::spec()</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/business-science/timetk'>timetk</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/business-science/timetk'>timetk</a></span><span class='op'>)</span>
 
 
 <span class='co'># ---- MODEL SPEC ----</span>
@@ -377,31 +362,15 @@ The <code>fit()</code> interface accepts date and date-time features and handles
     <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"gluonts_deepar"</span><span class='op'>)</span>
 
 <span class='va'>model_spec</span>
-</div><div class='output co'>#&gt; DeepAR Model Specification (regression)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   id = id
-#&gt;   freq = M
-#&gt;   prediction_length = 24
-#&gt;   epochs = 1
-#&gt;   num_batches_per_epoch = 4
-#&gt; 
-#&gt; Computational engine: gluonts_deepar 
-#&gt; </div><div class='input'>
+
 <span class='co'># ---- TRAINING ----</span>
 <span class='co'># Important: Make sure the date and id features are included as regressors</span>
+<span class='co'>#  and do NOT dummy the id feature.</span>
 <span class='va'>model_fitted</span> <span class='op'>&lt;-</span> <span class='va'>model_spec</span> <span class='op'>%&gt;%</span>
     <span class='fu'>fit</span><span class='op'>(</span><span class='va'>value</span> <span class='op'>~</span> <span class='va'>date</span> <span class='op'>+</span> <span class='va'>id</span>, <span class='va'>m750</span><span class='op'>)</span>
 
 <span class='va'>model_fitted</span>
-</div><div class='output co'>#&gt; parsnip model object
-#&gt; 
-#&gt; Fit time:  753ms 
-#&gt; DeepAR
-#&gt; --------
-#&gt; Model: &lt;gluonts.model.predictor.RepresentableBlockPredictor&gt;
-#&gt; 
-#&gt; gluonts.model.deepar._network.DeepARPredictionNetwork(cardinality=[1], cell_type="lstm", context_length=24, distr_output=gluonts.distribution.student_t.StudentTOutput(), dropout_rate=0.1, dtype=numpy.float32, embedding_dimension=[1], history_length=61, lags_seq=[1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 23, 24, 25, 35, 36, 37], num_cells=40, num_layers=2, num_parallel_samples=100, prediction_length=24, scaling=True)</div><div class='input'>
+
 <span class='co'># ---- PREDICT ----</span>
 <span class='co'># - IMPORTANT: New Data must have id and date features</span>
 <span class='va'>new_data</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
@@ -410,11 +379,9 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 <span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>model_fitted</span>, <span class='va'>new_data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
-#&gt;    .pred
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>12</span><span>371.</div><div class='input'>
-</div></span></pre>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

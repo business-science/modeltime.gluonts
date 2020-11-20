@@ -94,7 +94,11 @@ names in each engine:\tabular{lll}{
    id \tab ListDataset('item_id') \tab ListDataset('item_id') \cr
    freq \tab freq \tab freq \cr
    prediction_length \tab prediction_length \tab prediction_length \cr
-   lookback_length \tab context_length (= 2 x prediction_length) \tab meta_context_length (= as.list(prediction_length x 2:4)) \cr
+   lookback_length \tab context_length (= 2 x prediction_length) \tab meta_context_length (= prediction_length x c(2,4)) \cr
+   bagging_size \tab NA \tab meta_bagging_size (3) \cr
+   loss_function \tab loss_function ('sMAPE') \tab meta_loss_function (list('sMAPE')) \cr
+   num_stacks \tab num_stacks (30) \tab num_stacks (30) \cr
+   num_blocks \tab num_blocks (list(1)) \tab num_blocks (list(1)) \cr
    epochs \tab epochs (5) \tab epochs (5) \cr
    batch_size \tab batch_size (32) \tab batch_size (32) \cr
    num_batches_per_epoch \tab num_batches_per_epoch (50) \tab num_batches_per_epoch (50) \cr
@@ -104,16 +108,14 @@ names in each engine:\tabular{lll}{
    patience \tab patience (10) \tab patience (10) \cr
    clip_gradient \tab clip_gradient (10) \tab clip_gradient (10) \cr
    penalty \tab weight_decay (1e-8) \tab weight_decay (1e-8) \cr
-   loss_function \tab loss_function ('sMAPE') \tab meta_loss_function (list('sMAPE')) \cr
-   bagging_size \tab NA \tab meta_bagging_size (5) \cr
-   num_stacks \tab num_stacks (30) \tab num_stacks (30) \cr
-   num_blocks \tab num_blocks (list(1)) \tab num_blocks (list(1)) \cr
 }
 
 
 Other options can be set using \code{set_engine()}.
+}
 
-\strong{gluonts_nbeats}
+\section{Engine}{
+ gluonts_nbeats
 
 The engine uses \code{gluonts.model.n_beats.NBEATSEstimator()}.
 Default values that have been changed to prevent long-running computations:
@@ -156,7 +158,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 Unlike other parsnip models, a \code{prediction_length} is required
 during the model specification and fitting process.
 
-\strong{gluonts_nbeats_ensemble}
+ gluonts_nbeats_ensemble
 
 The engine uses \code{gluonts.model.n_beats.NBEATSEnsembleEstimator()}.
 
@@ -170,13 +172,13 @@ The number of models follows the formula:
 The default values that have been changed from GluonTS implementation to prevent long-running computations:
 \itemize{
 \item \code{epochs = 5}: GluonTS uses 100 by default.
-\item \code{lookback_length = as.list(prediction_length * 2:4)}. GluonTS uses range of 2:7, which doubles the number of models created.
-\item \code{bagging_size = 5}: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.
-\item \verb{loss_function = list('sMAPE)'}: GluonTS uses 3 \code{meta_loss_function = list('sMAPE', 'MASE', 'MAPE')},
+\item \code{lookback_length = prediction_length * c(2, 4)}. GluonTS uses range of 2:7, which doubles the number of models created.
+\item \code{bagging_size = 3}: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.
+\item \code{loss_function = 'sMAPE'}: GluonTS uses 3 \code{meta_loss_function = list('sMAPE', 'MASE', 'MAPE')},
 which 3X's (triples) the number of models created.
 }
 
-The result is: 3 x 1 x 5 = \strong{15 models.} Each model with have 5 epochs by default.
+The result is: 2 x 1 x 3 = \strong{6 models.} Each model will have 5 epochs by default.
 
 \emph{Required Parameters}
 
@@ -265,6 +267,7 @@ model_spec
 
 # ---- TRAINING ----
 # Important: Make sure the date and id features are included as regressors
+#  and do NOT dummy the id feature.
 model_fitted <- model_spec \%>\%
     fit(value ~ date + id, m750)
 

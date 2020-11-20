@@ -105,13 +105,15 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk">timetk</a></span><span class="op">)</span></code></pre></div>
-<p>Next, set up the Python Environment with <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>. You only need to run this one time, and then</p>
+<p>Next, set up the Python Environment with <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>. You only need to run this one time, and then you are good to go.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="time-series-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#time-series-data" class="anchor"></a>Time Series Data</h2>
 <p>We’ll use the <code>m4_hourly</code> dataset, which contains 4 hourly time series.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">m4_hourly</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">id</span>, <span class="va">date</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -134,7 +136,7 @@
 <span class="co">#&gt; 10 H10   2015-07-01 21:00:00 -0.591 </span>
 <span class="co">#&gt; # … with 3,050 more rows</span></code></pre></div>
 <p>We’ll create the forecast region using <code><a href="https://rdrr.io/pkg/timetk/man/future_frame.html">future_frame()</a></code>. We are forecasting 1 week (24x7 timestamps) into the future.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">HORIZON</span> <span class="op">&lt;-</span> <span class="fl">24</span><span class="op">*</span><span class="fl">7</span>
 
 <span class="va">new_data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">%&gt;%</span>
@@ -167,7 +169,7 @@
 <li>We select the Ensemble Version of N-BEATS by setting the engine to <code>gluonts_nbeats_ensemble</code>.</li>
 <li>The meta-learner uses 3 sub-models by adjusting the <code>lookback_length</code>. We can include more sub-models adjusting the <code>bagging_size</code>.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nbeats.html">nbeats</a></span><span class="op">(</span>
   id                    <span class="op">=</span> <span class="st">"id"</span>,
   freq                  <span class="op">=</span> <span class="st">"H"</span>,
@@ -180,7 +182,7 @@
   <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_nbeats_ensemble"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span> <span class="op">+</span> <span class="va">id</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
 <p>An NBEATS ENSEMBLE is produced.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span></code></pre></div>
 <p><img src="nbeats_model.jpg" width="90%" style="display: block; margin: auto;"></p>
 </div>
@@ -188,7 +190,7 @@
 <h2 class="hasAnchor">
 <a href="#forecasting" class="anchor"></a>Forecasting</h2>
 <p>With a model in hand, we can simply follow the <a href="https://business-science.github.io/modeltime/">Modeltime Workflow</a> to generate a forecast for the multiple time series groups.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">modeltime_forecast_tbl</span> <span class="op">&lt;-</span> <span class="fu">modeltime_table</span><span class="op">(</span>
   <span class="va">model_fit_nbeats_ensemble</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
@@ -199,14 +201,14 @@
   <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> </code></pre></div>
 <p>We can visualize the forecast with <code>plot_modeltime_forecast()</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">modeltime_forecast_tbl</span> <span class="op">%&gt;%</span>
   <span class="fu">plot_modeltime_forecast</span><span class="op">(</span>
     .facet_ncol   <span class="op">=</span> <span class="fl">2</span>, 
     .facet_scales <span class="op">=</span> <span class="st">"free"</span>,
     .interactive  <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="saving-and-loading-models" class="section level2">
 <h2 class="hasAnchor">
@@ -215,13 +217,14 @@
 <ul>
 <li>Provide a directory where you want to save the model.</li>
 <li>This saves all of the model files in the directory.</li>
+<li><strong>Note that N-BEATS models can be VERY LARGE.</strong></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/save_gluonts_model.html">save_gluonts_model</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"nbeats_model"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>You can reload the model into R using <code><a href="../reference/save_gluonts_model.html">load_gluonts_model()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/save_gluonts_model.html">load_gluonts_model</a></span><span class="op">(</span><span class="st">"nbeats_model"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/save_gluonts_model.html">save_gluonts_model</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"nbeats_ensemble_model"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>You can reload the model into R using <code><a href="../reference/save_gluonts_model.html">load_gluonts_model()</a></code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/save_gluonts_model.html">load_gluonts_model</a></span><span class="op">(</span><span class="st">"nbeats_ensemble_model"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="learning-more" class="section level2">
 <h2 class="hasAnchor">

@@ -151,9 +151,9 @@
   init <span class='op'>=</span> <span class='st'>"xavier"</span>,
   ctx <span class='op'>=</span> <span class='cn'>NULL</span>,
   hybridize <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  meta_context_length <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span><span class='op'>(</span><span class='va'>prediction_length</span> <span class='op'>*</span> <span class='fl'>2</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span>,
+  meta_context_length <span class='op'>=</span> <span class='va'>prediction_length</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span>,
   meta_loss_function <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"sMAPE"</span><span class='op'>)</span>,
-  meta_bagging_size <span class='op'>=</span> <span class='fl'>5</span>,
+  meta_bagging_size <span class='op'>=</span> <span class='fl'>3</span>,
   num_stacks <span class='op'>=</span> <span class='fl'>30</span>,
   num_blocks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
   widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>512</span><span class='op'>)</span>,
@@ -245,7 +245,7 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
     </tr>
     <tr>
       <th>meta_bagging_size</th>
-      <td><p>The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default and recommended value: 10</p></td>
+      <td><p>The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default (3). Recommended value: 10</p></td>
     </tr>
     <tr>
       <th>num_stacks</th>

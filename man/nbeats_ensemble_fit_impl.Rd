@@ -22,9 +22,9 @@ nbeats_ensemble_fit_impl(
   init = "xavier",
   ctx = NULL,
   hybridize = TRUE,
-  meta_context_length = as.list(prediction_length * 2:4),
+  meta_context_length = prediction_length * c(2, 4),
   meta_loss_function = list("sMAPE"),
-  meta_bagging_size = 5,
+  meta_bagging_size = 3,
   num_stacks = 30,
   num_blocks = list(1),
   widths = list(512),
@@ -74,7 +74,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{meta_loss_function}{The different 'loss_function' (also known as metric) to use for training the models. Unlike other models in GluonTS this network does not use a distribution. Default and recommended value: \code{list("sMAPE", "MASE", "MAPE")}}
 
-\item{meta_bagging_size}{The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default and recommended value: 10}
+\item{meta_bagging_size}{The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default (3). Recommended value: 10}
 
 \item{num_stacks}{The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2}
 

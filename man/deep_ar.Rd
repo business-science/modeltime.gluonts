@@ -110,8 +110,10 @@ names in each engine:\tabular{ll}{
 
 
 Other options can be set using \code{set_engine()}.
+}
 
-\strong{gluonts}
+\section{Engine}{
+ gluonts_deepar
 
 The engine uses \code{gluonts.model.deepar.DeepAREstimator()}.
 Default values that have been changed to prevent long-running computations:
@@ -181,6 +183,7 @@ The \code{fit()} interface accepts date and date-time features and handles them 
 }
 
 \examples{
+\dontrun{
 library(tidymodels)
 library(tidyverse)
 library(timetk)
@@ -205,6 +208,7 @@ model_spec
 
 # ---- TRAINING ----
 # Important: Make sure the date and id features are included as regressors
+#  and do NOT dummy the id feature.
 model_fitted <- model_spec \%>\%
     fit(value ~ date + id, m750)
 
@@ -218,6 +222,7 @@ new_data <- tibble(
 )
 
 predict(model_fitted, new_data)
+}
 
 }
 \seealso{

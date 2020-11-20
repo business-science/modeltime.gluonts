@@ -20,6 +20,9 @@ navbar:
       href: https://github.com/business-science/modeltime.gluonts
 
 reference:
+  - title: Installation
+    contents:
+    - install_gluonts
   - title: GluonTS Algorithm Integrations
     desc: The main algorithms that have been integrated with modeltime.
     contents:
@@ -32,6 +35,7 @@ reference:
   - title: GluonTS Helpers
     contents:
     - to_gluon_list_dataset
+    - as_pandas_timestamp
 
 repo:
   url:

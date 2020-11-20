@@ -62,7 +62,7 @@
 #' Other options can be set using `set_engine()`.
 #'
 #'
-#' __gluonts__
+#' @section Engine: gluonts_deepar
 #'
 #' The engine uses `gluonts.model.deepar.DeepAREstimator()`.
 #' Default values that have been changed to prevent long-running computations:
@@ -132,6 +132,7 @@
 #' @seealso [fit.model_spec()], [set_engine()]
 #'
 #' @examples
+#' \dontrun{
 #' library(tidymodels)
 #' library(tidyverse)
 #' library(timetk)
@@ -156,6 +157,7 @@
 #'
 #' # ---- TRAINING ----
 #' # Important: Make sure the date and id features are included as regressors
+#' #  and do NOT dummy the id feature.
 #' model_fitted <- model_spec %>%
 #'     fit(value ~ date + id, m750)
 #'
@@ -169,6 +171,7 @@
 #' )
 #'
 #' predict(model_fitted, new_data)
+#' }
 #'
 #' @export
 deep_ar <- function(

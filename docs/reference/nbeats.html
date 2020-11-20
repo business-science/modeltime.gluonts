@@ -264,7 +264,11 @@ names in each engine:</p><table class='table'>
 <tr><td>id</td><td>ListDataset('item_id')</td><td>ListDataset('item_id')</td></tr>
 <tr><td>freq</td><td>freq</td><td>freq</td></tr>
 <tr><td>prediction_length</td><td>prediction_length</td><td>prediction_length</td></tr>
-<tr><td>lookback_length</td><td>context_length (= 2 x prediction_length)</td><td>meta_context_length (= as.list(prediction_length x 2:4))</td></tr>
+<tr><td>lookback_length</td><td>context_length (= 2 x prediction_length)</td><td>meta_context_length (= prediction_length x c(2,4))</td></tr>
+<tr><td>bagging_size</td><td>NA</td><td>meta_bagging_size (3)</td></tr>
+<tr><td>loss_function</td><td>loss_function ('sMAPE')</td><td>meta_loss_function (list('sMAPE'))</td></tr>
+<tr><td>num_stacks</td><td>num_stacks (30)</td><td>num_stacks (30)</td></tr>
+<tr><td>num_blocks</td><td>num_blocks (list(1))</td><td>num_blocks (list(1))</td></tr>
 <tr><td>epochs</td><td>epochs (5)</td><td>epochs (5)</td></tr>
 <tr><td>batch_size</td><td>batch_size (32)</td><td>batch_size (32)</td></tr>
 <tr><td>num_batches_per_epoch</td><td>num_batches_per_epoch (50)</td><td>num_batches_per_epoch (50)</td></tr>
@@ -274,16 +278,14 @@ names in each engine:</p><table class='table'>
 <tr><td>patience</td><td>patience (10)</td><td>patience (10)</td></tr>
 <tr><td>clip_gradient</td><td>clip_gradient (10)</td><td>clip_gradient (10)</td></tr>
 <tr><td>penalty</td><td>weight_decay (1e-8)</td><td>weight_decay (1e-8)</td></tr>
-<tr><td>loss_function</td><td>loss_function ('sMAPE')</td><td>meta_loss_function (list('sMAPE'))</td></tr>
-<tr><td>bagging_size</td><td>NA</td><td>meta_bagging_size (5)</td></tr>
-<tr><td>num_stacks</td><td>num_stacks (30)</td><td>num_stacks (30)</td></tr>
-<tr><td>num_blocks</td><td>num_blocks (list(1))</td><td>num_blocks (list(1))</td></tr>
 </table>
 
 
 
 <p>Other options can be set using <code>set_engine()</code>.</p>
-<p><strong>gluonts_nbeats</strong></p>
+    <h2 class="hasAnchor" id="engine"><a class="anchor" href="#engine"></a>Engine</h2>
+
+    <p>gluonts_nbeats</p>
 <p>The engine uses <code>gluonts.model.n_beats.NBEATSEstimator()</code>.
 Default values that have been changed to prevent long-running computations:</p><ul>
 <li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
@@ -315,7 +317,7 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
 <p><em>3. Prediction Length (Required):</em></p>
 <p>Unlike other parsnip models, a <code>prediction_length</code> is required
 during the model specification and fitting process.</p>
-<p><strong>gluonts_nbeats_ensemble</strong></p>
+<p>gluonts_nbeats_ensemble</p>
 <p>The engine uses <code>gluonts.model.n_beats.NBEATSEnsembleEstimator()</code>.</p>
 <p><em>Number of Models Created</em></p>
 <p>This model is very good, but can be expensive (long-running) due to the number of models that are being created.
@@ -323,13 +325,13 @@ The number of models follows the formula:</p>
 <p><code>length(lookback_length) x length(loss_function) x meta_bagging_size</code></p>
 <p>The default values that have been changed from GluonTS implementation to prevent long-running computations:</p><ul>
 <li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
-<li><p><code>lookback_length = as.list(prediction_length * 2:4)</code>. GluonTS uses range of 2:7, which doubles the number of models created.</p></li>
-<li><p><code>bagging_size = 5</code>: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.</p></li>
-<li><p><code>loss_function = list('sMAPE)'</code>: GluonTS uses 3 <code>meta_loss_function = list('sMAPE', 'MASE', 'MAPE')</code>,
+<li><p><code>lookback_length = prediction_length * c(2, 4)</code>. GluonTS uses range of 2:7, which doubles the number of models created.</p></li>
+<li><p><code>bagging_size = 3</code>: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.</p></li>
+<li><p><code>loss_function = 'sMAPE'</code>: GluonTS uses 3 <code>meta_loss_function = list('sMAPE', 'MASE', 'MAPE')</code>,
 which 3X's (triples) the number of models created.</p></li>
 </ul>
 
-<p>The result is: 3 x 1 x 5 = <strong>15 models.</strong> Each model with have 5 epochs by default.</p>
+<p>The result is: 2 x 1 x 3 = <strong>6 models.</strong> Each model will have 5 epochs by default.</p>
 <p><em>Required Parameters</em></p>
 <p>The <code>gluonts_nbeats_ensemble</code> implementation has several <em>Required Parameters</em>,
 which are user-defined.</p>
@@ -407,6 +409,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 
 <span class='co'># ---- TRAINING ----</span>
 <span class='co'># Important: Make sure the date and id features are included as regressors</span>
+<span class='co'>#  and do NOT dummy the id feature.</span>
 <span class='va'>model_fitted</span> <span class='op'>&lt;-</span> <span class='va'>model_spec</span> <span class='op'>%&gt;%</span>
     <span class='fu'>fit</span><span class='op'>(</span><span class='va'>value</span> <span class='op'>~</span> <span class='va'>date</span> <span class='op'>+</span> <span class='va'>id</span>, <span class='va'>m750</span><span class='op'>)</span>
 

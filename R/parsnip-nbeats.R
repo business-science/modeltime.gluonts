@@ -39,7 +39,11 @@
 #'     "id", "ListDataset('item_id')", "ListDataset('item_id')",
 #'     "freq", "freq", "freq",
 #'     "prediction_length", "prediction_length", "prediction_length",
-#'     "lookback_length", "context_length (= 2 x prediction_length)", "meta_context_length (= as.list(prediction_length x 2:4))",
+#'     "lookback_length", "context_length (= 2 x prediction_length)", "meta_context_length (= prediction_length x c(2,4))",
+#'     "bagging_size", "NA", "meta_bagging_size (3)",
+#'     "loss_function", "loss_function ('sMAPE')", "meta_loss_function (list('sMAPE'))",
+#'     "num_stacks", "num_stacks (30)", "num_stacks (30)",
+#'     "num_blocks", "num_blocks (list(1))", "num_blocks (list(1))",
 #'     "epochs", "epochs (5)", "epochs (5)",
 #'     "batch_size", "batch_size (32)", "batch_size (32)",
 #'     "num_batches_per_epoch", "num_batches_per_epoch (50)", "num_batches_per_epoch (50)",
@@ -48,18 +52,14 @@
 #'     "learn_rate_min", "minimum_learning_rate (5e-5)", "minimum_learning_rate (5e-5)",
 #'     "patience", "patience (10)", "patience (10)",
 #'     "clip_gradient", "clip_gradient (10)", "clip_gradient (10)",
-#'     "penalty", "weight_decay (1e-8)", "weight_decay (1e-8)",
-#'     "loss_function", "loss_function ('sMAPE')", "meta_loss_function (list('sMAPE'))",
-#'     "bagging_size", "NA", "meta_bagging_size (5)",
-#'     "num_stacks", "num_stacks (30)", "num_stacks (30)",
-#'     "num_blocks", "num_blocks (list(1))", "num_blocks (list(1))"
+#'     "penalty", "weight_decay (1e-8)", "weight_decay (1e-8)"
 #' ) %>% knitr::kable()
 #' ```
 #'
 #' Other options can be set using `set_engine()`.
 #'
 #'
-#' __gluonts_nbeats__
+#' @section Engine: gluonts_nbeats
 #'
 #' The engine uses `gluonts.model.n_beats.NBEATSEstimator()`.
 #' Default values that have been changed to prevent long-running computations:
@@ -100,7 +100,7 @@
 #' during the model specification and fitting process.
 #'
 #'
-#' __gluonts_nbeats_ensemble__
+#' @section Engine: gluonts_nbeats_ensemble
 #'
 #' The engine uses `gluonts.model.n_beats.NBEATSEnsembleEstimator()`.
 #'
@@ -114,12 +114,12 @@
 #' The default values that have been changed from GluonTS implementation to prevent long-running computations:
 #'
 #' - `epochs = 5`: GluonTS uses 100 by default.
-#' - `lookback_length = as.list(prediction_length * 2:4)`. GluonTS uses range of 2:7, which doubles the number of models created.
-#' - `bagging_size = 5`: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.
-#' - `loss_function = list('sMAPE)'`: GluonTS uses 3 `meta_loss_function = list('sMAPE', 'MASE', 'MAPE')`,
+#' - `lookback_length = prediction_length * c(2, 4)`. GluonTS uses range of 2:7, which doubles the number of models created.
+#' - `bagging_size = 3`: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.
+#' - `loss_function = 'sMAPE'`: GluonTS uses 3 `meta_loss_function = list('sMAPE', 'MASE', 'MAPE')`,
 #'  which 3X's (triples) the number of models created.
 #'
-#' The result is: 3 x 1 x 5 = __15 models.__ Each model with have 5 epochs by default.
+#' The result is: 2 x 1 x 3 = __6 models.__ Each model will have 5 epochs by default.
 #'
 #' _Required Parameters_
 #'
@@ -207,6 +207,7 @@
 #'
 #' # ---- TRAINING ----
 #' # Important: Make sure the date and id features are included as regressors
+#' #  and do NOT dummy the id feature.
 #' model_fitted <- model_spec %>%
 #'     fit(value ~ date + id, m750)
 #'
@@ -637,7 +638,7 @@ predict.nbeats_fit_impl <- function(object, new_data, ...) {
 #' @inheritParams deepar_fit_impl
 #' @param meta_context_length The different 'context_length' (also known as 'lookback period') to use for training the models. The 'context_length' is the number of time units that condition the predictions. Default and recommended value: `list(multiplier * prediction_length for multiplier in range(2, 7))`
 #' @param meta_loss_function The different 'loss_function' (also known as metric) to use for training the models. Unlike other models in GluonTS this network does not use a distribution. Default and recommended value: `list("sMAPE", "MASE", "MAPE")`
-#' @param meta_bagging_size The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default and recommended value: 10
+#' @param meta_bagging_size The number of models that share the parameter combination of 'context_length' and 'loss_function'. Each of these models gets a different initialization random initialization. Default (3). Recommended value: 10
 #' @param num_stacks The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2
 #' @param num_blocks The number of blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.
 #' @param widths Widths of the fully connected layers with ReLu activation in the blocks. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list(512)` Recommended value for interpretable mode: `list(256, 2048)`
@@ -669,9 +670,9 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
                                      hybridize = TRUE,
 
                                      # Algo Args
-                                     meta_context_length = as.list(prediction_length * 2:4),
+                                     meta_context_length = prediction_length * c(2, 4),
                                      meta_loss_function = list('sMAPE'),
-                                     meta_bagging_size = 5,
+                                     meta_bagging_size = 3,
                                      num_stacks = 30,
                                      num_blocks = list(1),
                                      # block_layers = 4,
