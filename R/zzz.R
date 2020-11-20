@@ -22,6 +22,8 @@ np      <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
+    # install_on_travis()
+
     activate_gluonts()
 
     # PYTHON IMPORTS ----
@@ -45,6 +47,12 @@ np      <- NULL
 }
 
 # UTILITIES ----
+
+install_on_travis <- function() {
+    if (!identical(Sys.getenv("TRAVIS"), "true")) {
+        install_gluonts()
+    }
+}
 
 activate_gluonts <- function() {
 

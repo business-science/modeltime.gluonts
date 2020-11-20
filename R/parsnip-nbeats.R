@@ -438,6 +438,9 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # ARG CHECKS ----
     validate_gluonts_required_args(x, prediction_length, freq, id)
+    if (length(context_length) > 1) {
+        rlang::abort("Only one 'lookback_length' allowed. Did you mean to use 'gluonts_nbeats_ensemble'.")
+    }
 
     # Convert args
     if (is.null(context_length)) context_length <- reticulate::py_none()
