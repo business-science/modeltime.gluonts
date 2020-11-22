@@ -8,6 +8,7 @@
 
 detect_conda_env <- function() {
 
+    ret <- NULL
     tryCatch({
         ret <- reticulate::conda_list() %>%
             dplyr::filter(stringr::str_detect(python, pkg.env$env_name))

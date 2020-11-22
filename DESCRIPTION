@@ -1,6 +1,6 @@
 Package: modeltime.gluonts
 Type: Package
-Title: GluonTS Deep Learning with Modeltime
+Title: GluonTS Deep Learning in R
 Version: 0.1.0
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
@@ -9,7 +9,7 @@ Description:
     Use the 'GluonTS' deep learning library inside of 'modeltime'.
     Available models include 'DeepAR', 'N-BEATS', and 'N-BEATS' Ensemble. 
     Refer to "GluonTS - Probabilistic Time Series Modeling" 
-    (<https://ts.gluon.ai/index.html>.).
+    (<https://ts.gluon.ai/index.html>).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
