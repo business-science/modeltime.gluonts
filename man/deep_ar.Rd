@@ -53,17 +53,17 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{num_batches_per_epoch}{Number of batches at each epoch (default: 50).}
 
-\item{learn_rate}{Initial learning rate (default: 10−3).}
+\item{learn_rate}{Initial learning rate (default: 10-3).}
 
 \item{learn_rate_decay_factor}{Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).}
 
-\item{learn_rate_min}{Lower bound for the learning rate (default: 5⋅10−5 ).}
+\item{learn_rate_min}{Lower bound for the learning rate (default: 5x10-5 ).}
 
 \item{patience}{The patience to observe before reducing the learning rate, nonnegative integer (default: 10).}
 
 \item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
 
-\item{penalty}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10−8 ).}
+\item{penalty}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).}
 }
 \description{
 \code{deep_ar()} is a way to generate a \emph{specification} of a DeepAR model

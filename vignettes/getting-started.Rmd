@@ -183,7 +183,7 @@ _My Talk on High-Performance Time Series Forecasting_
 </p>
 
 
-I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__]((https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting)). If interested in learning Scalable High-Performance Forecasting Strategies then, by taking my course, you will learn:
+I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). If interested in learning Scalable High-Performance Forecasting Strategies then, by taking my course, you will learn:
 
 - Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
 - NEW - Deep Learning with `GluonTS` (Competition Winners)

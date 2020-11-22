@@ -12,11 +12,11 @@
 #'  The only possible value for this model is "regression".
 #' @param lookback_length Number of steps to unroll the RNN for before computing predictions
 #'  (default: NULL, in which case context_length = prediction_length)
-#' @param learn_rate Initial learning rate (default: 10−3).
+#' @param learn_rate Initial learning rate (default: 10-3).
 #' @param learn_rate_decay_factor Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).
-#' @param learn_rate_min Lower bound for the learning rate (default: 5⋅10−5 ).
+#' @param learn_rate_min Lower bound for the learning rate (default: 5x10-5 ).
 #' @param dropout Dropout regularization parameter (default: 0.1)
-#' @param penalty The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10−8 ).
+#' @param penalty The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).
 #'
 #' @details
 #'
@@ -380,12 +380,12 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #'  (default: NULL, uses CPU)
 #' @param batch_size Number of examples in each batch (default: 32).
 #' @param num_batches_per_epoch Number of batches at each epoch (default: 50).
-#' @param learning_rate Initial learning rate (default:  10−3 ).
+#' @param learning_rate Initial learning rate (default:  10-3 ).
 #' @param learning_rate_decay_factor Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).
 #' @param patience The patience to observe before reducing the learning rate, nonnegative integer (default: 10).
-#' @param minimum_learning_rate Lower bound for the learning rate (default:  5⋅10−5 ).
+#' @param minimum_learning_rate Lower bound for the learning rate (default:  5x10-5 ).
 #' @param clip_gradient Maximum value of gradient. The gradient is clipped if it is too large (default: 10).
-#' @param weight_decay The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10−8 ).
+#' @param weight_decay The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10-8 ).
 #' @param init Initializer of the weights of the network (default: “xavier”).
 #' @param hybridize Increases efficiency by using symbolic programming. (default: TRUE)
 #'
