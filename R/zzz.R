@@ -26,7 +26,6 @@ pkg.env$activated  <- FALSE
 pkg.env$conda_envs <- detect_conda_env()
 
 
-
 # ONLOAD ----
 
 gluonts <- NULL
