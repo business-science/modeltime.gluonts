@@ -72,7 +72,7 @@ activate_gluonts <- function() {
 
     if (is.null(conda_envs_found)) {
         # No conda???
-        message("Error detecting Conda Python Environments with `reticulate::conda_list()`. Conda is required for 'modeltime.gluonts'. Try using `reticulate::conda_install()`.")
+        message("Could not detect any Conda Python Environments with `reticulate::conda_list()`. Conda is required for 'modeltime.gluonts'. Try using `reticulate::conda_install()`.")
         pkg.env$activated <<- FALSE
 
     } else if (conda_envs_found == 0) {
