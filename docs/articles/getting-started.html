@@ -93,7 +93,7 @@
 <div id="making-an-n-beats-ensemble" class="section level2">
 <h2 class="hasAnchor">
 <a href="#making-an-n-beats-ensemble" class="anchor"></a>Making an N-Beats Ensemble</h2>
-<p>Let’s get started by making an N-BEATS ENSEMBLE. In a matter of minutes, you’ll generate the 4 forecasts shown below.</p>
+<p>Let’s get started by making an <strong>N-BEATS ENSEMBLE.</strong> N-BEATS is a powerful algorithm that has shown <a href="#references">exceptional results<sup>1</sup></a>. In a matter of minutes, you’ll generate the 4 forecasts shown below. If you’d like to improve your time series forecasting abilities, then please take my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">High-Performance Time Series Course</a>.</p>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="libraries" class="section level2">
@@ -105,9 +105,23 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/timetk">timetk</a></span><span class="op">)</span></code></pre></div>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>Next, set up the Python Environment with <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>. You only need to run this one time, and then you are good to go.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div id="troubleshooting-installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#troubleshooting-installation" class="anchor"></a>Troubleshooting Installation</h3>
+<p>Python Environment setup is always fun. Here are a few recommendations if you run into an issue.</p>
+<ul>
+<li><p><strong>Check if GluonTS (Python) is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/py_module_available.html">reticulate::py_module_available("gluonts")</a></code>. If this returns <code>TRUE</code>, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).</p></li>
+<li><p><strong>Windows 10 error: Microsoft Visual C++ is required.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues/4">Here are the instructions for installing the C++ tools needed.</a></p></li>
+<li><p><strong>Other installation issues.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues">Please file a GitHub issue here.</a></p></li>
+</ul>
+</div>
 </div>
 <div id="time-series-data" class="section level2">
 <h2 class="hasAnchor">
@@ -204,9 +218,10 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">modeltime_forecast_tbl</span> <span class="op">%&gt;%</span>
   <span class="fu">plot_modeltime_forecast</span><span class="op">(</span>
-    .facet_ncol   <span class="op">=</span> <span class="fl">2</span>, 
-    .facet_scales <span class="op">=</span> <span class="st">"free"</span>,
-    .interactive  <span class="op">=</span> <span class="cn">FALSE</span>
+    .conf_interval_show <span class="op">=</span> <span class="cn">FALSE</span>, 
+    .facet_ncol         <span class="op">=</span> <span class="fl">2</span>, 
+    .facet_scales       <span class="op">=</span> <span class="st">"free"</span>,
+    .interactive        <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
@@ -230,13 +245,7 @@
 <h2 class="hasAnchor">
 <a href="#learning-more" class="anchor"></a>Learning More</h2>
 <p>Time series is changing. <strong>Businesses now need 10,000+ time series forecasts every day.</strong> This is what I call a <em>High-Performance Time Series Forecasting System (HPTSF)</em> - Accurate, Robust, and Scalable Forecasting.</p>
-<p><em>My Talk on High-Performance Time Series Forecasting</em></p>
-<p>
-<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);">
-<span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
-</iframe>
-</p>
-<p>I teach how to build a HPTFS System in my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting"><strong>High-Performance Time Series Forecasting Course</strong></a>. If interested in learning Scalable High-Performance Forecasting Strategies then, by taking my course, you will learn:</p>
+<p>I teach how to build a HPTFS System in my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting"><strong>High-Performance Time Series Forecasting Course</strong></a>. By taking my course, you will learn:</p>
 <ul>
 <li>Time Series Machine Learning (cutting-edge) with <code>Modeltime</code> - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, &amp; many more)</li>
 <li>NEW - Deep Learning with <code>GluonTS</code> (Competition Winners)</li>
@@ -251,6 +260,17 @@
 <p class="text-center" style="font-size:30px;">
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock the High-Performance Time Series Forecasting Course</a>
 </p>
+<p><em>My Talk on High-Performance Time Series Forecasting</em></p>
+<p>
+<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);">
+<span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
+</iframe>
+</p>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<p>1: N-BEATS: Neural basis expansion analysis for interpretable time series forecasting <a href="https://arxiv.org/abs/1905.10437" class="uri">https://arxiv.org/abs/1905.10437</a></p>
 </div>
   </div>
 

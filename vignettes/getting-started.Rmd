@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 ## Making an N-Beats Ensemble
 
-Let's get started by making an N-BEATS ENSEMBLE. In a matter of minutes, you'll generate the 4 forecasts shown below. 
+Let's get started by making an __N-BEATS ENSEMBLE.__ N-BEATS is a powerful algorithm that has shown [exceptional results^1^](#references).  In a matter of minutes, you'll generate the 4 forecasts shown below. If you'd like to improve your time series forecasting abilities, then please take my [High-Performance Time Series Course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/). 
 
 ```{r, echo=F}
 library(tidyverse)
@@ -49,13 +49,23 @@ library(tidyverse)
 library(timetk)
 ```
 
+## Installation
+
 Next, set up the Python Environment with `install_gluonts()`. You only need to run this one time, and then you are good to go. 
 
 ```{r, eval=F}
 install_gluonts()
 ```
 
+### Troubleshooting Installation
 
+Python Environment setup is always fun. Here are a few recommendations if you run into an issue.
+
+- __Check if GluonTS (Python) is available__ using `reticulate::py_module_available("gluonts")`. If this returns `TRUE`, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).
+
+- __Windows 10 error: Microsoft Visual C++ is required.__ [Here are the instructions for installing the C++ tools needed.](https://github.com/business-science/modeltime.gluonts/issues/4) 
+
+- __Other installation issues.__ [Please file a GitHub issue here.](https://github.com/business-science/modeltime.gluonts/issues)
 
 ## Time Series Data
 
@@ -141,9 +151,10 @@ We can visualize the forecast with `plot_modeltime_forecast()`.
 ```{r}
 modeltime_forecast_tbl %>%
   plot_modeltime_forecast(
-    .facet_ncol   = 2, 
-    .facet_scales = "free",
-    .interactive  = FALSE
+    .conf_interval_show = FALSE, 
+    .facet_ncol         = 2, 
+    .facet_scales       = "free",
+    .interactive        = FALSE
   )
 ```
 
@@ -174,16 +185,7 @@ model_fit_nbeats_ensemble <- load_gluonts_model("nbeats_ensemble_model")
 
 Time series is changing. __Businesses now need 10,000+ time series forecasts every day.__ This is what I call a _High-Performance Time Series Forecasting System (HPTSF)_ - Accurate, Robust, and Scalable Forecasting. 
 
-
-_My Talk on High-Performance Time Series Forecasting_
-
-<p>
-	<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
-	</iframe>
-</p>
-
-
-I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). If interested in learning Scalable High-Performance Forecasting Strategies then, by taking my course, you will learn:
+I teach how to build a HPTFS System in my [__High-Performance Time Series Forecasting Course__](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting). By taking my course, you will learn:
 
 - Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
 - NEW - Deep Learning with `GluonTS` (Competition Winners)
@@ -198,3 +200,14 @@ I teach how to build a HPTFS System in my [__High-Performance Time Series Foreca
 <p class="text-center" style="font-size:30px;">
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock the High-Performance Time Series Forecasting Course</a>
 </p>
+
+_My Talk on High-Performance Time Series Forecasting_
+
+<p>
+	<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
+	</iframe>
+</p>
+
+## References {#references}
+
+1: N-BEATS: Neural basis expansion analysis for interpretable time series forecasting https://arxiv.org/abs/1905.10437
