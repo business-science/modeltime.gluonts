@@ -24,14 +24,15 @@ pkg.env            <- new.env()
 pkg.env$env_name   <- "r-gluonts"
 pkg.env$activated  <- FALSE
 pkg.env$conda_envs <- detect_conda_env()
+# Move Python Imports to Package Environment
+# - CRAN comment: Cannot use <<- to modify Global env
+pkg.env$gluonts    <- NULL
+pkg.env$pathlib    <- NULL
+pkg.env$pd         <- NULL
+pkg.env$np         <- NULL
 
 
 # ONLOAD ----
-
-pkg.env$gluonts <- NULL
-pkg.env$pathlib <- NULL
-pkg.env$pd      <- NULL
-pkg.env$np      <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
