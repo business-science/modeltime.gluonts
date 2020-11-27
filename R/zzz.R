@@ -35,8 +35,6 @@ np      <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
-    # install_on_travis()
-
     activate_gluonts()
 
     if (pkg.env$activated && check_python_dependencies()) {
@@ -46,10 +44,6 @@ np      <- NULL
         pathlib <<- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
         np      <<- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
         pd      <<- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
-
-        # Python source files (inst/ folder)
-        # system.file("python", "prepare_data.py", package = "modeltime.gluonts") %>%
-        #     reticulate::source_python()
 
         # LOAD MODELS ----
 
@@ -72,26 +66,26 @@ activate_gluonts <- function() {
     if (is.null(conda_envs_found)) {
         # No conda???
         message("Could not detect any Conda Python Environments with `reticulate::conda_list()`. Conda is required for 'modeltime.gluonts'. Try using `reticulate::install_miniconda()`.")
-        pkg.env$activated <<- FALSE
+        pkg.env$activated <- FALSE
 
     } else if (conda_envs_found == 0) {
         message("Please use 'install_gluonts()' to set up the a conda environment named 'r-gluonts' before using modeltime.gluonts. You only need to do this once.")
-        pkg.env$activated <<- FALSE
+        pkg.env$activated <- FALSE
     } else if (conda_envs_found > 1) {
         message("Multiple 'r-gluonts' python environments found.")
         print(pkg.env$conda_envs)
 
         message("\nUsing: ")
-        pkg.env$conda_envs <<- pkg.env$conda_envs %>% dplyr::slice(1)
+        pkg.env$conda_envs <- pkg.env$conda_envs %>% dplyr::slice(1)
         print(pkg.env$conda_envs)
 
         reticulate::use_condaenv(pkg.env$conda_envs$name, required = TRUE)
-        pkg.env$activated <<- TRUE
+        pkg.env$activated <- TRUE
     } else {
         # message("here")
         # print(pkg.env$conda_envs$name)
         reticulate::use_condaenv(pkg.env$conda_envs$name, required = TRUE)
-        pkg.env$activated <<- TRUE
+        pkg.env$activated <- TRUE
     }
 
 }

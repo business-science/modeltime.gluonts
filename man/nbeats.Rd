@@ -242,7 +242,7 @@ The \code{fit()} interface accepts date and date-time features and handles them 
 }
 
 \examples{
-\dontrun{
+\donttest{
 library(tidymodels)
 library(tidyverse)
 library(timetk)

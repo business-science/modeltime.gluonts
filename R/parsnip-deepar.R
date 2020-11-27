@@ -132,7 +132,7 @@
 #' @seealso [fit.model_spec()], [set_engine()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(tidymodels)
 #' library(tidyverse)
 #' library(timetk)
