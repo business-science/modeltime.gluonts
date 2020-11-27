@@ -20,6 +20,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=master)](https://travis-ci.com/business-science/modeltime.gluonts)
+[![codecov](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modeltime.gluonts)](https://cran.r-project.org/package=modeltime)
+![](http://cranlogs.r-pkg.org/badges/modeltime.gluonts?color=brightgreen)
+![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.gluonts?color=brightgreen)
 <!-- badges: end -->
 
 > Deep Learning for Time Series, simplified. 
