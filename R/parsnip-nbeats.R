@@ -490,7 +490,7 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$trainer$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
         batch_size                 = batch_size,
@@ -506,7 +506,7 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
     )
 
     # Construct GluonTS Model
-    model_spec <- gluonts$model$n_beats$NBEATSEstimator(
+    model_spec <- pkg.env$gluonts$model$n_beats$NBEATSEstimator(
         freq                          = freq,
         prediction_length             = prediction_length,
 
@@ -741,7 +741,7 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$trainer$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
         batch_size                 = batch_size,
@@ -757,7 +757,7 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
     )
 
     # Construct GluonTS Model
-    model_spec <- gluonts$model$n_beats$NBEATSEnsembleEstimator(
+    model_spec <- pkg.env$gluonts$model$n_beats$NBEATSEnsembleEstimator(
         freq                          = freq,
         prediction_length             = prediction_length,
 

@@ -435,7 +435,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
     if (is.null(ctx)) ctx <- reticulate::py_none()
     if (is.null(cardinality)) cardinality <- reticulate::py_none()
     if (is.null(embedding_dimension)) embedding_dimension <- reticulate::py_none()
-    if (distr_output == "default") distr_output <- gluonts$distribution$student_t$StudentTOutput()
+    if (distr_output == "default") distr_output <- pkg.env$gluonts$distribution$student_t$StudentTOutput()
     if (is.null(lags_seq)) lags_seq <- reticulate::py_none()
     if (is.null(time_features)) time_features <- reticulate::py_none()
     # if (is.null(imputation_method)) imputation_method <- reticulate::py_none()
@@ -477,7 +477,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$trainer$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
         batch_size                 = batch_size,
@@ -493,7 +493,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
     )
 
     # Construct GluonTS Model
-    model_spec <- gluonts$model$deepar$DeepAREstimator(
+    model_spec <- pkg.env$gluonts$model$deepar$DeepAREstimator(
         freq                   = freq,
         prediction_length      = prediction_length,
 

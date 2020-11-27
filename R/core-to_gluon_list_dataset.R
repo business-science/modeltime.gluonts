@@ -74,7 +74,7 @@ to_gluon_list_dataset <- function(data, date_var, value_var, id_var = NULL, freq
 
             reticulate::dict(
                 "start"   = as_pandas_timestamp(idx[1], freq = freq),
-                "target"  = np$array(val),
+                "target"  = pkg.env$np$array(val),
                 "item_id" = as.character(grp[1])
             )
         })
@@ -83,7 +83,7 @@ to_gluon_list_dataset <- function(data, date_var, value_var, id_var = NULL, freq
     # From a list of Dictionaries
     # Reference:
     # 1. https://ts.gluon.ai/examples/extended_forecasting_tutorial/extended_tutorial.html#1.2-Create-artificial-datasets
-    gluonts$dataset$common$ListDataset(
+    pkg.env$gluonts$dataset$common$ListDataset(
         py_list_of_dict,
         freq = freq
     )

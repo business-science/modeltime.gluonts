@@ -29,19 +29,19 @@ notifications:
 after_success:
   - Rscript -e 'covr::codecov()'
 
-# before_install:
-#   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-#   - bash miniconda.sh -b -p $HOME/miniconda
-#   - source "$HOME/miniconda/etc/profile.d/conda.sh"
-#   - hash -r
-#   - conda config --set always_yes yes --set changeps1 no
-#   - conda update -q conda
-#   # Useful for debugging any issues with conda
-#   - conda info -a
+before_install:
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
 
-#   # Replace dep1 dep2 ... with your dependencies
-#   - conda create -q -n r-gluonts python=3.6
-#   - conda activate r-gluonts
-#   - conda install pip
-#   - pip install mxnet==1.6 gluonts==0.5.2 numpy==1.16.6 pandas==1.0.5 scikit-learn==0.23.2 matplotlib==3.3.2 seaborn==0.11.0 pathlib==1.0.1
+  # Replace dep1 dep2 ... with your dependencies
+  - conda create -q -n r-gluonts python=3.6
+  - conda activate r-gluonts
+  - conda install pip
+  - pip install mxnet==1.6 gluonts==0.5.2 numpy==1.16.6 pandas==1.0.5 scikit-learn==0.23.2 matplotlib==3.3.2 seaborn==0.11.0 pathlib==1.0.1
 

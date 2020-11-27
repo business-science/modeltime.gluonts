@@ -77,7 +77,7 @@ save_gluonts_model <- function(object, path, overwrite = FALSE) {
     saveRDS(object, file = rds_path)
 
     # 2. Save (Serialize) the GluonTS model
-    pathlib_path <- pathlib$Path(path)
+    pathlib_path <- pkg.env$pathlib$Path(path)
 
     if (inherits(object, "workflow")) {
         # Is workflow
@@ -107,8 +107,8 @@ load_gluonts_model <- function(path) {
     object   <- readRDS(file = rds_path)
 
     # 2. Load (Deserialize) the GluonTS model
-    pathlib_path <- pathlib$Path(path)
-    model_gluon  <- gluonts$model$predictor$Predictor$deserialize(path = pathlib_path)
+    pathlib_path <- pkg.env$pathlib$Path(path)
+    model_gluon  <- pkg.env$gluonts$model$predictor$Predictor$deserialize(path = pathlib_path)
 
     # 3. Recombine the modeltime model and the gluon model
     if (inherits(object, "workflow")) {

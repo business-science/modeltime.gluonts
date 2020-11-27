@@ -36,9 +36,9 @@ as_pandas_timestamp.Date <- function(x, ..., pass_time_zone = FALSE) {
 
     number_date <- as.numeric(x) * 86400 * 1e9
     if (pass_time_zone) {
-        pd$Timestamp(number_date, tz = "UTC", ...)
+        pkg.env$pd$Timestamp(number_date, tz = "UTC", ...)
     } else {
-        pd$Timestamp(number_date, ...)
+        pkg.env$pd$Timestamp(number_date, ...)
     }
 
 }
@@ -51,15 +51,15 @@ as_pandas_timestamp.POSIXct <- function(x, ..., pass_time_zone = FALSE) {
     if (pass_time_zone) {
         tz <- as.POSIXlt(x)$zone
         tryCatch({
-            pd$Timestamp(number_date, tz = tz, ...)
+            pkg.env$pd$Timestamp(number_date, tz = tz, ...)
         },
         error = function(e) {
             msg <- paste0("R time zone, ", tz, ", missing or does not exist in pytz. Defaulting to UTC.")
             warning(msg, call. = FALSE)
-            pd$Timestamp(number_date, tz = "UTC", ...)
+            pkg.env$pd$Timestamp(number_date, tz = "UTC", ...)
         })
     } else {
-        pd$Timestamp(number_date, ...)
+        pkg.env$pd$Timestamp(number_date, ...)
     }
 
 }

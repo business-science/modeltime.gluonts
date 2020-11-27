@@ -139,21 +139,21 @@ testthat::test_that("deep_ar: checks/validations", {
     # Missing prediction length
     expect_error({
         deep_ar() %>%
-            set_engine("gluonts") %>%
+            set_engine("gluonts_deepar") %>%
             fit(value ~ date + id, training(m750_splits))
     })
 
     # Missing freq
     expect_error({
         deep_ar(prediction_length = 24) %>%
-            set_engine("gluonts") %>%
+            set_engine("gluonts_deepar") %>%
             fit(value ~ date + id, training(m750_splits))
     })
 
     # Missing ID argument
     expect_error({
         deep_ar(freq = "M", prediction_length = 24) %>%
-            set_engine("gluonts") %>%
+            set_engine("gluonts_deepar") %>%
             fit(value ~ date + id, training(m750_splits))
     })
 
