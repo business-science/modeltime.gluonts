@@ -6,6 +6,14 @@
 #' named `r-gluonts`.
 #' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment to use `GluonTS`
 #'
+#' @details
+#'
+#' __Python Environment Manager Support__
+#'
+#' Currently, `install_gluonts()` supports Conda and Miniconda Environments.
+#'
+#' Virtual Environments are not currently supported.
+#'
 #' @examples
 #' \dontrun{
 #' install_gluonts()
@@ -14,6 +22,10 @@
 #'
 #' @export
 install_gluonts <- function() {
+
+    if (!check_conda()) {
+        return()
+    }
 
     method <- "conda"
 
@@ -38,3 +50,23 @@ install_gluonts <- function() {
     )
 
 }
+
+
+check_conda <- function() {
+
+    conda_list_nrow <- nrow(reticulate::conda_list())
+
+    if (is.null(conda_list_nrow) || conda_list_nrow == 0L) {
+        # No conda
+        message("Could not detect Conda or Miniconda Package Managers, one of which is required for 'install_gluonts()'. \nAvailable options:\n",
+                " - [Preferred] You can install Miniconda (light-weight) using 'reticulate::install_miniconda()'. \n",
+                " - Or, you can install the full Aniconda distribution (1000+ packages) using 'reticulate::conda_install()'. \n\n",
+                "Then use 'install_gluonts()' to set up the GluonTS python environment.")
+        conda_found <- FALSE
+    } else {
+        conda_found <- TRUE
+    }
+
+    return(conda_found)
+}
+

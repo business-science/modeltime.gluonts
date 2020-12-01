@@ -61,7 +61,7 @@ install_gluonts()
 
 Python Environment setup is always fun. Here are a few recommendations if you run into an issue.
 
-- __Check to make sure Conda is available__ using `reticulate::conda_version()`. If no conda version is returned, then use `reticulate::install_miniconda()` to install. Then (re-)run `install_gluonts()`. 
+- __Check to make sure Conda or Miniconda is available__ using `reticulate::conda_version()`. If no conda version is returned, then use `reticulate::install_miniconda()` to install. Then (re-)run `install_gluonts()`. 
 
 - __Check if GluonTS (Python) is available__ using `reticulate::py_module_available("gluonts")`. If this returns `TRUE`, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).
 

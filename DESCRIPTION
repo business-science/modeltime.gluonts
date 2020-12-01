@@ -38,6 +38,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     testthat
+SystemRequirements: GluonTS (https://ts.gluon.ai/)
 VignetteBuilder: knitr
 URL: https://github.com/business-science/modeltime.gluonts
 BugReports: https://github.com/business-science/modeltime.gluonts/issues

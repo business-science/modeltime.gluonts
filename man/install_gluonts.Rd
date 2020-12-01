@@ -15,6 +15,13 @@ named \code{r-gluonts}.
 \item The Modletime GluonTS R package will connect to the \code{r-gluonts} Python environment to use \code{GluonTS}
 }
 }
+\details{
+\strong{Python Environment Manager Support}
+
+Currently, \code{install_gluonts()} supports Conda and Miniconda Environments.
+
+Virtual Environments are not currently supported.
+}
 \examples{
 \dontrun{
 install_gluonts()
