@@ -31,7 +31,7 @@ install_gluonts <- function() {
 
     default_pkgs <- c(
         "mxnet==1.6",
-        "gluonts==0.5.2",
+        "gluonts==0.6.3",
         "numpy==1.16.6",
         "pandas==1.0.5",
         "scikit-learn==0.23.2",

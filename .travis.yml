@@ -44,5 +44,5 @@ before_install:
   - conda create -q -n r-gluonts python=3.6
   - conda activate r-gluonts
   - conda install pip
-  - pip install mxnet==1.6 gluonts==0.5.2 numpy==1.16.6 pandas==1.0.5 scikit-learn==0.23.2 matplotlib==3.3.2 seaborn==0.11.0 pathlib==1.0.1
+  - pip install mxnet==1.6 gluonts==0.6.3 numpy==1.16.6 pandas==1.0.5 scikit-learn==0.23.2 matplotlib==3.3.2 seaborn==0.11.0 pathlib==1.0.1
 

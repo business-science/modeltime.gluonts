@@ -53,7 +53,7 @@ test_that("deep_ar: model fitting", {
 
     # $fit DEEPAR
 
-    testthat::expect_s3_class(model_fit$fit$models$model_1, "gluonts.model.predictor.RepresentableBlockPredictor")
+    testthat::expect_s3_class(model_fit$fit$models$model_1, "gluonts.mx.model.predictor.RepresentableBlockPredictor")
 
     testthat::expect_equal(model_fit$fit$models$model_1$batch_size %>% py_to_r(), 2)
     testthat::expect_equal(model_fit$fit$models$model_1$freq %>% py_to_r(), "M")

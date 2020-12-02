@@ -54,22 +54,26 @@ pkg.env$np         <- NULL
 
     } else {
 
-        packageStartupMessage(
-            "* GluonTS Python Dependencies Not Found *\n",
-            "  Available options:\n",
-            "    - [Recommended] Use Pre-Configured Python Environment: Use `install_gluonts()` to\n",
-            "       install GluonTS Python Libraries into a conda environment named 'r-gluonts'.\n",
-            "    - Use a Custom Python Environment: Before running `libary(modeltime.gluonts)`, \n",
-            "       use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your \n",
-            "       python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas', \n",
-            "       and 'pathlib' available as dependencies."
-        )
+        msg_no_gluonts()
 
     }
 
 }
 
 # UTILITIES ----
+
+msg_no_gluonts <- function() {
+    packageStartupMessage(
+        "* GluonTS Python Dependencies Not Found *\n",
+        "  Available options:\n",
+        "    - [Recommended] Use Pre-Configured Python Environment: Use `install_gluonts()` to\n",
+        "       install GluonTS Python Libraries into a conda environment named 'r-gluonts'.\n",
+        "    - Use a Custom Python Environment: Before running `library(modeltime.gluonts)`, \n",
+        "       use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your \n",
+        "       python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas', \n",
+        "       and 'pathlib' available as dependencies."
+    )
+}
 
 activate_gluonts <- function() {
 
