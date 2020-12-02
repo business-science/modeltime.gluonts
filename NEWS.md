@@ -1,3 +1,11 @@
+# modeltime.gluonts (development version)
+
+
+
 # modeltime.gluonts 0.1.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Initial Release
+* Incorporates 2 GluonTS Algorithms:
+
+    - `deepar()`: Integrates GluonTS DeepAREstimator
+    - `nbeats()`: Integrates N-BEATS & N-BEATS Ensemble Estimators
