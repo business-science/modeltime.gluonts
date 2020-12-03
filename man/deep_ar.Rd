@@ -22,7 +22,8 @@ deep_ar(
   learn_rate_min = NULL,
   patience = NULL,
   clip_gradient = NULL,
-  penalty = NULL
+  penalty = NULL,
+  scale = NULL
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 \item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
 
 \item{penalty}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).}
+
+\item{scale}{Scales numeric data by \code{id} group using mean = 0, standard deviation = 1 transformation. (default: FALSE)}
 }
 \description{
 \code{deep_ar()} is a way to generate a \emph{specification} of a DeepAR model
@@ -106,6 +109,7 @@ names in each engine:\tabular{ll}{
    num_layers \tab num_layers (2) \cr
    num_cells \tab num_cells (40) \cr
    dropout \tab dropout_rate (0.1) \cr
+   scale \tab scale_by_id (FALSE) \cr
 }
 
 

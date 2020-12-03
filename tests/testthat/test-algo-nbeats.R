@@ -28,7 +28,9 @@ test_that("nbeats: model fitting", {
         lookback_length         = 12,
         loss_function           = "MAPE",
         num_stacks              = 10,
-        num_blocks              = list(2)
+        num_blocks              = list(2),
+
+        scale                   = TRUE
     ) %>%
         set_engine("gluonts_nbeats")
 

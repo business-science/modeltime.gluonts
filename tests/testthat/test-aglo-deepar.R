@@ -25,7 +25,8 @@ test_that("deep_ar: model fitting", {
         cell_type               = "gru",
         num_layers              = 1,
         num_cells               = 20,
-        dropout                 = 0.2
+        dropout                 = 0.2,
+        scale                   = TRUE
     ) %>%
         set_engine("gluonts_deepar")
 

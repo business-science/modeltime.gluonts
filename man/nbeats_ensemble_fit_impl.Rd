@@ -89,7 +89,7 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 \item{stack_types}{One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: \code{list("G")} Recommended value for interpretable mode: \code{list("T","S")}}
 
-\item{scale_by_id}{Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: TRUE)}
+\item{scale_by_id}{Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: FALSE)}
 }
 \description{
 GluonTS N-BEATS ENSEMBLE Modeling Function (Bridge)

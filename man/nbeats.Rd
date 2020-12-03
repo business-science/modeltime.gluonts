@@ -22,7 +22,8 @@ nbeats(
   learn_rate_min = NULL,
   patience = NULL,
   clip_gradient = NULL,
-  penalty = NULL
+  penalty = NULL,
+  scale = NULL
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ Each of these models gets a different initialization random initialization. Defa
 \item{clip_gradient}{Maximum value of gradient. The gradient is clipped if it is too large (default: 10).}
 
 \item{penalty}{The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).}
+
+\item{scale}{Scales numeric data by \code{id} group using mean = 0, standard deviation = 1 transformation. (default: FALSE)}
 }
 \description{
 \code{nbeats()} is a way to generate a \emph{specification} of a N-BEATS model
@@ -108,6 +111,7 @@ names in each engine:\tabular{lll}{
    patience \tab patience (10) \tab patience (10) \cr
    clip_gradient \tab clip_gradient (10) \tab clip_gradient (10) \cr
    penalty \tab weight_decay (1e-8) \tab weight_decay (1e-8) \cr
+   scale \tab scale_by_id (FALSE) \tab scale_by_id (FALSE) \cr
 }
 
 

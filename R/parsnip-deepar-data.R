@@ -178,6 +178,15 @@ make_deep_ar <- function() {
         has_submodel = FALSE
     )
 
+    parsnip::set_model_arg(
+        model        = model,
+        eng          = eng,
+        parsnip      = "scale",
+        original     = "scale_by_id",
+        func         = list(pkg = "modeltime.gluonts", fun = "scale"),
+        has_submodel = FALSE
+    )
+
     # * Encoding ----
     parsnip::set_encoding(
         model   = model,

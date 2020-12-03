@@ -13,6 +13,7 @@
 #' @param lookback_length Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length.
 #' @param bagging_size (Applicable to Ensemble N-Beats). The number of models that share the parameter combination of 'context_length' and 'loss_function'.
 #'  Each of these models gets a different initialization random initialization. Default and recommended value: 10.
+#' @param scale Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #'
 #' @details
 #'
@@ -52,7 +53,8 @@
 #'     "learn_rate_min", "minimum_learning_rate (5e-5)", "minimum_learning_rate (5e-5)",
 #'     "patience", "patience (10)", "patience (10)",
 #'     "clip_gradient", "clip_gradient (10)", "clip_gradient (10)",
-#'     "penalty", "weight_decay (1e-8)", "weight_decay (1e-8)"
+#'     "penalty", "weight_decay (1e-8)", "weight_decay (1e-8)",
+#'     "scale", "scale_by_id (FALSE)",  "scale_by_id (FALSE)"
 #' ) %>% knitr::kable()
 #' ```
 #'
@@ -248,7 +250,10 @@ nbeats <- function(
     learn_rate_min = NULL, #minimum_learning_rate
     patience = NULL,
     clip_gradient = NULL,
-    penalty = NULL # weight_decay
+    penalty = NULL, # weight_decay
+
+    # Modeltime Args
+    scale = NULL
 
 ) {
 
@@ -274,7 +279,9 @@ nbeats <- function(
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty) # weight_decay
+        penalty                 = rlang::enquo(penalty), # weight_decay
+
+        scale                   = rlang::enquo(scale)
 
     )
 
@@ -327,6 +334,8 @@ update.nbeats <- function(object, parameters = NULL,
                           clip_gradient           = NULL,
                           penalty                 = NULL,
 
+                          scale                   = NULL,
+
                           fresh = FALSE, ...) {
 
     parsnip::update_dot_check(...)
@@ -357,7 +366,9 @@ update.nbeats <- function(object, parameters = NULL,
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty)
+        penalty                 = rlang::enquo(penalty),
+
+        scale                   = rlang::enquo(scale)
 
     )
 
@@ -436,7 +447,7 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
                             stack_types = list("G"),
 
                             # Modeltime Args
-                            scale_by_id = TRUE
+                            scale_by_id = FALSE
 
 ) {
 
@@ -672,7 +683,7 @@ predict.nbeats_fit_impl <- function(object, new_data, ...) {
 #' @param sharing Whether the weights are shared with the other blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list(FALSE)` Recommended value for interpretable mode: `list(TRUE)`
 #' @param expansion_coefficient_lengths If the type is "G" (generic), then the length of the expansion coefficient. If type is "T" (trend), then it corresponds to the degree of the polynomial. If the type is "S" (seasonal) then its not used. A list of ints of length 1 or 'num_stacks'. Default value for generic mode: `list(32)` Recommended value for interpretable mode: `list(3)`
 #' @param stack_types One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list("G")` Recommended value for interpretable mode: `list("T","S")`
-#' @param scale_by_id Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: TRUE)
+#' @param scale_by_id Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #'
 #' @details
 #'

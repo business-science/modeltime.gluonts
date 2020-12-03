@@ -175,6 +175,15 @@ make_nbeats <- function() {
         has_submodel = FALSE
     )
 
+    parsnip::set_model_arg(
+        model        = model,
+        eng          = eng,
+        parsnip      = "scale",
+        original     = "scale_by_id",
+        func         = list(pkg = "modeltime.gluonts", fun = "scale"),
+        has_submodel = FALSE
+    )
+
     # * Encoding ----
     parsnip::set_encoding(
         model   = model,
@@ -391,6 +400,15 @@ make_nbeats <- function() {
         parsnip      = "num_blocks",
         original     = "num_blocks",
         func         = list(pkg = "modeltime.gluonts", fun = "num_blocks"),
+        has_submodel = FALSE
+    )
+
+    parsnip::set_model_arg(
+        model        = model,
+        eng          = eng,
+        parsnip      = "scale",
+        original     = "scale_by_id",
+        func         = list(pkg = "modeltime.gluonts", fun = "scale"),
         has_submodel = FALSE
     )
 

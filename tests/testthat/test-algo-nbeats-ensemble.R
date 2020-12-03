@@ -27,7 +27,9 @@ test_that("nbeats ensemble: model fitting", {
         loss_function           = list("MAPE"),
         bagging_size            = 2,
         num_stacks              = 10,
-        num_blocks              = list(2)
+        num_blocks              = list(2),
+
+        scale                   = TRUE
     ) %>%
         set_engine("gluonts_nbeats_ensemble")
 

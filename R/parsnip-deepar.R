@@ -17,6 +17,7 @@
 #' @param learn_rate_min Lower bound for the learning rate (default: 5x10-5 ).
 #' @param dropout Dropout regularization parameter (default: 0.1)
 #' @param penalty The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).
+#' @param scale Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #'
 #' @details
 #'
@@ -55,7 +56,8 @@
 #'     "cell_type", "cell_type ('lstm')",
 #'     "num_layers", "num_layers (2)",
 #'     "num_cells", "num_cells (40)",
-#'     "dropout", "dropout_rate (0.1)"
+#'     "dropout", "dropout_rate (0.1)",
+#'     "scale", "scale_by_id (FALSE)"
 #' ) %>% knitr::kable()
 #' ```
 #'
@@ -198,7 +200,10 @@ deep_ar <- function(
     learn_rate_min = NULL, #minimum_learning_rate
     patience = NULL,
     clip_gradient = NULL,
-    penalty = NULL # weight_decay
+    penalty = NULL, # weight_decay
+
+    # Modeltime Args
+    scale = NULL
 
 
 ) {
@@ -225,7 +230,10 @@ deep_ar <- function(
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty) # weight_decay
+        penalty                 = rlang::enquo(penalty), # weight_decay
+
+        # Modeltime Args
+        scale                   = rlang::enquo(scale)
     )
 
     parsnip::new_model_spec(
@@ -277,6 +285,9 @@ update.deep_ar <- function(object, parameters = NULL,
                            clip_gradient           = NULL,
                            penalty                 = NULL,
 
+                           # Modeltime Args
+                           scale                   = NULL,
+
                            fresh = FALSE, ...) {
 
     parsnip::update_dot_check(...)
@@ -307,7 +318,10 @@ update.deep_ar <- function(object, parameters = NULL,
         learn_rate_min          = rlang::enquo(learn_rate_min),
         patience                = rlang::enquo(patience),
         clip_gradient           = rlang::enquo(clip_gradient),
-        penalty                 = rlang::enquo(penalty)
+        penalty                 = rlang::enquo(penalty),
+
+        # Modeltime Args
+        scale                   = rlang::enquo(scale)
     )
 
     args <- parsnip::update_main_parameters(args, parameters)
@@ -388,7 +402,7 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #' @param weight_decay The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10-8 ).
 #' @param init Initializer of the weights of the network (default: “xavier”).
 #' @param hybridize Increases efficiency by using symbolic programming. (default: TRUE)
-#' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: TRUE)
+#' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #'
 #'
 #' @export
@@ -426,7 +440,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
                             num_parallel_samples = 100,
 
                             # Modeltime Args
-                            scale_by_id = TRUE
+                            scale_by_id = FALSE
 
                             ) {
 
