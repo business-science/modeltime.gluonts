@@ -52,7 +52,8 @@ test_that("nbeats: model fitting", {
     testthat::expect_equal(model_fit$fit$extras$id, "id")
     testthat::expect_equal(model_fit$fit$extras$idx_column, "date")
     testthat::expect_equal(model_fit$fit$extras$value_column, "value")
-    testthat::expect_s3_class(model_fit$fit$extras$constructed_tbl[[1]], "data.frame")
+    testthat::expect_s3_class(model_fit$fit$extras$constructed_tbl, "data.frame")
+    testthat::expect_s3_class(model_fit$fit$extras$scale_params, "data.frame")
 
     # $fit DEEPAR
 

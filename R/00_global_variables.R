@@ -1,5 +1,6 @@
 utils::globalVariables(
     names = c(
-        "new_data", "object", ".actual", ".fitted", "fail_check", ".row_id", "value", "id", "python"
+        "new_data", "object", ".actual", ".fitted", "fail_check", ".row_id", "value", "id", "python",
+        ".data_trans", ".mean", ".sd"
     )
 )

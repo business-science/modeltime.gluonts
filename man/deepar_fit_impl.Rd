@@ -36,7 +36,8 @@ deepar_fit_impl(
   scaling = TRUE,
   lags_seq = NULL,
   time_features = NULL,
-  num_parallel_samples = 100
+  num_parallel_samples = 100,
+  scale_by_id = TRUE
 )
 }
 \arguments{
@@ -110,6 +111,8 @@ This must be set if \code{use_feat_static_cat} == TRUE (default: NULL)}
 
 \item{num_parallel_samples}{Number of evaluation samples per time series to increase parallelism during inference.
 This is a model optimization that does not affect the accuracy (default: 100)}
+
+\item{scale_by_id}{Scales numeric data by \code{id} group using mean = 0, standard deviation = 1 transformation. (default: TRUE)}
 }
 \description{
 GluonTS DeepAR Modeling Function (Bridge)

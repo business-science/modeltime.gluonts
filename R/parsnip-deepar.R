@@ -388,7 +388,7 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #' @param weight_decay The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10-8 ).
 #' @param init Initializer of the weights of the network (default: “xavier”).
 #' @param hybridize Increases efficiency by using symbolic programming. (default: TRUE)
-#'
+#' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: TRUE)
 #'
 #'
 #' @export
@@ -423,7 +423,10 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
                             scaling = TRUE,
                             lags_seq = NULL,
                             time_features = NULL,
-                            num_parallel_samples = 100
+                            num_parallel_samples = 100,
+
+                            # Modeltime Args
+                            scale_by_id = TRUE
 
                             ) {
 
@@ -440,16 +443,9 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
     if (is.null(time_features)) time_features <- reticulate::py_none()
     # if (is.null(imputation_method)) imputation_method <- reticulate::py_none()
 
-    # X & Y
-    # Expect outcomes  = vector
-    # Expect predictor = data.frame
-    outcome    <- y
-    predictor  <- x
-
-
     # INDEX & PERIOD
     # Determine Period, Index Col, and Index
-    index_tbl <- modeltime::parse_index_from_data(predictor)
+    index_tbl <- modeltime::parse_index_from_data(x)
     # period    <- modeltime::parse_period_from_index(index_tbl, period)
     idx_col   <- names(index_tbl)
     idx       <- timetk::tk_index(index_tbl)
@@ -459,6 +455,25 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # VALUE COLUMN
     value_tbl <- tibble::tibble(value = y)
+
+    # PREPROCESSING
+    # - Critical to scale/center target by id
+    scale_params <- NULL
+    if (scale_by_id) {
+
+        transform_results_list <- dplyr::bind_cols(id_tbl, value_tbl) %>%
+            transformer_scaler(id = !! sym(id), value = value)
+
+        value_tbl    <- transform_results_list$transformed %>% dplyr::select(value)
+        scale_params <- transform_results_list$params
+
+    }
+
+    # FEATURE STATIC
+    # TODO
+
+    # FEATURE DYNAMIC
+    # TODO
 
     # CONSTRUCT GLUONTS LISTDATASET
     # Resources:
@@ -547,7 +562,8 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
         value_column    = "value",
         freq            = freq,
         grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
-        constructed_tbl = list(constructed_tbl)
+        constructed_tbl = constructed_tbl,
+        scale_params    = scale_params
     )
 
     # Model Description - Gets printed to describe the high-level model structure
@@ -591,7 +607,8 @@ deepar_predict_impl <- function(object, new_data) {
     id              <- object$extras$id
     idx_col         <- object$extras$idx_col
     freq            <- object$extras$freq
-    constructed_tbl <- object$extras$constructed_tbl[[1]]
+    constructed_tbl <- object$extras$constructed_tbl
+    scale_params    <- object$extras$scale_params
 
     # RECONSTRUCT GLUON DATA
     gluon_listdataset <- constructed_tbl %>%
@@ -603,13 +620,28 @@ deepar_predict_impl <- function(object, new_data) {
         )
 
     # PREDICTIONS
-    preds <- make_gluon_predictions(
+    preds_tbl <- make_gluon_predictions(
         model             = model,
         gluon_listdataset = gluon_listdataset,
         new_data          = new_data,
         id_col            = id,
         idx_col           = idx_col
     )
+
+    # RE-TRANSFORM
+    if (!is.null(scale_params)) {
+
+       preds_tbl <- inverter_scaler(
+            data   = preds_tbl,
+            id     = !! rlang::sym(id),
+            value  = value,
+            params = scale_params
+        ) %>%
+            dplyr::arrange(.row_id)
+
+    }
+
+    preds <- preds_tbl$value
 
     return(preds)
 

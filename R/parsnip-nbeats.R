@@ -433,7 +433,10 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
                             widths = list(512),
                             sharing = list(FALSE),
                             expansion_coefficient_lengths = list(32),
-                            stack_types = list("G")
+                            stack_types = list("G"),
+
+                            # Modeltime Args
+                            scale_by_id = TRUE
 
 ) {
 
@@ -453,16 +456,9 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
     stack_types <- as.list(stack_types)
 
 
-    # X & Y
-    # Expect outcomes  = vector
-    # Expect predictor = data.frame
-    outcome    <- y
-    predictor  <- x
-
-
     # INDEX & PERIOD
     # Determine Period, Index Col, and Index
-    index_tbl <- modeltime::parse_index_from_data(predictor)
+    index_tbl <- modeltime::parse_index_from_data(x)
     # period    <- modeltime::parse_period_from_index(index_tbl, period)
     idx_col   <- names(index_tbl)
     idx       <- timetk::tk_index(index_tbl)
@@ -472,6 +468,19 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # VALUE COLUMN
     value_tbl <- tibble::tibble(value = y)
+
+    # PREPROCESSING
+    # - Critical to scale/center target by id
+    scale_params <- NULL
+    if (scale_by_id) {
+
+        transform_results_list <- dplyr::bind_cols(id_tbl, value_tbl) %>%
+            transformer_scaler(id = !! sym(id), value = value)
+
+        value_tbl    <- transform_results_list$transformed %>% dplyr::select(value)
+        scale_params <- transform_results_list$params
+
+    }
 
     # CONSTRUCT GLUONTS LISTDATASET
     # Resources:
@@ -555,7 +564,8 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
         value_column    = "value",
         freq            = freq,
         grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
-        constructed_tbl = list(constructed_tbl)
+        constructed_tbl = constructed_tbl,
+        scale_params    = scale_params
     )
 
     # Model Description - Gets printed to describe the high-level model structure
@@ -599,7 +609,8 @@ nbeats_predict_impl <- function(object, new_data) {
     id              <- object$extras$id
     idx_col         <- object$extras$idx_col
     freq            <- object$extras$freq
-    constructed_tbl <- object$extras$constructed_tbl[[1]]
+    constructed_tbl <- object$extras$constructed_tbl
+    scale_params    <- object$extras$scale_params
 
     # RECONSTRUCT GLUON DATA
     gluon_listdataset <- constructed_tbl %>%
@@ -611,13 +622,28 @@ nbeats_predict_impl <- function(object, new_data) {
         )
 
     # PREDICTIONS
-    preds <- make_gluon_predictions(
+    preds_tbl <- make_gluon_predictions(
         model             = model,
         gluon_listdataset = gluon_listdataset,
         new_data          = new_data,
         id_col            = id,
         idx_col           = idx_col
     )
+
+    # RE-TRANSFORM
+    if (!is.null(scale_params)) {
+
+        preds_tbl <- inverter_scaler(
+            data   = preds_tbl,
+            id     = !! rlang::sym(id),
+            value  = value,
+            params = scale_params
+        ) %>%
+            dplyr::arrange(.row_id)
+
+    }
+
+    preds <- preds_tbl$value
 
     return(preds)
 
@@ -645,6 +671,7 @@ predict.nbeats_fit_impl <- function(object, new_data, ...) {
 #' @param sharing Whether the weights are shared with the other blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list(FALSE)` Recommended value for interpretable mode: `list(TRUE)`
 #' @param expansion_coefficient_lengths If the type is "G" (generic), then the length of the expansion coefficient. If type is "T" (trend), then it corresponds to the degree of the polynomial. If the type is "S" (seasonal) then its not used. A list of ints of length 1 or 'num_stacks'. Default value for generic mode: `list(32)` Recommended value for interpretable mode: `list(3)`
 #' @param stack_types One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list("G")` Recommended value for interpretable mode: `list("T","S")`
+#' @param scale_by_id Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: TRUE)
 #'
 #' @details
 #'
@@ -679,7 +706,10 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
                                      widths = list(512),
                                      sharing = list(FALSE),
                                      expansion_coefficient_lengths = list(32),
-                                     stack_types = list("G")
+                                     stack_types = list("G"),
+
+                                     # Modeltime Args
+                                     scale_by_id = TRUE
 
 ) {
 
@@ -704,16 +734,9 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
     num_blocks <- as.list(num_blocks)
 
 
-    # X & Y
-    # Expect outcomes  = vector
-    # Expect predictor = data.frame
-    outcome    <- y
-    predictor  <- x
-
-
     # INDEX & PERIOD
     # Determine Period, Index Col, and Index
-    index_tbl <- modeltime::parse_index_from_data(predictor)
+    index_tbl <- modeltime::parse_index_from_data(x)
     # period    <- modeltime::parse_period_from_index(index_tbl, period)
     idx_col   <- names(index_tbl)
     idx       <- timetk::tk_index(index_tbl)
@@ -723,6 +746,19 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # VALUE COLUMN
     value_tbl <- tibble::tibble(value = y)
+
+    # PREPROCESSING
+    # - Critical to scale/center target by id
+    scale_params <- NULL
+    if (scale_by_id) {
+
+        transform_results_list <- dplyr::bind_cols(id_tbl, value_tbl) %>%
+            transformer_scaler(id = !! sym(id), value = value)
+
+        value_tbl    <- transform_results_list$transformed %>% dplyr::select(value)
+        scale_params <- transform_results_list$params
+
+    }
 
     # CONSTRUCT GLUONTS LISTDATASET
     # Resources:
@@ -806,7 +842,8 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
         value_column    = "value",
         freq            = freq,
         grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
-        constructed_tbl = list(constructed_tbl)
+        constructed_tbl = constructed_tbl,
+        scale_params    = scale_params
     )
 
     # Model Description - Gets printed to describe the high-level model structure
@@ -848,7 +885,8 @@ nbeats_ensemble_predict_impl <- function(object, new_data) {
     id              <- object$extras$id
     idx_col         <- object$extras$idx_col
     freq            <- object$extras$freq
-    constructed_tbl <- object$extras$constructed_tbl[[1]]
+    constructed_tbl <- object$extras$constructed_tbl
+    scale_params    <- object$extras$scale_params
 
     # RECONSTRUCT GLUON DATA
     gluon_listdataset <- constructed_tbl %>%
@@ -860,13 +898,28 @@ nbeats_ensemble_predict_impl <- function(object, new_data) {
         )
 
     # PREDICTIONS
-    preds <- make_gluon_predictions(
+    preds_tbl <- make_gluon_predictions(
         model             = model,
         gluon_listdataset = gluon_listdataset,
         new_data          = new_data,
         id_col            = id,
         idx_col           = idx_col
     )
+
+    # RE-TRANSFORM
+    if (!is.null(scale_params)) {
+
+        preds_tbl <- inverter_scaler(
+            data   = preds_tbl,
+            id     = !! rlang::sym(id),
+            value  = value,
+            params = scale_params
+        ) %>%
+            dplyr::arrange(.row_id)
+
+    }
+
+    preds <- preds_tbl$value
 
     return(preds)
 
