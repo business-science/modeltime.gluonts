@@ -475,7 +475,7 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
     if (scale_by_id) {
 
         transform_results_list <- dplyr::bind_cols(id_tbl, value_tbl) %>%
-            transformer_scaler(id = !! sym(id), value = value)
+            transformer_scaler(id = !! rlang::sym(id), value = value)
 
         value_tbl    <- transform_results_list$transformed %>% dplyr::select(value)
         scale_params <- transform_results_list$params
@@ -559,13 +559,14 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # Extras - Pass on transformation recipe
     extras <- list(
-        id              = id,
-        idx_column      = idx_col,
-        value_column    = "value",
-        freq            = freq,
-        grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
-        constructed_tbl = constructed_tbl,
-        scale_params    = scale_params
+        id                = id,
+        idx_column        = idx_col,
+        value_column      = "value",
+        freq              = freq,
+        prediction_length = prediction_length,
+        grps              = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
+        constructed_tbl   = constructed_tbl,
+        scale_params      = scale_params
     )
 
     # Model Description - Gets printed to describe the high-level model structure
@@ -613,13 +614,13 @@ nbeats_predict_impl <- function(object, new_data) {
     scale_params    <- object$extras$scale_params
 
     # RECONSTRUCT GLUON DATA
-    gluon_listdataset <- constructed_tbl %>%
-        to_gluon_list_dataset(
-            date_var  = !! rlang::sym(idx_col),
-            value_var = value,
-            id_var    = !! rlang::sym(id),
-            freq      = freq
-        )
+    gluon_listdataset <- to_gluon_list_dataset(
+        data      = constructed_tbl,
+        date_var  = !! rlang::sym(idx_col),
+        value_var = value,
+        id_var    = !! rlang::sym(id),
+        freq      = freq
+    )
 
     # PREDICTIONS
     preds_tbl <- make_gluon_predictions(
@@ -635,7 +636,7 @@ nbeats_predict_impl <- function(object, new_data) {
 
         preds_tbl <- inverter_scaler(
             data   = preds_tbl,
-            id     = !! rlang::sym(id),
+            id     = id,
             value  = value,
             params = scale_params
         ) %>%
@@ -753,7 +754,7 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
     if (scale_by_id) {
 
         transform_results_list <- dplyr::bind_cols(id_tbl, value_tbl) %>%
-            transformer_scaler(id = !! sym(id), value = value)
+            transformer_scaler(id = !! rlang::sym(id), value = value)
 
         value_tbl    <- transform_results_list$transformed %>% dplyr::select(value)
         scale_params <- transform_results_list$params
@@ -837,13 +838,14 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
 
     # Extras - Pass on transformation recipe
     extras <- list(
-        id              = id,
-        idx_column      = idx_col,
-        value_column    = "value",
-        freq            = freq,
-        grps            = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
-        constructed_tbl = constructed_tbl,
-        scale_params    = scale_params
+        id                = id,
+        idx_column        = idx_col,
+        value_column      = "value",
+        freq              = freq,
+        prediction_length = prediction_length,
+        grps              = constructed_tbl %>% dplyr::pull(!! rlang::sym(id)) %>% unique(),
+        constructed_tbl   = constructed_tbl,
+        scale_params      = scale_params
     )
 
     # Model Description - Gets printed to describe the high-level model structure
@@ -889,13 +891,13 @@ nbeats_ensemble_predict_impl <- function(object, new_data) {
     scale_params    <- object$extras$scale_params
 
     # RECONSTRUCT GLUON DATA
-    gluon_listdataset <- constructed_tbl %>%
-        to_gluon_list_dataset(
-            date_var  = !! rlang::sym(idx_col),
-            value_var = value,
-            id_var    = !! rlang::sym(id),
-            freq      = freq
-        )
+    gluon_listdataset <- to_gluon_list_dataset(
+        data      = constructed_tbl,
+        date_var  = !! rlang::sym(idx_col),
+        value_var = value,
+        id_var    = !! rlang::sym(id),
+        freq      = freq
+    )
 
     # PREDICTIONS
     preds_tbl <- make_gluon_predictions(
@@ -911,7 +913,7 @@ nbeats_ensemble_predict_impl <- function(object, new_data) {
 
         preds_tbl <- inverter_scaler(
             data   = preds_tbl,
-            id     = !! rlang::sym(id),
+            id     = id,
             value  = value,
             params = scale_params
         ) %>%

@@ -35,6 +35,7 @@ transformer_scaler <- function(data, id, value) {
         dplyr::group_by(!! enquo(id))
 
     scale_params_tbl <- history_tbl %>%
+        dplyr::rename(id = !! enquo(id)) %>%
         dplyr::summarise(
             .mean = mean(!! enquo(value), na.rm = TRUE),
             .sd   = stats::sd(!! enquo(value), na.rm = TRUE)
@@ -52,7 +53,7 @@ inverter_scaler <- function(data, id, value, params) {
     data_inverted <- data %>%
         dplyr::group_by(!! rlang::enquo(id)) %>%
         tidyr::nest() %>%
-        dplyr::left_join(params, by = rlang::quo_name(enquo(id))) %>%
+        dplyr::left_join(params, by = rlang::quo_name(rlang::enquo(id))) %>%
         dplyr::mutate(.data_trans = purrr::pmap(.l = list(data, .mean, .sd),
                                                 .f = function(df, m, s) {
             df %>%
