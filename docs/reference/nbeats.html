@@ -85,7 +85,7 @@ There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -99,6 +99,21 @@ There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Be
 </li>
 <li>
   <a href="../articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Key Functions</a>
@@ -157,7 +172,8 @@ There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Be
   learn_rate_min <span class='op'>=</span> <span class='cn'>NULL</span>,
   patience <span class='op'>=</span> <span class='cn'>NULL</span>,
   clip_gradient <span class='op'>=</span> <span class='cn'>NULL</span>,
-  penalty <span class='op'>=</span> <span class='cn'>NULL</span>
+  penalty <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -238,6 +254,10 @@ Each of these models gets a different initialization random initialization. Defa
       <th>penalty</th>
       <td><p>The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).</p></td>
     </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Scales numeric data by <code>id</code> group using mean = 0, standard deviation = 1 transformation. (default: FALSE)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -278,6 +298,7 @@ names in each engine:</p><table class='table'>
 <tr><td>patience</td><td>patience (10)</td><td>patience (10)</td></tr>
 <tr><td>clip_gradient</td><td>clip_gradient (10)</td><td>clip_gradient (10)</td></tr>
 <tr><td>penalty</td><td>weight_decay (1e-8)</td><td>weight_decay (1e-8)</td></tr>
+<tr><td>scale</td><td>scale_by_id (FALSE)</td><td>scale_by_id (FALSE)</td></tr>
 </table>
 
 
@@ -429,7 +450,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 #&gt; Fit time:  2.3s 
 #&gt; NBEATS
 #&gt; --------
-#&gt; Model: &lt;gluonts.model.predictor.RepresentableBlockPredictor&gt;
+#&gt; Model: &lt;gluonts.mx.model.predictor.RepresentableBlockPredictor&gt;
 #&gt; 
 #&gt; gluonts.model.n_beats._network.NBEATSPredictionNetwork(context_length=48, expansion_coefficient_lengths=[32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32], num_block_layers=[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4], num_blocks=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], num_stacks=30, prediction_length=24, sharing=[False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], stack_types=["G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G"], widths=[512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512])</div><div class='input'>
 <span class='co'># ---- PREDICT ----</span>
@@ -443,7 +464,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;    .pred
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>19</span><span>002.</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>21</span><span>234.</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>

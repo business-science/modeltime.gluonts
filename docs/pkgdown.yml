@@ -3,5 +3,6 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2020-11-27T18:40Z
+  managing-envs: managing-envs.html
+last_built: 2020-12-04T21:23Z
 

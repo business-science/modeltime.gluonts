@@ -48,7 +48,7 @@ There are 2 main ways to connect an python environment to `modeltime.gluonts`:
 
 This process uses the __Conda Package Manager__ to set up a new conda environment called "r-gluonts". It's quick and easy, and most importantly the package versions that are selected all work together (I test them when developing).
 
-### Make sure you have conda
+### 1. Make sure you have conda
 
 Get the conda version. If you don't have conda, then install with `reticulate::install_miniconda()` or `reticulate::conda_install()`.
 
@@ -57,14 +57,14 @@ reticulate::conda_version()
 ``` 
 
 
-### Run this to set up the Default Environment:
+### 2. Run install_gluonts() (set up the Default Environment):
 
 ``` r
 modeltime.gluonts::install_gluonts()
 ```
 
 
-### [Optional] Modifying the Default Environment:
+### 3. [Optional] Modifying the Default Environment:
 
 You can modify this environment, adding more python libraries as needed. 
 
@@ -79,13 +79,15 @@ reticulate::py_install(
 )
 ```
 
-### Activating the Default Environment:
+### 4. Activate the Default Environment:
 
 Each time you load `library(modeltime.gluonts)`, the package will bind to the "r-gluonts" python environment by default. If found, it will automatically bind to this environment. 
 
 ``` r
 library(modeltime.gluonts)
 ```
+
+### 5. Check the Environment
 
 Make sure that the environment has been changed to the default 'r-gluonts' environment. We can see that `r-gluonts` environment is being used in the python path. 
 
@@ -103,7 +105,7 @@ knitr::include_graphics("discover_config_rgluonts.jpg")
 
 It's quite possible you may have a Virtual Environment or different Conda Environment that you would prefer to use. This is possible by setting a __System Environment Variable named 'GLUONTS_PYTHON'__ before running `library(modeltime.gluonts)`.
 
-### [GOTCHA #1] Restart R Session 
+### 1. [GOTCHA #1] Restart R Session 
 
 You will need to restart R session if you've already used a `reticulate` environment or run `library(modeltime.gluonts)`. Restarting the R Session is the only current way to disconnect from an active Python Environment. 
 
@@ -118,7 +120,7 @@ knitr::include_graphics("discover_config_reticulate.jpg")
 ```
 
 
-### Create a Custom Environment
+### 2. Create a Custom Python Environment
 
 You can create an environment containing the python packages needed. 
 
@@ -138,7 +140,7 @@ reticulate::py_install(
 )
 ```
 
-### Locate the Python Path
+### 3. Locate the Python Path
 
 This locates the path to the python executable for the 'my_gluonts_env' environment that we just created. 
 
@@ -152,7 +154,7 @@ my_gluonts_env_python_path
 #> "/Users/mdancho/Library/r-miniconda/envs/my_gluonts_env/bin/python"
 ```
 
-### Set the System Environment Variable
+### 4. Set the System Environment Variable
 
 Set the system environment variable named 'GLUONTS_PYTHON' with the path to the python executable. Once this is set, loading `library(modeltime.gluonts)` will use this path to activate the environment. 
 
@@ -167,7 +169,7 @@ Sys.getenv("GLUONTS_PYTHON")
 #> "/Users/mdancho/Library/r-miniconda/envs/my_gluonts_env/bin/python"
 ```
 
-### Load Modeltime GluonTS
+### 5. Load Modeltime GluonTS
 
 Running `library(modeltime.gluonts)` now binds to the custom environment. 
 
@@ -175,7 +177,7 @@ Running `library(modeltime.gluonts)` now binds to the custom environment.
 library(modeltime.gluonts)
 ```
 
-### [Gotcha #2] Check Your Environment
+### 6. [Gotcha #2] Check Your Environment
 
 Make sure that the environment has been changed to the default reticulate environment. We can see that  environment is being used. If setting your python environment was done properly, you should see `my_gluonts_env` in the Python Path. 
 

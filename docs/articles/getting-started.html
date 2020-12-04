@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -51,6 +51,21 @@
 </li>
 <li>
   <a href="../articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Key Functions</a>
@@ -117,7 +132,7 @@
 <a href="#troubleshooting-installation" class="anchor"></a>Troubleshooting Installation</h3>
 <p>Python Environment setup is always fun. Here are a few recommendations if you run into an issue.</p>
 <ul>
-<li><p><strong>Check to make sure Conda is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">reticulate::conda_version()</a></code>. If no conda version is returned, then use <code><a href="https://rdrr.io/pkg/reticulate/man/install_miniconda.html">reticulate::install_miniconda()</a></code> to install. Then (re-)run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>.</p></li>
+<li><p><strong>Check to make sure Conda or Miniconda is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">reticulate::conda_version()</a></code>. If no conda version is returned, then use <code><a href="https://rdrr.io/pkg/reticulate/man/install_miniconda.html">reticulate::install_miniconda()</a></code> to install. Then (re-)run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>.</p></li>
 <li><p><strong>Check if GluonTS (Python) is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/py_module_available.html">reticulate::py_module_available("gluonts")</a></code>. If this returns <code>TRUE</code>, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).</p></li>
 <li><p><strong>Windows 10 error: Microsoft Visual C++ is required.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues/4">Here are the instructions for installing the C++ tools needed.</a></p></li>
 <li><p><strong>Other installation issues.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues">Please file a GitHub issue here.</a></p></li>

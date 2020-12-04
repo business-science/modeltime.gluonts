@@ -44,7 +44,7 @@
 using reticulate::py_install().
 A Python Environment will be created
 named r-gluonts.
-The Modletime GluonTS R package will connect to the r-gluonts Python environment to use GluonTS
+The Modletime GluonTS R package will connect to the r-gluonts Python environment
 
 " />
 
@@ -88,7 +88,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -102,6 +102,21 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
 </li>
 <li>
   <a href="../articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Key Functions</a>
@@ -140,7 +155,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
 using <code><a href='https://rdrr.io/pkg/reticulate/man/py_install.html'>reticulate::py_install()</a></code>.</p><ul>
 <li><p>A <code>Python</code> Environment will be created
 named <code>r-gluonts</code>.</p></li>
-<li><p>The Modletime GluonTS R package will connect to the <code>r-gluonts</code> Python environment to use <code>GluonTS</code></p></li>
+<li><p>The Modletime GluonTS R package will connect to the <code>r-gluonts</code> Python environment</p></li>
 </ul>
 
     </div>
@@ -148,6 +163,11 @@ named <code>r-gluonts</code>.</p></li>
     <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><strong>Package Manager Support (Python Environment)</strong></p>
+<p>Currently, <code>install_gluonts()</code> supports Conda and Miniconda Environments.</p>
+<p>Virtual Environments are not currently supported.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

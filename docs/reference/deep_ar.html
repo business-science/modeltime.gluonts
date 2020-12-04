@@ -84,7 +84,7 @@ different packages. Currently the only package is gluonts." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -98,6 +98,21 @@ different packages. Currently the only package is gluonts." />
 </li>
 <li>
   <a href="../articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Key Functions</a>
@@ -155,7 +170,8 @@ different packages. Currently the only package is <code>gluonts</code>.</p>
   learn_rate_min <span class='op'>=</span> <span class='cn'>NULL</span>,
   patience <span class='op'>=</span> <span class='cn'>NULL</span>,
   clip_gradient <span class='op'>=</span> <span class='cn'>NULL</span>,
-  penalty <span class='op'>=</span> <span class='cn'>NULL</span>
+  penalty <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -236,6 +252,10 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
       <th>penalty</th>
       <td><p>The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default 10-8 ).</p></td>
     </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Scales numeric data by <code>id</code> group using mean = 0, standard deviation = 1 transformation. (default: FALSE)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -275,6 +295,7 @@ names in each engine:</p><table class='table'>
 <tr><td>num_layers</td><td>num_layers (2)</td></tr>
 <tr><td>num_cells</td><td>num_cells (40)</td></tr>
 <tr><td>dropout</td><td>dropout_rate (0.1)</td></tr>
+<tr><td>scale</td><td>scale_by_id (FALSE)</td></tr>
 </table>
 
 
@@ -400,12 +421,12 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 <span class='va'>model_fitted</span>
 </div><div class='output co'>#&gt; parsnip model object
 #&gt; 
-#&gt; Fit time:  863ms 
+#&gt; Fit time:  969ms 
 #&gt; DeepAR
 #&gt; --------
-#&gt; Model: &lt;gluonts.model.predictor.RepresentableBlockPredictor&gt;
+#&gt; Model: &lt;gluonts.mx.model.predictor.RepresentableBlockPredictor&gt;
 #&gt; 
-#&gt; gluonts.model.deepar._network.DeepARPredictionNetwork(cardinality=[1], cell_type="lstm", context_length=24, distr_output=gluonts.distribution.student_t.StudentTOutput(), dropout_rate=0.1, dtype=numpy.float32, embedding_dimension=[1], history_length=61, lags_seq=[1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 23, 24, 25, 35, 36, 37], num_cells=40, num_layers=2, num_parallel_samples=100, prediction_length=24, scaling=True)</div><div class='input'>
+#&gt; gluonts.model.deepar._network.DeepARPredictionNetwork(cardinality=[1], cell_type="lstm", context_length=24, distr_output=gluonts.mx.distribution.student_t.StudentTOutput(), dropout_rate=0.1, dropoutcell_type="ZoneoutCell", dtype=numpy.float32, embedding_dimension=[1], history_length=61, lags_seq=[1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 23, 24, 25, 35, 36, 37], num_cells=40, num_layers=2, num_parallel_samples=100, prediction_length=24, scaling=True)</div><div class='input'>
 <span class='co'># ---- PREDICT ----</span>
 <span class='co'># - IMPORTANT: New Data must have id and date features</span>
 <span class='va'>new_data</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
@@ -417,7 +438,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;    .pred
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>12</span><span>365.</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>12</span><span>323.</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>

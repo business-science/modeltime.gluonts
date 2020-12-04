@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -95,6 +95,21 @@
 </li>
 <li>
   <a href="../articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">Key Functions</a>
@@ -127,11 +142,54 @@
       <small>Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="modeltimegluonts-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#modeltimegluonts-development-version" class="anchor"></a>modeltime.gluonts (development version)<small> Unreleased </small>
+</h1>
+<div id="documentation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h3>
+<ul>
+<li>
+<strong>New Vignette:</strong> <a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html">Managing GluonTS Environments</a>
+</li>
+</ul>
+</div>
+<div id="new-features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h3>
+<ul>
+<li><p><strong>Internal Scaling by Group:</strong> After significant testing it appears that some data sets return better results when the data is scaled by time series “id” (group). To help facilitate this, a new option is available scale by id: <code>scale = TRUE</code>.</p></li>
+<li><p><strong>Custom Python Environments:</strong> Provide an option for setting a Custom Python Environment by supplying a <code>GLUONTS_PYTHON</code> environment variable. Before running <code><a href="https://github.com/business-science/modeltime.gluonts">library(modeltime.gluonts)</a></code> use <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> to set the path of your python executable in a Conda or Virtual Environment that has ‘gluonts’, ‘mxnet’, ‘numpy’, ‘pandas’ and ‘pathlib’ available as dependencies.</p></li>
+</ul>
+</div>
+<div id="fixes--improvements" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fixes--improvements" class="anchor"></a>Fixes &amp; Improvements</h3>
+<ul>
+<li>
+<strong>GluonTS 0.6.3 Upgrade:</strong> <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> now uses <code>gluonts==0.6.3</code>. This upgrade improves forecast accuracy.</li>
+<li>CRAN Comment - Add <code>SystemRequirements</code>: GluonTS.</li>
+<li>CRAN Comment - Fix <code>.onLoad</code> message to provide options for configuring the Python Environment.</li>
+</ul>
+</div>
+</div>
     <div id="modeltimegluonts-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#modeltimegluonts-010" class="anchor"></a>modeltime.gluonts 0.1.0</h1>
+<a href="#modeltimegluonts-010" class="anchor"></a>modeltime.gluonts 0.1.0<small> 2020-11-30 </small>
+</h1>
 <ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+<li>
+<p><strong>Models:</strong> Initial Release incorporates 2 GluonTS Algorithms:</p>
+<ul>
+<li>
+<code>deepar()</code>: Integrates GluonTS DeepAREstimator</li>
+<li>
+<code><a href="../reference/nbeats.html">nbeats()</a></code>: Integrates N-BEATS &amp; N-BEATS Ensemble Estimators</li>
+</ul>
+</li>
+<li><p><strong>New Vignette:</strong> <a href="https://business-science.github.io/modeltime.gluonts/articles/getting-started.html">Getting Started</a></p></li>
+<li><p><strong>Website:</strong> <a href="https://business-science.github.io/modeltime.gluonts/">Modeltime GluonTS</a></p></li>
 </ul>
 </div>
   </div>

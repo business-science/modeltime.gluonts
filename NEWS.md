@@ -1,5 +1,8 @@
 # modeltime.gluonts (development version)
 
+### Documentation
+
+- __New Vignette:__ [Managing GluonTS Environments](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html)
 
 ### New Features
 
@@ -15,7 +18,11 @@
 
 # modeltime.gluonts 0.1.0
 
-* Initial Release incorporates 2 GluonTS Algorithms:
+* __Models:__ Initial Release incorporates 2 GluonTS Algorithms:
 
     - `deepar()`: Integrates GluonTS DeepAREstimator
     - `nbeats()`: Integrates N-BEATS & N-BEATS Ensemble Estimators
+    
+* __New Vignette:__ [Getting Started](https://business-science.github.io/modeltime.gluonts/articles/getting-started.html)
+
+* __Website:__ [Modeltime GluonTS](https://business-science.github.io/modeltime.gluonts/)

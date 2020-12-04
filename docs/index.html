@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -55,6 +55,21 @@
 </li>
 <li>
   <a href="articles/getting-started.html">Getting Started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Documentation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/getting-started.html">Getting Started</a>
+    </li>
+    <li>
+      <a href="articles/managing-envs.html">Managing GluonTS Environments</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="reference/index.html">Key Functions</a>
@@ -134,19 +149,89 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>modeltime.gluonts</code> is currently available on GitHub only. <strong>Not on CRAN yet.</strong></p>
+<p>There are 2 key components to installing Modeltime GluonTS:</p>
+<ol>
+<li><p>Download the R-Package, <code>modeltime.gluonts</code>. This installs the R-Bindings, which allows you to interface with GluonTS.</p></li>
+<li><p>Set up the Python Environment so <code>modeltime.gluonts</code> can connect to the <code>gluonts</code> python package.</p></li>
+</ol>
+<div id="step-1---download--install-modeltime-gluonts" class="section level3">
+<h3 class="hasAnchor">
+<a href="#step-1---download--install-modeltime-gluonts" class="anchor"></a>Step 1 - Download &amp; Install Modeltime GluonTS</h3>
+<p>Download the latest development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"business-science/modeltime.gluonts"</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="required-python-environment-setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#required-python-environment-setup" class="anchor"></a>Required: Python Environment Setup</h2>
-<p><strong>Important:</strong> Use <code><a href="reference/install_gluonts.html">install_gluonts()</a></code> to set up the “r-gluonts” <code>python</code> environment used by <code>modeltime.gluonts</code>. You only need to do this once, when you first set up the package.</p>
+<p>Download the CRAN version:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"modeltime.gluonts"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="step-2---python-environment-setup" class="section level3">
+<h3 class="hasAnchor">
+<a href="#step-2---python-environment-setup" class="anchor"></a>Step 2 - Python Environment Setup</h3>
+<p>Next, you’ll need to set up a Python Environment that contains at a minimum:</p>
+<ul>
+<li><code>gluonts</code></li>
+<li><code>mxnet</code></li>
+<li><code>pandas</code></li>
+<li><code>numpy</code></li>
+<li><code>pathlib</code></li>
+</ul>
+<p>The python environment then needs to be activated with <code>reticulate</code>.</p>
+<p><strong>Fast GluonTS Setup</strong></p>
+<p>You can use <code><a href="reference/install_gluonts.html">install_gluonts()</a></code> to prepare and bind to a python environment containing <code>gluonts</code> and the required python packages. You only need to run this one time, and then you are good to go. Each time you load <code>modeltime.gluonts</code>, the package will include this environment in it’s search process.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># GluonTS Installation</span>
 <span class="co"># - This sets up the Python Environment</span>
 <span class="co"># - Only need to run 1-time, then you're set!</span>
+
 <span class="fu"><a href="reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="step-3---restart-r-and-try-an-example" class="section level3">
+<h3 class="hasAnchor">
+<a href="#step-3---restart-r-and-try-an-example" class="anchor"></a>Step 3 - Restart R and Try an Example</h3>
+<p>Restart your R session (if in RStudio, close and re-open). Then try this example.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.gluonts">modeltime.gluonts</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+
+<span class="co"># Fit a GluonTS DeepAR Model</span>
+<span class="va">model_fit_deepar</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/deep_ar.html">deep_ar</a></span><span class="op">(</span>
+    id                    <span class="op">=</span> <span class="st">"id"</span>,
+    freq                  <span class="op">=</span> <span class="st">"M"</span>,
+    prediction_length     <span class="op">=</span> <span class="fl">24</span>,
+    lookback_length       <span class="op">=</span> <span class="fl">36</span>,
+    epochs                <span class="op">=</span> <span class="fl">10</span>, 
+    num_batches_per_epoch <span class="op">=</span> <span class="fl">50</span>,
+    learn_rate            <span class="op">=</span> <span class="fl">0.001</span>,
+    num_layers            <span class="op">=</span> <span class="fl">2</span>,
+    dropout               <span class="op">=</span> <span class="fl">0.10</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_deepar"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">.</span>, <span class="fu">training</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Forecast with 95% Confidence Interval</span>
+<span class="fu">modeltime_table</span><span class="op">(</span>
+    <span class="va">model_fit_deepar</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">modeltime_calibrate</span><span class="op">(</span>new_data <span class="op">=</span> <span class="fu">testing</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">modeltime_forecast</span><span class="op">(</span>
+        new_data      <span class="op">=</span> <span class="fu">testing</span><span class="op">(</span><span class="va">m750_splits</span><span class="op">)</span>,
+        actual_data   <span class="op">=</span> <span class="va">m750</span>,
+        conf_interval <span class="op">=</span> <span class="fl">0.95</span>
+    <span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">plot_modeltime_forecast</span><span class="op">(</span>.interactive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div id="troubleshooting-installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#troubleshooting-installation" class="anchor"></a>Troubleshooting Installation</h2>
+<p>Python Environment setup is always fun. Here are a few recommendations if you run into an issue.</p>
+<ul>
+<li><p><strong>Check to make sure Conda or Miniconda is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">reticulate::conda_version()</a></code>. If no conda version is returned, then use <code><a href="https://rdrr.io/pkg/reticulate/man/install_miniconda.html">reticulate::install_miniconda()</a></code> to install Miniconda (recommended vs full Aniconda). Then (re-)run <code><a href="reference/install_gluonts.html">install_gluonts()</a></code>.</p></li>
+<li><p><strong>Check if GluonTS (Python) is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/py_module_available.html">reticulate::py_module_available("gluonts")</a></code>. If this returns <code>TRUE</code>, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).</p></li>
+<li><p><strong>Windows 10 error: Microsoft Visual C++ is required.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues/4">Here are the instructions for installing the C++ tools needed.</a></p></li>
+<li><p><strong>Other installation issues.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues">Please file a GitHub issue here.</a></p></li>
+</ul>
 </div>
 </div>
 <div id="learning-more" class="section level1">
@@ -180,6 +265,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=modeltime.gluonts">https://​cloud.r-project.org/​package=modeltime.gluonts</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/business-science/modeltime.gluonts">https://​github.com/​business-science/​modeltime.gluonts</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/business-science/modeltime.gluonts/issues">https://​github.com/​business-science/​modeltime.gluonts/​issues</a>
