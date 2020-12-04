@@ -12,11 +12,11 @@ using \code{reticulate::py_install()}.
 \itemize{
 \item A \code{Python} Environment will be created
 named \code{r-gluonts}.
-\item The Modletime GluonTS R package will connect to the \code{r-gluonts} Python environment to use \code{GluonTS}
+\item The Modletime GluonTS R package will connect to the \code{r-gluonts} Python environment
 }
 }
 \details{
-\strong{Python Environment Manager Support}
+\strong{Package Manager Support (Python Environment)}
 
 Currently, \code{install_gluonts()} supports Conda and Miniconda Environments.
 

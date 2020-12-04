@@ -4,11 +4,11 @@
 #' using `reticulate::py_install()`.
 #' - A `Python` Environment will be created
 #' named `r-gluonts`.
-#' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment to use `GluonTS`
+#' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment
 #'
 #' @details
 #'
-#' __Python Environment Manager Support__
+#' __Package Manager Support (Python Environment)__
 #'
 #' Currently, `install_gluonts()` supports Conda and Miniconda Environments.
 #'
