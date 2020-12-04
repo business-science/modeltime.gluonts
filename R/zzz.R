@@ -51,13 +51,11 @@ pkg.env$np         <- NULL
         make_deep_ar()
         make_nbeats()
 
-
     } else {
-
-        msg_no_gluonts()
-
+        if (interactive()) {
+            msg_no_gluonts()
+        }
     }
-
 }
 
 # UTILITIES ----
@@ -94,30 +92,16 @@ activate_gluonts <- function() {
             # message("GluonTS Please use 'install_gluonts()' to install the core GluonTS library.")
             pkg.env$activated <- FALSE
 
-        } else if (conda_envs_found == 1) {
+        } else {
 
-            # Option 2A: "r-gluonts" environment found
-            reticulate::use_condaenv(pkg.env$conda_envs$name, required = TRUE)
-            pkg.env$activated <- TRUE
-
-        } else if (conda_envs_found > 1) {
-
-            # Option 2B: More than one "r-gluonts"-like environments found
-            # packageStartupMessage("Multiple 'r-gluonts' python environments found.")
-            # print(pkg.env$conda_envs)
-            #
-            # message("\nUsing: ")
+            # Option 2B: One or more "r-gluonts"-like environments found
+            # - Use the first one
             pkg.env$conda_envs <- pkg.env$conda_envs %>% dplyr::slice(1)
-            # print(pkg.env$conda_envs)
-
             reticulate::use_condaenv(pkg.env$conda_envs$name, required = TRUE)
             pkg.env$activated <- TRUE
 
         }
     }
-
-
-
 }
 
 check_python_dependencies <- function() {
