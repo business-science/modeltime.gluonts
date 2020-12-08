@@ -18,7 +18,7 @@ Roxygen: list(markdown = TRUE)
 Depends:
     modeltime (>= 0.3.1)
 Imports: 
-    parsnip,
+    parsnip (>= 0.1.4),
     timetk, 
     magrittr,
     rlang (>= 0.1.2),
