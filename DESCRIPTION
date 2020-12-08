@@ -19,13 +19,13 @@ Depends:
     modeltime (>= 0.3.1)
 Imports: 
     parsnip (>= 0.1.4),
-    timetk, 
+    timetk (>= 2.6.0), 
     magrittr,
     rlang (>= 0.1.2),
-    reticulate,
+    reticulate (>= 1.18),
     tibble, 
     forcats, 
-    dplyr,
+    dplyr (>= 1.0.0),
     tidyr,
     purrr,
     stringr,
