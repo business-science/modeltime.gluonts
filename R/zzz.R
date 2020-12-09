@@ -4,61 +4,8 @@
 #' @import modeltime
 #' @importFrom reticulate py
 
-# PACKAGE ENVIRONMENT SETUP ----
 
-detect_conda_env <- function() {
-
-    ret <- NULL
-    tryCatch({
-        ret <- reticulate::conda_list() %>%
-            dplyr::filter(stringr::str_detect(python, pkg.env$env_name))
-    }, error = function(e) {
-        ret <- NULL
-    })
-
-    return(ret)
-
-}
-
-pkg.env            <- new.env()
-pkg.env$env_name   <- "r-gluonts"
-pkg.env$activated  <- FALSE
-pkg.env$conda_envs <- detect_conda_env()
-# Move Python Imports to Package Environment
-# - CRAN comment: Cannot use <<- to modify Global env
-pkg.env$gluonts    <- NULL
-pkg.env$pathlib    <- NULL
-pkg.env$pd         <- NULL
-pkg.env$np         <- NULL
-
-
-# ONLOAD ----
-
-.onLoad <- function(libname, pkgname) {
-
-    activate_gluonts()
-
-    if (pkg.env$activated && check_python_dependencies()) {
-
-        # LOAD PYTHON LIBRARIES ----
-        pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
-        pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
-        pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
-        pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
-
-        # LOAD MODELS ----
-
-        make_deep_ar()
-        make_nbeats()
-
-    } else {
-        if (interactive()) {
-            msg_no_gluonts()
-        }
-    }
-}
-
-# UTILITIES ----
+# ONLOAD UTILITIES ----
 
 msg_no_gluonts <- function() {
     packageStartupMessage(
@@ -113,6 +60,64 @@ check_python_dependencies <- function() {
         reticulate::py_module_available("pathlib")
     )
 }
+
+detect_conda_env <- function() {
+
+    ret <- NULL
+    tryCatch({
+        ret <- reticulate::conda_list() %>%
+            dplyr::filter(stringr::str_detect(python, pkg.env$env_name))
+    }, error = function(e) {
+        ret <- NULL
+    })
+
+    return(ret)
+
+}
+
+
+# PACKAGE ENVIRONMENT SETUP ----
+
+pkg.env            <- new.env()
+pkg.env$env_name   <- "r-gluonts"
+pkg.env$activated  <- FALSE
+pkg.env$conda_envs <- detect_conda_env()
+# Move Python Imports to Package Environment
+# - CRAN comment: Cannot use <<- to modify Global env
+pkg.env$gluonts    <- NULL
+pkg.env$pathlib    <- NULL
+pkg.env$pd         <- NULL
+pkg.env$np         <- NULL
+
+
+# ONLOAD ----
+
+.onLoad <- function(libname, pkgname) {
+
+    activate_gluonts()
+
+    if (pkg.env$activated && check_python_dependencies()) {
+
+        # LOAD PYTHON LIBRARIES ----
+        pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
+        pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
+        pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
+        pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
+
+
+    } else {
+        # if (interactive()) {
+        #     msg_no_gluonts()
+        # }
+        msg_no_gluonts()
+    }
+
+    # LOAD MODELS ----
+
+    make_deep_ar()
+    make_nbeats()
+}
+
 
 
 
