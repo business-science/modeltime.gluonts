@@ -61,10 +61,11 @@ pkg.env$np         <- NULL
 
 
     } else {
-        # if (interactive()) {
-        #     msg_no_gluonts()
-        # }
-        msg_no_gluonts()
+        if (interactive()) {
+            msg_no_gluonts()
+        }
+
+        # msg_no_gluonts()
     }
 
     # LOAD MODELS ----
