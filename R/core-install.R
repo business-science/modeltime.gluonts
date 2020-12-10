@@ -51,6 +51,8 @@ install_gluonts <- function() {
         "pathlib==1.0.1"
     )
 
+    cli::cli_process_start("Installing gluonts python dependencies...")
+    message("\n")
     reticulate::py_install(
         packages       = default_pkgs,
         envname        = "r-gluonts",
@@ -60,7 +62,12 @@ install_gluonts <- function() {
         pip            = TRUE
     )
 
-    message("\nPlease restart your R Session and run `library(modeltime.gluonts)` to activate the 'r-gluonts' python environment.")
+    if (!is.null(detect_default_gluonts_env())) {
+        cli::cli_process_done(msg_done = "The {.field r-gluonts} conda environment has been created.")
+        cli::cli_alert_info("Please restart your R Session and run {.code library(modeltime.gluonts)} to activate the {.field r-gluonts} environment.")
+    } else {
+        cli::cli_process_failed(msg_failed = "The {.field r-gluonts} conda environment could not be created.")
+    }
 
 }
 

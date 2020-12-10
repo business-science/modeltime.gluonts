@@ -14,7 +14,7 @@ msg_no_gluonts <- function() {
 
     cli::cli_alert_info("Available Options: ")
     cli::cli_ol(id = "gluonts_installation_options")
-    cli::cli_li("{.strong [Recommended]} {.emph Use the Pre-Configured {.field 'r-gluonts'} Environment.} Use {.code install_gluonts()} to install GluonTS Python Dependencies into a conda environment named {.field 'r-gluonts'}.")
+    cli::cli_li("{.strong [Recommended]} {.emph Use the Pre-Configured {.field r-gluonts} Environment.} Use {.code install_gluonts()} to install GluonTS Python Dependencies into a conda environment named {.field r-gluonts}.")
     cli::cli_li("{.strong [Advanced]} {.emph Use a Custom Python Environment.} Before running {.code library(modeltime.gluonts)}, use {.code Sys.setenv(GLUONTS_PYTHON = 'path/to/python')} to set the path of your python executable that is located in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas', and 'pathlib' available as dependencies.")
     cli::cli_end("gluonts_installation_options")
 
