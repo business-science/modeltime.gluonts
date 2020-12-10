@@ -8,72 +8,25 @@
 # ONLOAD UTILITIES ----
 
 msg_no_gluonts <- function() {
-    packageStartupMessage(
-        "* GluonTS Python Dependencies Not Found *\n",
-        "  Available options:\n",
-        "    - [Recommended] Use Pre-Configured Python Environment: Use `install_gluonts()` to\n",
-        "       install GluonTS Python Libraries into a conda environment named 'r-gluonts'.\n",
-        "    - Use a Custom Python Environment: Before running `library(modeltime.gluonts)`, \n",
-        "       use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your \n",
-        "       python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas', \n",
-        "       and 'pathlib' available as dependencies."
-    )
-}
 
-activate_gluonts <- function() {
+    cli::cli_h1("Python Dependency Check {.pkg modeltime.gluonts}")
+    cli::cli_alert_danger('GluonTS Python Dependencies Not Found')
 
-    gluonts_python <- Sys.getenv("GLUONTS_PYTHON", unset = NA)
-    if (!is.na(gluonts_python)) {
-        Sys.setenv('RETICULATE_PYTHON' = gluonts_python)
-        pkg.env$activated <- TRUE
-    }
-    # gluonts_python <- NA
+    cli::cli_alert_info("Available Options: ")
+    cli::cli_ol(id = "gluonts_installation_options")
+    cli::cli_li("{.strong [Recommended]} {.emph Use the Pre-Configured {.field 'r-gluonts'} Environment.} Use {.code install_gluonts()} to install GluonTS Python Dependencies into a conda environment named {.field 'r-gluonts'}.")
+    cli::cli_li("{.strong [Advanced]} {.emph Use a Custom Python Environment.} Before running {.code library(modeltime.gluonts)}, use {.code Sys.setenv(GLUONTS_PYTHON = 'path/to/python')} to set the path of your python executable that is located in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas', and 'pathlib' available as dependencies.")
+    cli::cli_end("gluonts_installation_options")
 
-    if (is.na(gluonts_python)) {
 
-        conda_envs_found <- nrow(pkg.env$conda_envs)
+    cli::cli_text("Refer to {.code ?install_gluonts} for more details.")
 
-        if (is.null(conda_envs_found) || conda_envs_found == 0 ) {
+    cli::cli_h1("End Python Dependency Check")
 
-            # Could not activate environment
-            # message("GluonTS Please use 'install_gluonts()' to install the core GluonTS library.")
-            pkg.env$activated <- FALSE
-
-        } else {
-
-            # Option 2B: One or more "r-gluonts"-like environments found
-            # - Use the first one
-            pkg.env$conda_envs <- pkg.env$conda_envs %>% dplyr::slice(1)
-            reticulate::use_condaenv(pkg.env$conda_envs$name, required = TRUE)
-            pkg.env$activated <- TRUE
-
-        }
-    }
-}
-
-check_python_dependencies <- function() {
-    all(
-        reticulate::py_module_available("numpy"),
-        reticulate::py_module_available("pandas"),
-        reticulate::py_module_available("gluonts"),
-        reticulate::py_module_available("mxnet"),
-        reticulate::py_module_available("pathlib")
-    )
-}
-
-detect_conda_env <- function() {
-
-    ret <- NULL
-    tryCatch({
-        ret <- reticulate::conda_list() %>%
-            dplyr::filter(stringr::str_detect(python, pkg.env$env_name))
-    }, error = function(e) {
-        ret <- NULL
-    })
-
-    return(ret)
 
 }
+
+
 
 
 # PACKAGE ENVIRONMENT SETUP ----
@@ -81,7 +34,9 @@ detect_conda_env <- function() {
 pkg.env            <- new.env()
 pkg.env$env_name   <- "r-gluonts"
 pkg.env$activated  <- FALSE
-pkg.env$conda_envs <- detect_conda_env()
+pkg.env$conda_envs <- detect_default_gluonts_env()
+
+# PYTHON DEPENDENCIES ----
 # Move Python Imports to Package Environment
 # - CRAN comment: Cannot use <<- to modify Global env
 pkg.env$gluonts    <- NULL
@@ -96,7 +51,7 @@ pkg.env$np         <- NULL
 
     activate_gluonts()
 
-    if (pkg.env$activated && check_python_dependencies()) {
+    if (is_gluonts_activated() && check_gluonts_dependencies()) {
 
         # LOAD PYTHON LIBRARIES ----
         pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
@@ -116,6 +71,7 @@ pkg.env$np         <- NULL
 
     make_deep_ar()
     make_nbeats()
+
 }
 
 

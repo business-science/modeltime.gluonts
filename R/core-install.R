@@ -8,11 +8,22 @@
 #'
 #' @details
 #'
+#' __Options for Connecting to Python__
+#'
+#' - __Recommended__ _Use Pre-Configured Python Environment:_ Use `install_gluonts()` to
+#'    install GluonTS Python Libraries into a conda environment named 'r-gluonts'.
+#' - __Advanced__ _Use a Custom Python Environment:_ Before running `library(modeltime.gluonts)`,
+#'    use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your
+#'    python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas',
+#'    and 'pathlib' available as dependencies.
+#'
 #' __Package Manager Support (Python Environment)__
 #'
-#' Currently, `install_gluonts()` supports Conda and Miniconda Environments.
+#' - __Conda Environments:__ Currently, `install_gluonts()` supports Conda and Miniconda Environments.
 #'
-#' Virtual Environments are not currently supported.
+#' - __Virtual Environments:__ are not currently supported with the default installation method, `install_gluonts()`.
+#'    However, you can connect to virtual environment that you have created using
+#'     `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` prior to running `library(modeltime.ensemble)`.
 #'
 #' @examples
 #' \dontrun{
@@ -48,6 +59,8 @@ install_gluonts <- function() {
         python_version = "3.6",
         pip            = TRUE
     )
+
+    message("\nPlease restart your R Session and run `library(modeltime.gluonts)` to activate the 'r-gluonts' python environment.")
 
 }
 
