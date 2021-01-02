@@ -1,4 +1,4 @@
-# modeltime.gluonts (development version)
+# modeltime.gluonts 0.2.0
 
 ### Documentation
 
