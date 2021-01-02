@@ -88,7 +88,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -128,7 +128,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/business-science/modeltime.gluonts">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -165,9 +165,22 @@ named <code>r-gluonts</code>.</p></li>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>Package Manager Support (Python Environment)</strong></p>
-<p>Currently, <code>install_gluonts()</code> supports Conda and Miniconda Environments.</p>
-<p>Virtual Environments are not currently supported.</p>
+    <p><strong>Options for Connecting to Python</strong></p><ul>
+<li><p><strong>Recommended</strong> <em>Use Pre-Configured Python Environment:</em> Use <code>install_gluonts()</code> to
+install GluonTS Python Libraries into a conda environment named 'r-gluonts'.</p></li>
+<li><p><strong>Advanced</strong> <em>Use a Custom Python Environment:</em> Before running <code><a href='https://github.com/business-science/modeltime.gluonts'>library(modeltime.gluonts)</a></code>,
+use <code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> to set the path of your
+python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas',
+and 'pathlib' available as dependencies.</p></li>
+</ul>
+
+<p><strong>Package Manager Support (Python Environment)</strong></p><ul>
+<li><p><strong>Conda Environments:</strong> Currently, <code>install_gluonts()</code> supports Conda and Miniconda Environments.</p></li>
+<li><p><strong>Virtual Environments:</strong> are not currently supported with the default installation method, <code>install_gluonts()</code>.
+However, you can connect to virtual environment that you have created using
+<code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> prior to running <code><a href='https://github.com/business-science/modeltime.ensemble'>library(modeltime.ensemble)</a></code>.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
