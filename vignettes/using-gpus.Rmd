@@ -44,7 +44,7 @@ reticulate::py_install(
         # IMPORTANT
         "mxnet-cu92", # replace `cu92` according to your CUDA version.
         
-        "gluonts==0.6.3",
+        "gluonts",
         "pandas",
         "numpy",
         "pathlib"
@@ -77,7 +77,7 @@ mxnet <- reticulate::import("mxnet-cu92")
 Now you can set your algorithms to use GPUs using the `ctx` parameter from GluonTS models. 
 
 ``` r
-deep_ar_model <- deep_ar() %>% 
+model_spec <- deep_ar() %>% 
    set_engine("gluonts_deepar", ctx = mxnet$gpu())
 ```
 

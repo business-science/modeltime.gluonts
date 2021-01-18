@@ -133,7 +133,7 @@
         <span class="co"># IMPORTANT</span>
         <span class="st">"mxnet-cu92"</span>, <span class="co"># replace `cu92` according to your CUDA version.</span>
         
-        <span class="st">"gluonts==0.6.3"</span>,
+        <span class="st">"gluonts"</span>,
         <span class="st">"pandas"</span>,
         <span class="st">"numpy"</span>,
         <span class="st">"pathlib"</span>
@@ -162,7 +162,7 @@
 <span class="va">mxnet</span> <span class="op">&lt;-</span> <span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/import.html">import</a></span><span class="op">(</span><span class="st">"mxnet-cu92"</span><span class="op">)</span> </code></pre></div>
 <p>Now you can set your algorithms to use GPUs using the <code>ctx</code> parameter from GluonTS models.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">deep_ar_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deep_ar.html">deep_ar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">model_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deep_ar.html">deep_ar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
    <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_deepar"</span>, ctx <span class="op">=</span> <span class="va">mxnet</span><span class="op">$</span><span class="fu">gpu</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="step-4---train-your-model-using-gpus" class="section level2">
