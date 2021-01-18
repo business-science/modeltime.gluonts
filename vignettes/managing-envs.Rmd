@@ -101,7 +101,7 @@ knitr::include_graphics("discover_config_rgluonts.jpg")
 
 
 
-## Method 2: Custom Python Environment
+## Method 2: Custom GluonTS Python Environments
 
 It's quite possible you may have a Virtual Environment or different Conda Environment that you would prefer to use. This is possible by setting a __System Environment Variable named 'GLUONTS_PYTHON'__ before running `library(modeltime.gluonts)`.
 

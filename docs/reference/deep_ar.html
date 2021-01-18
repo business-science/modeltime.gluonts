@@ -112,6 +112,9 @@ different packages. Currently the only package is gluonts." />
     <li>
       <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
     </li>
+    <li>
+      <a href="../articles/using-gpus.html">Using GPUs with GluonTS</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -365,9 +368,9 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ────────────────────────────────────── tidymodels 0.1.2 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>broom    </span><span> 0.7.3          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>recipes  </span><span> 0.1.15    </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dials    </span><span> 0.0.9.</span><span style='color: #BB0000;'>9000</span><span>     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>rsample  </span><span> 0.0.8.</span><span style='color: #BB0000;'>9000</span><span></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dplyr    </span><span> 1.0.2          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tibble   </span><span> 3.0.4     </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dplyr    </span><span> 1.0.3          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tibble   </span><span> 3.0.5     </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>ggplot2  </span><span> 3.3.3          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tidyr    </span><span> 1.1.2     </span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>infer    </span><span> 0.5.3          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tune     </span><span> 0.1.2     </span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>infer    </span><span> 0.5.4          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tune     </span><span> 0.1.2     </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>modeldata</span><span> 0.1.0          </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>workflows</span><span> 0.2.1.</span><span style='color: #BB0000;'>9000</span><span></span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>parsnip  </span><span> 0.1.4.</span><span style='color: #BB0000;'>9000</span><span>     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>yardstick</span><span> 0.0.7     </span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>purrr    </span><span> 0.3.4          </span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ───────────────────────────────────────── tidymodels_conflicts() ──</span>
@@ -421,7 +424,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 <span class='va'>model_fitted</span>
 </div><div class='output co'>#&gt; parsnip model object
 #&gt; 
-#&gt; Fit time:  1s 
+#&gt; Fit time:  2.2s 
 #&gt; DeepAR
 #&gt; --------
 #&gt; Model: &lt;gluonts.mx.model.predictor.RepresentableBlockPredictor&gt;
@@ -438,7 +441,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;    .pred
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>12</span><span>338.</div><div class='input'><span class='co'># }</span>
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='text-decoration: underline;'>12</span><span>320.</div><div class='input'><span class='co'># }</span>
 
 </div></span></pre>
   </div>

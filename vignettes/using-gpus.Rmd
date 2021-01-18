@@ -1,0 +1,87 @@
+---
+title: "Using GPUs with GluonTS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using GPUs with GluonTS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE,
+  fig.align = "center",
+  out.width = "90%",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+This section covers how to setup `modeltime.gluonts` to use GPUs. 
+
+## GPU Requirements
+
+You must have:
+
+- One or more Nvidia GPUs
+- CUDA software properly installed
+
+Refer to [MXNet's Official Documentation](https://mxnet.apache.org/) on using GPUs. 
+
+## Step 1 - Create a Custom GluonTS Python Environment
+
+Follow the steps in [Create Custom GluonTS Python Environment](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html). You will need to install a vesion of mxnet that is compatible with your CUDA software. 
+
+
+``` r
+reticulate::py_install(
+    envname  = "my_gluonts_env",
+    python_version = "3.6",
+    packages = c(
+        # IMPORTANT
+        "mxnet-cu92", # replace `cu92` according to your CUDA version.
+        
+        "gluonts==0.6.3",
+        "pandas",
+        "numpy",
+        "pathlib"
+    ),
+    method = "conda",
+    pip = TRUE
+)
+```
+
+
+
+## Step 2 - Verify your new environment has been connected to
+
+[Follow instructions](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html) to set the path and check your custom gluonts environment. 
+
+## Step 3 - Begin using GPUs. 
+
+Use reticulate to import the mxnet library. 
+
+``` r
+# replace `cu92` according to your CUDA version.
+mxnet <- reticulate::import("mxnet-cu92") 
+```
+
+Now you can set your algorithms to use GPUs using the `ctx` parameter from GluonTS models. 
+
+``` r
+deep_ar_model <- deep_ar() %>% 
+   set_engine("gluonts_deepar", ctx = mxnet$gpu())
+```
+
+## Step 4 - Train Your Model using GPUs
+
+When you fit your model, you should now begin training using GPUs. 
+
+``` r
+model_fitted <- model_spec %>%
+    fit(value ~ date + id, m750)
+```
+

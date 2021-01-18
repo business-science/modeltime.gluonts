@@ -4,11 +4,13 @@
 
 - __New Vignette:__ [Managing GluonTS Environments](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html)
 
+- __New Vignette:__ [Using GPUs with GluonTS](https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html)
+
 ### New Features
 
-* __Internal Scaling by Group:__ After significant testing it appears that some data sets return better results when the data is scaled by time series "id" (group). To help facilitate this, a new option is available scale by id: `scale = TRUE`.
+- __Internal Scaling by Group:__ After significant testing it appears that some data sets return better results when the data is scaled by time series "id" (group). To help facilitate this, a new option is available scale by id: `scale = TRUE`.
 
-* __Custom Python Environments:__ Provide an option for setting a Custom Python Environment by supplying a `GLUONTS_PYTHON` environment variable. Before running `library(modeltime.gluonts)` use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your python executable in a Conda or Virtual Environment that has 'gluonts', 'mxnet', 'numpy', 'pandas' and 'pathlib' available as dependencies.
+- __Custom Python Environments:__ Provide an option for setting a Custom Python Environment by supplying a `GLUONTS_PYTHON` environment variable. Before running `library(modeltime.gluonts)` use `Sys.setenv(GLUONTS_PYTHON = 'path/to/python')` to set the path of your python executable in a Conda or Virtual Environment that has 'gluonts', 'mxnet', 'numpy', 'pandas' and 'pathlib' available as dependencies.
 
 ### Fixes & Improvements
 
