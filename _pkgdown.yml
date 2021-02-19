@@ -22,7 +22,7 @@ navbar:
           href: articles/managing-envs.html
         - text: 'Using GPUs with GluonTS'
           href: articles/using-gpus.html
-    - text: "Key Functions"
+    - text: "Reference (Functions)"
       href: reference/index.html
     - text: "News"
       href: news/index.html

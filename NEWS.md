@@ -26,7 +26,7 @@ Improvements made to connect with the GluonTS Python Environment on Startup.
 
 * __Models:__ Initial Release incorporates 2 GluonTS Algorithms:
 
-    - `deepar()`: Integrates GluonTS DeepAREstimator
+    - `deep_ar()`: Integrates GluonTS DeepAREstimator
     - `nbeats()`: Integrates N-BEATS & N-BEATS Ensemble Estimators
     
 * __New Vignette:__ [Getting Started](https://business-science.github.io/modeltime.gluonts/articles/getting-started.html)
