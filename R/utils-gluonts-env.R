@@ -53,31 +53,47 @@ is_gluonts_activated <- function() {
 #' @rdname gluonts-env
 activate_gluonts <- function() {
 
+    # pkg.env$activated <- FALSE
+
+    # STEP 1 - CHECK FOR GLUONTS_PYTHON
     gluonts_python <- Sys.getenv("GLUONTS_PYTHON", unset = NA)
-    if (!is.na(gluonts_python)) {
+    custom_env_detected <- !is.na(gluonts_python)
+    if (custom_env_detected) {
+
         Sys.setenv('RETICULATE_PYTHON' = gluonts_python)
         pkg.env$activated <- TRUE
+
     }
-    # gluonts_python <- NA
 
-    if (is.na(gluonts_python)) {
+    # STEP 2 - CHECK FOR DEFAULT r-gluonts ENV
+    default_conda_env <- detect_default_gluonts_env()
+    conda_envs_found  <- !is.null(default_conda_env)
+    if (all(c(!pkg.env$activated, conda_envs_found))) {
 
-        conda_envs_found <- pkg.env$conda_envs
+        Sys.setenv('RETICULATE_PYTHON' = default_conda_env$python[[1]])
+        pkg.env$activated <- TRUE
 
-        if (is.null(conda_envs_found)) {
-
-            # Could not activate environment
-            # message("GluonTS Please use 'install_gluonts()' to install the core GluonTS library.")
-            pkg.env$activated <- FALSE
-
-        } else {
-
-            # Conda 'r-gluonts' Environment Found
-            reticulate::use_condaenv(pkg.env$conda_envs$name[1], required = TRUE) # Will throw error if cannot override env
-            pkg.env$activated <- TRUE
-
-        }
     }
+
+    # if (all(c(!pkg.env$activated, !conda_envs_found))) {
+    #     if (interactive()) {
+    #         msg_no_gluonts()
+    #     }
+    # }
+
+    # # STEP 3 - CHECK CURRENT ENV THAT CONTAINS THE GLUONTS STACK
+    # if (!pkg.env$activated & !conda_envs_found) {
+    #
+    #     has_dependencies <- check_gluonts_dependencies() # NOTE - THIS FORCES A RETICULATE PYTHON ENV
+    #
+    #     if (has_dependencies) {
+    #
+    #         cnfg <- reticulate::py_discover_config()
+    #         Sys.setenv('RETICULATE_PYTHON' = cnfg$python)
+    #         pkg.env$activated <- TRUE
+    #
+    #     }
+    # }
 }
 
 #' @export
@@ -93,7 +109,7 @@ check_gluonts_dependencies <- function() {
         reticulate::py_module_available("numpy"),
         reticulate::py_module_available("pandas"),
         reticulate::py_module_available("gluonts"),
-        # reticulate::py_module_available("mxnet"),
+        reticulate::py_module_available("mxnet"),
         reticulate::py_module_available("pathlib")
     )
 }
