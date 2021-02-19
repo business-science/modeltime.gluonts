@@ -60,7 +60,8 @@ activate_gluonts <- function() {
     custom_env_detected <- !is.na(gluonts_python)
     if (custom_env_detected) {
 
-        Sys.setenv('RETICULATE_PYTHON' = gluonts_python)
+        # Sys.setenv('RETICULATE_PYTHON' = gluonts_python) # More forceful, generates warning and errors
+        reticulate::use_python(python = gluonts_python, required = TRUE)
         pkg.env$activated <- TRUE
 
     }
@@ -70,7 +71,8 @@ activate_gluonts <- function() {
     conda_envs_found  <- !is.null(default_conda_env)
     if (all(c(!pkg.env$activated, conda_envs_found))) {
 
-        Sys.setenv('RETICULATE_PYTHON' = default_conda_env$python[[1]])
+        # Sys.setenv('RETICULATE_PYTHON' = default_conda_env$python[[1]])
+        reticulate::use_python(python = default_conda_env$python[[1]], required = TRUE)
         pkg.env$activated <- TRUE
 
     }

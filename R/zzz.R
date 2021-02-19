@@ -41,27 +41,33 @@ pkg.env$np         <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
+    # ATTEMPT TO CONNECT TO A GLUONTS PYTHON ENV ----
     activate_gluonts()
 
-    # LOAD PYTHON LIBRARIES ----
-    tryCatch({
-        pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
-        pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
-        pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
-        pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
-    })
+    # ATTEMPT TO LOAD PYTHON LIBRARIES FROM GLUONTS ENV ----
+    dependecies_ok <- check_gluonts_dependencies()
+    if (dependecies_ok) {
+        tryCatch({
+            pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
+            pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
+            pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
+            pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
+        }, error = function(e) {
+            NULL
+            dependecies_ok <- FALSE
+            if (interactive()) message(e)
+        })
+    }
+
+    # LET USER KNOW IF DEPENDENCIES ARE NOT OK ----
+    if (!dependecies_ok) {
+        if (interactive()) msg_no_gluonts()
+    }
 
     # LOAD MODELS ----
     make_deep_ar()
     make_nbeats()
 
-    # LET USER KNOW IF DEPENDENCIES ARE OK ----
-    dependecies_ok <- check_gluonts_dependencies()
-    if (!dependecies_ok) {
-        if (interactive()) {
-            msg_no_gluonts()
-        }
-    }
 
 }
 
