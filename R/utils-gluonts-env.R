@@ -53,8 +53,6 @@ is_gluonts_activated <- function() {
 #' @rdname gluonts-env
 activate_gluonts <- function() {
 
-    # pkg.env$activated <- FALSE
-
     # STEP 1 - CHECK FOR GLUONTS_PYTHON
     gluonts_python <- Sys.getenv("GLUONTS_PYTHON", unset = NA)
     custom_env_detected <- !is.na(gluonts_python)
@@ -77,25 +75,6 @@ activate_gluonts <- function() {
 
     }
 
-    # if (all(c(!pkg.env$activated, !conda_envs_found))) {
-    #     if (interactive()) {
-    #         msg_no_gluonts()
-    #     }
-    # }
-
-    # # STEP 3 - CHECK CURRENT ENV THAT CONTAINS THE GLUONTS STACK
-    # if (!pkg.env$activated & !conda_envs_found) {
-    #
-    #     has_dependencies <- check_gluonts_dependencies() # NOTE - THIS FORCES A RETICULATE PYTHON ENV
-    #
-    #     if (has_dependencies) {
-    #
-    #         cnfg <- reticulate::py_discover_config()
-    #         Sys.setenv('RETICULATE_PYTHON' = cnfg$python)
-    #         pkg.env$activated <- TRUE
-    #
-    #     }
-    # }
 }
 
 #' @export

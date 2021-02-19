@@ -19,6 +19,13 @@ msg_no_gluonts <- function() {
     cli::cli_h1("End Python Dependency Check")
 }
 
+msg_error <- function(e) {
+    cli::cli_h1("Error Loading Python Dependencies {.pkg modeltime.gluonts}")
+    cli::cli_alert_danger("Python Dependency LoadError")
+    cli::cli_text(e)
+    cli::cli_h1("End Python Package Load Check")
+}
+
 
 
 
@@ -55,7 +62,7 @@ pkg.env$np         <- NULL
         }, error = function(e) {
             NULL
             dependecies_ok <- FALSE
-            if (interactive()) message(e)
+            if (interactive()) msg_error(e)
         })
     }
 
