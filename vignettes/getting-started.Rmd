@@ -27,6 +27,8 @@ Let's get started by making an __N-BEATS ENSEMBLE.__ N-BEATS is a powerful algor
 ```{r, echo=F}
 library(tidyverse)
 library(modeltime)
+library(modeltime.gluonts)
+
 modeltime_forecast_tbl <- read_rds("modeltime_forecast_tbl.rds")
 
 modeltime_forecast_tbl %>%
@@ -206,8 +208,7 @@ I teach how to build a HPTFS System in my [__High-Performance Time Series Foreca
 _My Talk on High-Performance Time Series Forecasting_
 
 <p>
-	<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span><span id="selection-marker-1" class="redactor-selection-marker"></span>
-	</iframe>
+<iframe width="100%" height="450" src="https://www.youtube.com/embed/elQb4VzRINg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);"></iframe>
 </p>
 
 ## References {#references}

@@ -1,5 +1,5 @@
 ---
-title: "Managing GluonTS Environments"
+title: "Managing Python GluonTS Environments"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Managing GluonTS Environments}
@@ -20,14 +20,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-This section covers how to create, modify, and customize GluonTS Python Environments. 
+This section covers how to create, modify, and customize Python GluonTS Environments. 
 
 ## Package Requirements
 
 The `modeltime.gluonts` has the following minimum requirements:
 
 - A recent version of Python (Recommend >= 3.6)
-- A Python environment containing:
+- A Python environment containing the "GluonTS Stack":
   - `gluonts`
   - `mxnet`
   - `pandas`
@@ -40,11 +40,11 @@ That's it. If you have these inside a Conda or Virtual Environment, then you can
 
 There are 2 main ways to connect an python environment to `modeltime.gluonts`:
 
-1. Default GluonTS Setup (Quick, Painless, Easy)
+1. __Default GluonTS Environment Setup__: Most proven. Modeltime GluonTS creates an 'r-gluonts' environment with python package versions that were tested.
 
-2. Custom Environment Setup (Not too bad either, but has gotchas)
+2. __Custom GluonTS Environment Setup__: Most flexible. You create the environment, you ensure that dependency requirements are met, and you define how to connect to it.
 
-## Method 1: Default GluonTS Setup
+## Method 1: Default GluonTS Environment Setup
 
 This process uses the __Conda Package Manager__ to set up a new conda environment called "r-gluonts". It's quick and easy, and most importantly the package versions that are selected all work together (I test them when developing).
 
@@ -58,6 +58,8 @@ reticulate::conda_version()
 
 
 ### 2. Run install_gluonts() (set up the Default Environment):
+
+This downloads the "GluonTS Stack" that the `modeltime.gluonts` package is tested using and places it into a Conda environment named "r-gluonts". When you run `library("modeltime.gluonts")`, it attempts to use the "r-gluonts" environment. 
 
 ``` r
 modeltime.gluonts::install_gluonts()
