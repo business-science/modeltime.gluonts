@@ -6,12 +6,26 @@
 #' @details
 #' The main parameters for NBEATS models are:
 #'
+#' - `lookback_length`: Number of time units that condition the predictions.
 #' - `num_stacks`: The number of stacks the network should contain.
 #' - `num_batches_per_epoch`: Number of batches at each epoch.
 #' - `learn_rate_decay_factor`: Factor by which to decrease the learning rate.
 #' - `scale`: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.
 #'
 #' @name nbeats_params
+
+#' @export
+#' @rdname nbeats_params
+lookback_length <- function(range = c(unknown(), unknown()), trans = NULL) {
+    dials::new_quant_param(
+        type      = "integer",
+        range     = range,
+        inclusive = c(TRUE, TRUE),
+        trans     = trans,
+        label     = c(lookback_length = "Number of time units that condition the predictions"),
+        finalize  = NULL
+    )
+}
 
 #' @export
 #' @rdname nbeats_params
