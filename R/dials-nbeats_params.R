@@ -18,7 +18,7 @@
 num_stacks <- function(range = c(2, 100), trans = NULL) {
     dials::new_quant_param(
         type      = "integer",
-        range     = "range",
+        range     = range,
         inclusive = c(TRUE, TRUE),
         trans     = trans,
         label     = c(num_stacks = "Number of Stacks"),
@@ -31,7 +31,7 @@ num_stacks <- function(range = c(2, 100), trans = NULL) {
 num_batches_per_epoch <- function(range = c(2, 100), trans = NULL) {
     dials::new_quant_param(
         type      = "integer",
-        range     = "range",
+        range     = range,
         inclusive = c(TRUE, TRUE),
         trans     = trans,
         label     = c(num_stacks = "Number of Batches at Each Epoch"),
@@ -44,7 +44,7 @@ num_batches_per_epoch <- function(range = c(2, 100), trans = NULL) {
 learn_rate_decay_factor <- function(range = c(0.0, 1.0), trans = NULL) {
     dials::new_quant_param(
         type      = "double",
-        range     = "range",
+        range     = range,
         inclusive = c(TRUE, TRUE),
         trans     = trans,
         label     = c(num_stacks = "Learning Rate Decay Factor"),
