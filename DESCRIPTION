@@ -19,19 +19,20 @@ Depends:
     modeltime (>= 0.3.1)
 Imports: 
     parsnip (>= 0.1.4),
-    timetk (>= 2.6.0), 
+    timetk (>= 2.6.0),
     magrittr,
     rlang (>= 0.1.2),
     reticulate (>= 1.18),
-    tibble, 
-    forcats, 
+    tibble,
+    forcats,
     dplyr (>= 1.0.0),
     tidyr,
     purrr,
     stringr,
     glue,
     fs,
-    cli
+    cli,
+    dials
 Suggests: 
     tidyverse,
     tidymodels,
