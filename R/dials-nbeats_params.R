@@ -48,7 +48,7 @@ num_batches_per_epoch <- function(range = c(2, 100), trans = NULL) {
         range     = range,
         inclusive = c(TRUE, TRUE),
         trans     = trans,
-        label     = c(num_stacks = "Number of Batches at Each Epoch"),
+        label     = c(num_batches_per_epoch = "Number of Batches at Each Epoch"),
         finalize  = NULL
     )
 }
@@ -61,7 +61,7 @@ learn_rate_decay_factor <- function(range = c(0.0, 1.0), trans = NULL) {
         range     = range,
         inclusive = c(TRUE, TRUE),
         trans     = trans,
-        label     = c(num_stacks = "Learning Rate Decay Factor"),
+        label     = c(learn_rate_decay_factor = "Learning Rate Decay Factor"),
         finalize  = NULL
     )
 }
