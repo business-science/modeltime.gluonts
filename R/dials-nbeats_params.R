@@ -16,7 +16,7 @@
 
 #' @export
 #' @rdname nbeats_params
-lookback_length <- function(range = c(unknown(), unknown()), trans = NULL) {
+lookback_length <- function(range = c(dials::unknown(), dials::unknown()), trans = NULL) {
     dials::new_quant_param(
         type      = "integer",
         range     = range,
