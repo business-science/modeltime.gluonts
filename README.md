@@ -15,8 +15,11 @@ status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=mast
 
 > Deep Learning for Time Series, simplified.
 
-**Important: This package is exprimental. Functions may change until the
-package matures.**
+**Important: This package is having ‘minor issues’ with CRAN acceptance
+of updates. Because of this, please use the `development version`, which
+is updated with the latest features.**
+
+    remotes::install_github("business-science/modeltime.gluonts")
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning
 Library**, making it easy to develop forecasts using Deep Learning for
@@ -93,11 +96,11 @@ install.packages("modeltime.gluonts")
 Next, you’ll need to set up a Python Environment that contains at a
 minimum:
 
-  - `gluonts`
-  - `mxnet`
-  - `pandas`
-  - `numpy`
-  - `pathlib`
+-   `gluonts`
+-   `mxnet`
+-   `pandas`
+-   `numpy`
+-   `pathlib`
 
 The python environment then needs to be activated with `reticulate`.
 
@@ -160,22 +163,22 @@ modeltime_table(
 Python Environment setup is always fun. Here are a few recommendations
 if you run into an issue.
 
-  - **Check to make sure Conda or Miniconda is available** using
+-   **Check to make sure Conda or Miniconda is available** using
     `reticulate::conda_version()`. If no conda version is returned, then
     use `reticulate::install_miniconda()` to install Miniconda
     (recommended vs full Aniconda). Then (re-)run `install_gluonts()`.
 
-  - **Check if GluonTS (Python) is available** using
+-   **Check if GluonTS (Python) is available** using
     `reticulate::py_module_available("gluonts")`. If this returns
     `TRUE`, then your installation has succeeded in building the
     environment, but you may have other issues like missing C++ build
     tools (next).
 
-  - **Windows 10 error: Microsoft Visual C++ is required.** [Here are
+-   **Windows 10 error: Microsoft Visual C++ is required.** [Here are
     the instructions for installing the C++ tools
     needed.](https://github.com/business-science/modeltime.gluonts/issues/4)
 
-  - **Other installation issues.** [Please file a GitHub issue
+-   **Other installation issues.** [Please file a GitHub issue
     here.](https://github.com/business-science/modeltime.gluonts/issues)
 
 # Learning More
@@ -201,21 +204,19 @@ High-Performance Forecasting Strategies then [take my
 course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
 You will learn:
 
-  - Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
+-   Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
     Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
-  - NEW - Deep Learning with `GluonTS` (Competition Winners)
-  - Time Series Preprocessing, Noise Reduction, & Anomaly Detection
-  - Feature engineering using lagged variables & external regressors
-  - Hyperparameter Tuning
-  - Time series cross-validation
-  - Ensembling Multiple Machine Learning & Univariate Modeling
+-   NEW - Deep Learning with `GluonTS` (Competition Winners)
+-   Time Series Preprocessing, Noise Reduction, & Anomaly Detection
+-   Feature engineering using lagged variables & external regressors
+-   Hyperparameter Tuning
+-   Time series cross-validation
+-   Ensembling Multiple Machine Learning & Univariate Modeling
     Techniques (Competition Winner)
-  - Scalable Forecasting - Forecast 1000+ time series in parallel
-  - and more.
+-   Scalable Forecasting - Forecast 1000+ time series in parallel
+-   and more.
 
 <p class="text-center" style="font-size:30px;">
-
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Unlock
 the High-Performance Time Series Forecasting Course</a>
-
 </p>
