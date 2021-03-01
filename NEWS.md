@@ -1,3 +1,10 @@
+
+# modeltime.gluonts 0.2.1.9000
+
+## Dials Params
+
+- NBEATS Models: Adding Dials helpers #14
+
 # modeltime.gluonts 0.2.1
 
 Improvements made to connect with the GluonTS Python Environment on Startup. 
