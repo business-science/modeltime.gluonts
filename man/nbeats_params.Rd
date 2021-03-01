@@ -6,7 +6,7 @@
 \alias{num_stacks}
 \alias{num_batches_per_epoch}
 \alias{learn_rate_decay_factor}
-\alias{scale}
+\alias{scale_values}
 \title{Tuning Parameters for NBEATS Models}
 \usage{
 lookback_length(range = c(dials::unknown(), dials::unknown()), trans = NULL)
@@ -17,7 +17,7 @@ num_batches_per_epoch(range = c(2, 100), trans = NULL)
 
 learn_rate_decay_factor(range = c(0, 1), trans = NULL)
 
-scale(values = c(TRUE, FALSE))
+scale_values(values = c(TRUE, FALSE))
 }
 \arguments{
 \item{range}{A two-element vector holding the \emph{defaults} for the smallest and
@@ -40,6 +40,6 @@ The main parameters for NBEATS models are:
 \item \code{num_stacks}: The number of stacks the network should contain.
 \item \code{num_batches_per_epoch}: Number of batches at each epoch.
 \item \code{learn_rate_decay_factor}: Factor by which to decrease the learning rate.
-\item \code{scale}: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.
+\item \code{scale_values}: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.
 }
 }

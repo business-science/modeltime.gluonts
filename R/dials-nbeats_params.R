@@ -10,7 +10,7 @@
 #' - `num_stacks`: The number of stacks the network should contain.
 #' - `num_batches_per_epoch`: Number of batches at each epoch.
 #' - `learn_rate_decay_factor`: Factor by which to decrease the learning rate.
-#' - `scale`: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.
+#' - `scale_values`: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.
 #'
 #' @name nbeats_params
 
@@ -68,7 +68,7 @@ learn_rate_decay_factor <- function(range = c(0.0, 1.0), trans = NULL) {
 
 #' @export
 #' @rdname nbeats_params
-scale <- function(values = c(TRUE, FALSE)) {
+scale_values <- function(values = c(TRUE, FALSE)) {
     dials::new_qual_param(
         type     = c("logical"),
         values   = values,
