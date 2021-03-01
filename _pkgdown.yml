@@ -4,7 +4,7 @@ template:
     ganalytics: UA-76139189-2
 
 navbar:
-  title: "modeltime"
+  title: "modeltime.gluonts"
   left:
     - icon: fa-home
       href: index.html
@@ -22,13 +22,12 @@ navbar:
           href: articles/managing-envs.html
         - text: 'Using GPUs with GluonTS'
           href: articles/using-gpus.html
-    - text: "Reference (Functions)"
+    - text: "API Reference"
       href: reference/index.html
     - text: "News"
       href: news/index.html
-
   right:
-    - icon: fa-github
+    - icon: fab fa-github
       href: https://github.com/business-science/modeltime.gluonts
 
 reference:
@@ -44,6 +43,10 @@ reference:
     desc: The `parsnip`-adjacent algorithms that implement time series models.
     contents:
     - save_gluonts_model
+  - title: Dials Tuning Parameters
+    desc: Tuning parameters for various deep learning models
+    contents:
+    - nbeats_params
   - title: GluonTS Helpers
     contents:
     - to_gluon_list_dataset

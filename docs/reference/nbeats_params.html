@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bridge prediction Function for N-BEATS Models — nbeats_predict_impl • modeltime.gluonts</title>
+<title>Tuning Parameters for NBEATS Models — nbeats_params • modeltime.gluonts</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Bridge prediction Function for N-BEATS Models — nbeats_predict_impl" />
-<meta property="og:description" content="Bridge prediction Function for N-BEATS Models" />
+<meta property="og:title" content="Tuning Parameters for NBEATS Models — nbeats_params" />
+<meta property="og:description" content="Tuning Parameters for NBEATS Models" />
 
 
 
@@ -145,29 +145,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bridge prediction Function for N-BEATS Models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-nbeats.R'><code>R/parsnip-nbeats.R</code></a></small>
-    <div class="hidden name"><code>nbeats_predict_impl.Rd</code></div>
+    <h1>Tuning Parameters for NBEATS Models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/dials-nbeats_params.R'><code>R/dials-nbeats_params.R</code></a></small>
+    <div class="hidden name"><code>nbeats_params.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Bridge prediction Function for N-BEATS Models</p>
+    <p>Tuning Parameters for NBEATS Models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nbeats_predict_impl</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lookback_length</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>num_stacks</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>num_batches_per_epoch</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>learn_rate_decay_factor</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>scale_values</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>An object of class <code>model_fit</code></p></td>
+      <th>range</th>
+      <td><p>A two-element vector holding the <em>defaults</em> for the smallest and
+largest possible values, respectively.</p></td>
     </tr>
     <tr>
-      <th>new_data</th>
-      <td><p>A rectangular data object, such as a data frame.</p></td>
+      <th>trans</th>
+      <td><p>A <code>trans</code> object from the <code>scales</code> package, such as
+<code><a href='https://scales.r-lib.org//reference/log_trans.html'>scales::log10_trans()</a></code> or <code><a href='https://scales.r-lib.org//reference/reciprocal_trans.html'>scales::reciprocal_trans()</a></code>. If not provided,
+the default is used which matches the units used in <code>range</code>. If no
+transformation, <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>values</th>
+      <td><p>A character string of possible values.</p></td>
     </tr>
     </table>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The main parameters for NBEATS models are:</p><ul>
+<li><p><code>lookback_length</code>: Number of time units that condition the predictions.</p></li>
+<li><p><code>num_stacks</code>: The number of stacks the network should contain.</p></li>
+<li><p><code>num_batches_per_epoch</code>: Number of batches at each epoch.</p></li>
+<li><p><code>learn_rate_decay_factor</code>: Factor by which to decrease the learning rate.</p></li>
+<li><p><code>scale_values</code>: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.</p></li>
+</ul>
 
 
   </div>

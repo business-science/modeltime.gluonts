@@ -28,9 +28,10 @@ knitr::opts_chunk$set(
 
 > Deep Learning for Time Series, simplified. 
 
-__Important: This package is having 'minor issues' with CRAN acceptance of updates. Because of this, please use the `development version`, which is updated with the latest features.__
+__Important: This package is having 'minor issues' with CRAN acceptance due to reticulate python integration. Because of this, please use the `development version`, which is updated with the latest features:__
 
 ```
+# Install Development Version (Recommended until CRAN update is resolved)
 remotes::install_github("business-science/modeltime.gluonts")
 ```
 

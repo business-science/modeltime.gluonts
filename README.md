@@ -16,9 +16,10 @@ status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=mast
 > Deep Learning for Time Series, simplified.
 
 **Important: This package is having ‘minor issues’ with CRAN acceptance
-of updates. Because of this, please use the `development version`, which
-is updated with the latest features.**
+due to reticulate python integration. Because of this, please use the
+`development version`, which is updated with the latest features:**
 
+    # Install Development Version (Recommended until CRAN update is resolved)
     remotes::install_github("business-science/modeltime.gluonts")
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning
