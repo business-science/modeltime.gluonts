@@ -111,8 +111,10 @@ detect_default_gluonts_env <- function() {
         ret <- NULL
     })
 
-    if (nrow(ret) == 0) {
-        ret <- NULL
+    if (!is.null(ret)) {
+        if (nrow(ret) == 0) {
+            ret <- NULL
+        }
     }
 
     return(ret)
