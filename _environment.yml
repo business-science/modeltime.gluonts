@@ -1,7 +1,8 @@
 name: r-gluonts
 dependencies:
-  - mxnet
-  - gluonts
-  - numpy
-  - pandas
-  - pathlib
+  - pip:
+    - mxnet
+    - gluonts
+    - numpy
+    - pandas
+    - pathlib
