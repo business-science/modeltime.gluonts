@@ -5,12 +5,12 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/business-science/modeltime.gluonts.svg?branch=master)](https://travis-ci.com/business-science/modeltime.gluonts)
-[![codecov](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/modeltime.gluonts)](https://cran.r-project.org/package=modeltime)
 ![](http://cranlogs.r-pkg.org/badges/modeltime.gluonts?color=brightgreen)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/modeltime.gluonts?color=brightgreen)
+[![Codecov test
+coverage](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master/graph/badge.svg)](https://codecov.io/gh/business-science/modeltime.gluonts?branch=master)
+[![R-CMD-check](https://github.com/business-science/modeltime.gluonts/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.gluonts/actions)
 <!-- badges: end -->
 
 > Deep Learning for Time Series, simplified.

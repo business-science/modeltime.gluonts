@@ -40,7 +40,8 @@ Suggests:
     knitr,
     rmarkdown,
     roxygen2,
-    testthat
+    testthat,
+    covr
 SystemRequirements: GluonTS >=0.6.0 (https://ts.gluon.ai/)
 VignetteBuilder: knitr
 URL: https://github.com/business-science/modeltime.gluonts
