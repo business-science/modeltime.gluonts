@@ -174,7 +174,30 @@ if you run into an issue.
 -   **Other installation issues.** [Please file a GitHub issue
     here.](https://github.com/business-science/modeltime.gluonts/issues)
 
-## Learn High-Performance Forecasting with Deep Learning
+## Meet the Forecasting Ecosystem
+
+Modeltime GluonTS is part of a **growing ecosystem** of Modeltime
+forecasting packages.
+
+-   [Learn Modeltime (Machine
+    Learning)](https://business-science.github.io/modeltime/)
+
+-   [Learn Timetk (Feature Engineering,
+    Visualization)](https://business-science.github.io/timetk/)
+
+-   [Learn Modeltime H2O
+    (AutoML)](https://business-science.github.io/modeltime.h2o/)
+
+-   [Learn Modeltime GluonTS (Deep
+    Learning)](https://business-science.github.io/modeltime.gluonts/)
+
+-   [Learn Modeltime Ensemble (Blending
+    Forecasts)](https://business-science.github.io/modeltime.ensemble/)
+
+-   [Learn Modeltime Resample
+    (Backtesting)](https://business-science.github.io/modeltime.h2o/)
+
+## High-Performance Forecasting Course
 
 <a href="https://www.youtube.com/embed/elQb4VzRINg" target="_blank"><img src="http://img.youtube.com/vi/elQb4VzRINg/0.jpg" alt="Anomalize" width="100%" height="450"/></a>
 
