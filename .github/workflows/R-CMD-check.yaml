@@ -69,20 +69,17 @@ jobs:
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
         shell: Rscript {0}
 
-      - name: Install Miniconda
+      - name: Install miniconda r-gluonts env
         uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: r-gluonts
+          python-version: 3.6
+          environment-file: _environment.yml
 
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rcmdcheck")
-        shell: Rscript {0}
-
-      - name: Install Modeltime GluonTS
-        run: |
-          modeltime.gluonts::install_gluonts()
         shell: Rscript {0}
 
       - name: Session info
