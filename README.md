@@ -80,16 +80,10 @@ There are 2 key components to installing Modeltime GluonTS:
 
 ### Step 1 - Download & Install Modeltime GluonTS
 
-Download the latest development version:
+Download the latest development version.
 
 ``` r
 remotes::install_github("business-science/modeltime.gluonts")
-```
-
-Download the CRAN version:
-
-``` r
-install.packages("modeltime.gluonts")
 ```
 
 ### Step 2 - Python Environment Setup
@@ -108,16 +102,14 @@ The python environment then needs to be activated with `reticulate`.
 **Fast GluonTS Setup**
 
 You can use `install_gluonts()` to prepare and bind to a python
-environment containing `gluonts` and the required python packages. You
-only need to run this one time, and then you are good to go. Each time
-you load `modeltime.gluonts`, the package will include this environment
-in it’s search process.
+environment containing `gluonts` and the required python packages.
+
+-   You only need to run this one time, and then you are good to go.
+-   Each time you load `modeltime.gluonts`, the package will include
+    this environment in it’s search process.
 
 ``` r
-# GluonTS Installation
-# - This sets up the Python Environment
-# - Only need to run 1-time, then you're set!
-
+# GluonTS Installation - Run 1st time
 install_gluonts()
 ```
 
@@ -182,12 +174,14 @@ if you run into an issue.
 -   **Other installation issues.** [Please file a GitHub issue
     here.](https://github.com/business-science/modeltime.gluonts/issues)
 
-# Learning More
+## Learn High-Performance Forecasting with Deep Learning
 
 <a href="https://www.youtube.com/embed/elQb4VzRINg" target="_blank"><img src="http://img.youtube.com/vi/elQb4VzRINg/0.jpg" alt="Anomalize" width="100%" height="450"/></a>
 
 [*My Talk on High-Performance Time Series
 Forecasting*](https://youtu.be/elQb4VzRINg)
+
+### Time Series is Changing
 
 Time series is changing. **Businesses now need 10,000+ time series
 forecasts every day.** This is what I call a *High-Performance Time
@@ -199,22 +193,24 @@ dollars.** Imagine what will happen to your career if you can provide
 your organization a “High-Performance Time Series Forecasting System”
 (HPTSF System).
 
+### How to Learn High-Performance Time Series Forecasting
+
 I teach how to build a HPTFS System in my **High-Performance Time Series
 Forecasting Course**. If interested in learning Scalable
 High-Performance Forecasting Strategies then [take my
 course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting).
 You will learn:
 
--   Time Series Machine Learning (cutting-edge) with `Modeltime` - 30+
-    Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
--   NEW - Deep Learning with `GluonTS` (Competition Winners)
--   Time Series Preprocessing, Noise Reduction, & Anomaly Detection
--   Feature engineering using lagged variables & external regressors
--   Hyperparameter Tuning
--   Time series cross-validation
--   Ensembling Multiple Machine Learning & Univariate Modeling
+-   **Time Series Machine Learning** (cutting-edge) with `Modeltime` -
+    30+ Models (Prophet, ARIMA, XGBoost, Random Forest, & many more)
+-   **Deep Learning** with `GluonTS` (Competition Winners)
+-   **Time Series Preprocessing**, Noise Reduction, & Anomaly Detection
+-   **Feature engineering** using lagged variables & external regressors
+-   **Hyperparameter Tuning**
+-   **Time series cross-validation**
+-   **Ensembling** Multiple Machine Learning & Univariate Modeling
     Techniques (Competition Winner)
--   Scalable Forecasting - Forecast 1000+ time series in parallel
+-   **Scalable Forecasting** - Forecast 1000+ time series in parallel
 -   and more.
 
 <p class="text-center" style="font-size:30px;">
