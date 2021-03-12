@@ -69,29 +69,20 @@ jobs:
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
         shell: Rscript {0}
 
-      - name: Install Python dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get upgrade
-          wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-          bash miniconda.sh -b -p $HOME/miniconda
-          rm -rf miniconda.sh # cleanup miniconda.sh file, which will create a warning
-          source "$HOME/miniconda/etc/profile.d/conda.sh"
-          hash -r
-          conda config --set always_yes yes --set changeps1 no
-          conda update -q conda
-          conda info -a
-          conda create -q -n r-gluonts python=3.6
-          conda activate r-gluonts
-          conda install pip
-          pip install mxnet==1.6 gluonts==0.6.3 numpy==1.16.6 pandas==1.0.5 scikit-learn==0.23.2 matplotlib==3.3.2 seaborn==0.11.0 pathlib==1.0.1
-        shell: /bin/bash {0}
+      - name: Install Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: r-gluonts
 
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rcmdcheck")
+        shell: Rscript {0}
+
+      - name: Install Modeltime GluonTS
+        run: |
+          modeltime.gluonts::install_gluonts()
         shell: Rscript {0}
 
       - name: Session info

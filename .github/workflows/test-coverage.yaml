@@ -43,10 +43,20 @@ jobs:
           pak::pkg_system_requirements("covr", execute = TRUE)
         shell: Rscript {0}
 
+      - name: Install Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: r-gluonts
+
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("covr")
+        shell: Rscript {0}
+
+      - name: Install Modeltime GluonTS
+        run: |
+          modeltime.gluonts::install_gluonts()
         shell: Rscript {0}
 
       - name: Test coverage
