@@ -52,22 +52,21 @@ pkg.env$np         <- NULL
     activate_gluonts()
 
     # ATTEMPT TO LOAD PYTHON LIBRARIES FROM GLUONTS ENV ----
-    dependecies_ok <- check_gluonts_dependencies()
-    if (dependecies_ok) {
-        tryCatch({
+    dependencies_ok <- check_gluonts_dependencies()
+    if (dependencies_ok) {
+
+        try({
             pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
             pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
             pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
             pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
-        }, error = function(e) {
-            NULL
-            dependecies_ok <- FALSE
-            if (interactive()) msg_error(e)
-        })
+        }, silent = TRUE)
+
+        if (is.null(pkg.env$gluonts)) dependencies_ok <- FALSE
     }
 
     # LET USER KNOW IF DEPENDENCIES ARE NOT OK ----
-    if (!dependecies_ok) {
+    if (!dependencies_ok) {
         if (interactive()) msg_no_gluonts()
     }
 

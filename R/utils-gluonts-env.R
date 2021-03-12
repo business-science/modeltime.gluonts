@@ -70,8 +70,10 @@ activate_gluonts <- function() {
     if (all(c(!pkg.env$activated, conda_envs_found))) {
 
         # Sys.setenv('RETICULATE_PYTHON' = default_conda_env$python[[1]])
-        reticulate::use_python(python = default_conda_env$python[[1]], required = TRUE)
-        pkg.env$activated <- TRUE
+        try({
+            reticulate::use_python(python = default_conda_env$python[[1]], required = TRUE)
+            pkg.env$activated <- TRUE
+        }, silent = TRUE)
 
     }
 
@@ -86,13 +88,19 @@ get_python_env <- function() {
 #' @export
 #' @rdname gluonts-env
 check_gluonts_dependencies <- function() {
-    all(
-        reticulate::py_module_available("numpy"),
-        reticulate::py_module_available("pandas"),
-        reticulate::py_module_available("gluonts"),
-        reticulate::py_module_available("mxnet"),
-        reticulate::py_module_available("pathlib")
-    )
+
+    dependencies_ok <- FALSE
+    try({
+        dependencies_ok <- all(
+            reticulate::py_module_available("numpy"),
+            reticulate::py_module_available("pandas"),
+            reticulate::py_module_available("gluonts"),
+            reticulate::py_module_available("mxnet"),
+            reticulate::py_module_available("pathlib")
+        )
+    }, silent = TRUE)
+
+    return(dependencies_ok)
 }
 
 #' @export

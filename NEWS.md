@@ -1,5 +1,5 @@
 
-# modeltime.gluonts 0.2.1.9000
+# modeltime.gluonts 0.2.2
 
 ## Dials Params
 
