@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# modeltime.gluonts
+# modeltime.gluonts <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modeltime.gluonts)](https://cran.r-project.org/package=modeltime)

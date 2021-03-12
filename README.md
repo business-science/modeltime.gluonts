@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# modeltime.gluonts
+# modeltime.gluonts <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
 
