@@ -108,7 +108,7 @@ different packages. Currently the only package is gluonts." />
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Documentation
+    Articles
      
     <span class="caret"></span>
   </a>
@@ -127,11 +127,27 @@ different packages. Currently the only package is gluonts." />
     </li>
   </ul>
 </li>
-<li>
-  <a href="../reference/index.html">API Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    API
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">API Functions</li>
+    <li>
+      <a href="../reference/index.html">
+        <span class="fas fa-home"></span>
+         
+        Function Reference
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Change History</li>
+    <li>
+      <a href="../news/index.html">News</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -140,12 +156,12 @@ different packages. Currently the only package is gluonts." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Workflow</li>
+    <li class="dropdown-header">Forecast</li>
     <li>
-      <a href="https://business-science.github.io/modeltime/">Modeltime (Machine Learning)</a>
+      <a href="https://business-science.github.io/modeltime/">Modeltime (Forecasting)</a>
     </li>
     <li>
-      <a href="https://business-science.github.io/timetk/">TimeTK (Data Transformation &amp; Visualization)</a>
+      <a href="https://business-science.github.io/timetk/">TimeTK (Time Series Analysis)</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Improve</li>
@@ -156,7 +172,7 @@ different packages. Currently the only package is gluonts." />
       <a href="https://business-science.github.io/modeltime.resample/">Modeltime Resample (Backtesting)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">More Power</li>
+    <li class="dropdown-header">Scale</li>
     <li>
       <a href="https://business-science.github.io/modeltime.h2o/">Modeltime H2O (AutoML)</a>
     </li>
@@ -164,6 +180,13 @@ different packages. Currently the only package is gluonts." />
       <a href="https://business-science.github.io/modeltime.gluonts/">Modeltime GluonTS (Deep Learning)</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">
+    <span class="fas fa-graduation-cap"></span>
+     
+    Learn
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -462,7 +485,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 <span class='co'>#  and do NOT dummy the id feature.</span>
 <span class='va'>model_fitted</span> <span class='op'>&lt;-</span> <span class='va'>model_spec</span> <span class='op'>%&gt;%</span>
     <span class='fu'>fit</span><span class='op'>(</span><span class='va'>value</span> <span class='op'>~</span> <span class='va'>date</span> <span class='op'>+</span> <span class='va'>id</span>, <span class='va'>m750</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in pkg.env$gluonts$distribution$student_t$StudentTOutput(): attempt to apply non-function</span></div><div class='output co'>#&gt; <span class='message'>Timing stopped at: 0.003 0 0.002</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in pkg.env$gluonts$distribution$student_t$StudentTOutput(): attempt to apply non-function</span></div><div class='output co'>#&gt; <span class='message'>Timing stopped at: 0.002 0 0.002</span></div><div class='input'>
 <span class='va'>model_fitted</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'model_fitted' not found</span></div><div class='input'>
 <span class='co'># ---- PREDICT ----</span>
