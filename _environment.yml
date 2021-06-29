@@ -6,8 +6,8 @@ channels:
 dependencies:
   - pip
   - pip:
-    - mxnet
-    - gluonts
-    - numpy
-    - pandas
-    - pathlib
+    - mxnet==1.6
+    - gluonts==0.6.3
+    - numpy==1.16.6
+    - pandas==1.0.5
+    - pathlib==1.0.1
