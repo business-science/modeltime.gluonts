@@ -417,6 +417,7 @@ translate.nbeats <- function(x, engine = x$engine, ...) {
 #' @inheritParams nbeats_ensemble_fit_impl
 #' @param context_length Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length
 #' @param loss_function The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".
+#' @param ... Additional Arguments passed to `gluonts.model.n_beats.NBEATSEstimator()`
 #'
 #' @export
 nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
@@ -447,7 +448,9 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
                             stack_types = list("G"),
 
                             # Modeltime Args
-                            scale_by_id = FALSE
+                            scale_by_id = FALSE,
+
+                            ...
 
 ) {
 
@@ -510,10 +513,10 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- pkg.env$gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$mx$trainer$`_base`$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
-        batch_size                 = batch_size,
+        # batch_size                 = batch_size,
         num_batches_per_epoch      = num_batches_per_epoch,
         learning_rate              = learning_rate,
         learning_rate_decay_factor = learning_rate_decay_factor,
@@ -541,7 +544,11 @@ nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
         widths                        = widths,
         sharing                       = sharing,
         expansion_coefficient_lengths = expansion_coefficient_lengths,
-        stack_types                   = stack_types
+        stack_types                   = stack_types,
+
+        batch_size                    = batch_size,
+
+        ...
     )
 
     # Train the model
@@ -684,6 +691,8 @@ predict.nbeats_fit_impl <- function(object, new_data, ...) {
 #' @param expansion_coefficient_lengths If the type is "G" (generic), then the length of the expansion coefficient. If type is "T" (trend), then it corresponds to the degree of the polynomial. If the type is "S" (seasonal) then its not used. A list of ints of length 1 or 'num_stacks'. Default value for generic mode: `list(32)` Recommended value for interpretable mode: `list(3)`
 #' @param stack_types One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: `list("G")` Recommended value for interpretable mode: `list("T","S")`
 #' @param scale_by_id Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
+#' @param ... Additional Arguments passed to `gluonts.model.n_beats.NBEATSEnsembleEstimator()`
+#'
 #'
 #' @details
 #'
@@ -721,7 +730,9 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
                                      stack_types = list("G"),
 
                                      # Modeltime Args
-                                     scale_by_id = TRUE
+                                     scale_by_id = TRUE,
+
+                                     ...
 
 ) {
 
@@ -789,10 +800,10 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- pkg.env$gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$mx$trainer$`_base`$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
-        batch_size                 = batch_size,
+        # batch_size                 = batch_size,
         num_batches_per_epoch      = num_batches_per_epoch,
         learning_rate              = learning_rate,
         learning_rate_decay_factor = learning_rate_decay_factor,
@@ -820,7 +831,9 @@ nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
         widths                        = widths,
         sharing                       = sharing,
         expansion_coefficient_lengths = expansion_coefficient_lengths,
-        stack_types                   = stack_types
+        stack_types                   = stack_types,
+
+        batch_size                    = batch_size
     )
 
     # Train the model

@@ -16,7 +16,7 @@ coverage](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master
 > Deep Learning for Time Series, simplified.
 
 **Important: This package is having ‘minor issues’ with CRAN acceptance
-due to reticulate python integration. Because of this, please use the
+due to `reticulate` python integration. Because of this, please use the
 `development version`, which is updated with the latest features:**
 
     # Install Development Version (Recommended until CRAN update is resolved)
@@ -43,12 +43,8 @@ model_fit_deepar <- deep_ar(
     id                    = "id",
     freq                  = "M",
     prediction_length     = 24,
-    lookback_length       = 36,
-    epochs                = 10, 
-    num_batches_per_epoch = 50,
-    learn_rate            = 0.001,
-    num_layers            = 2,
-    dropout               = 0.10
+    lookback_length       = 48,
+    epochs                = 5
 ) %>%
     set_engine("gluonts_deepar") %>%
     fit(value ~ ., training(m750_splits))
@@ -91,7 +87,7 @@ remotes::install_github("business-science/modeltime.gluonts")
 Next, you’ll need to set up a Python Environment that contains at a
 minimum:
 
--   `gluonts`
+-   `gluonts==0.8.0`
 -   `mxnet`
 -   `pandas`
 -   `numpy`
@@ -128,12 +124,8 @@ model_fit_deepar <- deep_ar(
     id                    = "id",
     freq                  = "M",
     prediction_length     = 24,
-    lookback_length       = 36,
-    epochs                = 10, 
-    num_batches_per_epoch = 50,
-    learn_rate            = 0.001,
-    num_layers            = 2,
-    dropout               = 0.10
+    lookback_length       = 48,
+    epochs                = 5
 ) %>%
     set_engine("gluonts_deepar") %>%
     fit(value ~ ., training(m750_splits))

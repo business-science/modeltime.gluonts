@@ -403,14 +403,13 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #' @param init Initializer of the weights of the network (default: “xavier”).
 #' @param hybridize Increases efficiency by using symbolic programming. (default: TRUE)
 #' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
-#'
+#' @param ... Additional parameters passed to `gluonts.model.deepar.DeepAREstimator()`
 #'
 #' @export
 deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
                             # Trainer Args
                             epochs = 5,
-                            batch_size = 32,
                             num_batches_per_epoch = 50,
                             learning_rate = 0.001,
                             learning_rate_decay_factor = 0.5,
@@ -439,8 +438,12 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
                             time_features = NULL,
                             num_parallel_samples = 100,
 
+                            batch_size = 32,
+
                             # Modeltime Args
-                            scale_by_id = FALSE
+                            scale_by_id = FALSE,
+
+                            ...
 
                             ) {
 
@@ -452,7 +455,7 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
     if (is.null(ctx)) ctx <- reticulate::py_none()
     if (is.null(cardinality)) cardinality <- reticulate::py_none()
     if (is.null(embedding_dimension)) embedding_dimension <- reticulate::py_none()
-    if (distr_output == "default") distr_output <- pkg.env$gluonts$distribution$student_t$StudentTOutput()
+    if (distr_output == "default") distr_output <- pkg.env$gluonts$mx$distribution$student_t$StudentTOutput()
     if (is.null(lags_seq)) lags_seq <- reticulate::py_none()
     if (is.null(time_features)) time_features <- reticulate::py_none()
     # if (is.null(imputation_method)) imputation_method <- reticulate::py_none()
@@ -506,10 +509,10 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
         )
 
     # Construct GluonTS Trainer
-    trainer    <- pkg.env$gluonts$trainer$Trainer(
+    trainer    <- pkg.env$gluonts$mx$trainer$`_base`$Trainer(
         ctx                        = ctx,
         epochs                     = epochs,
-        batch_size                 = batch_size,
+        # batch_size                 = batch_size,
         num_batches_per_epoch      = num_batches_per_epoch,
         learning_rate              = learning_rate,
         learning_rate_decay_factor = learning_rate_decay_factor,
@@ -532,7 +535,9 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
         num_layers             = num_layers,
         num_cells              = num_cells,
         cell_type              = cell_type,
+
         dropout_rate           = dropout_rate,
+
         use_feat_dynamic_real  = use_feat_dynamic_real,
         use_feat_static_cat    = use_feat_static_cat,
         use_feat_static_real   = use_feat_static_real,
@@ -542,7 +547,11 @@ deepar_fit_impl <- function(x, y, freq, prediction_length, id,
         scaling                = scaling,
         lags_seq               = lags_seq,
         time_features          = time_features,
-        num_parallel_samples   = num_parallel_samples
+        num_parallel_samples   = num_parallel_samples,
+
+        # New Parameters:
+        batch_size             = batch_size,
+        ...
     )
 
     # Train the model

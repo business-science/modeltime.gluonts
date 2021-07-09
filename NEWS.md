@@ -1,9 +1,22 @@
 
 # modeltime.gluonts 0.2.2.9000 (Development Version)
 
+
+### Breaking Changes
+
+#### Support for GluonTS 0.8.0:
+
+Modeltime Gluonts now support `gluonts 0.8.0`. Simply run `install_gluonts()` to upgrade. The upgraded support makes `modeltime.gluonts` incompatible with earlier versions of GluonTS (e.g. `gluonts 0.6.3`). The solution is to upgrade to `gluonts 0.8.0`, which requires:
+
+- `gluonts==0.8.0`
+
+- `mxnet~=1.7`
+
+
+
 # modeltime.gluonts 0.2.2
 
-## Dials Params
+### Dials Params
 
 - NBEATS Models: Adding Dials helpers #14
 
@@ -13,11 +26,11 @@ Improvements made to connect with the GluonTS Python Environment on Startup.
 
 # modeltime.gluonts 0.2.0
 
-### Documentation
+### New Vignettes
 
-- __New Vignette:__ [Managing GluonTS Environments](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html)
+- [Managing GluonTS Environments](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html)
 
-- __New Vignette:__ [Using GPUs with GluonTS](https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html)
+- [Using GPUs with GluonTS](https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html)
 
 ### New Features
 

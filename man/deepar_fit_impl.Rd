@@ -11,7 +11,6 @@ deepar_fit_impl(
   prediction_length,
   id,
   epochs = 5,
-  batch_size = 32,
   num_batches_per_epoch = 50,
   learning_rate = 0.001,
   learning_rate_decay_factor = 0.5,
@@ -37,7 +36,9 @@ deepar_fit_impl(
   lags_seq = NULL,
   time_features = NULL,
   num_parallel_samples = 100,
-  scale_by_id = FALSE
+  batch_size = 32,
+  scale_by_id = FALSE,
+  ...
 )
 }
 \arguments{
@@ -53,8 +54,6 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 \item{id}{A quoted column name that tracks the GluonTS FieldName "item_id"}
 
 \item{epochs}{Number of epochs that the network will train (default: 5).}
-
-\item{batch_size}{Number of examples in each batch (default: 32).}
 
 \item{num_batches_per_epoch}{Number of batches at each epoch (default: 50).}
 
@@ -112,7 +111,11 @@ This must be set if \code{use_feat_static_cat} == TRUE (default: NULL)}
 \item{num_parallel_samples}{Number of evaluation samples per time series to increase parallelism during inference.
 This is a model optimization that does not affect the accuracy (default: 100)}
 
+\item{batch_size}{Number of examples in each batch (default: 32).}
+
 \item{scale_by_id}{Scales numeric data by \code{id} group using mean = 0, standard deviation = 1 transformation. (default: FALSE)}
+
+\item{...}{Additional parameters passed to \code{gluonts.model.deepar.DeepAREstimator()}}
 }
 \description{
 GluonTS DeepAR Modeling Function (Bridge)

@@ -31,7 +31,8 @@ nbeats_ensemble_fit_impl(
   sharing = list(FALSE),
   expansion_coefficient_lengths = list(32),
   stack_types = list("G"),
-  scale_by_id = TRUE
+  scale_by_id = TRUE,
+  ...
 )
 }
 \arguments{
@@ -90,6 +91,8 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 \item{stack_types}{One of the following values: "G" (generic), "S" (seasonal) or "T" (trend). A list of strings of length 1 or 'num_stacks'. Default and recommended value for generic mode: \code{list("G")} Recommended value for interpretable mode: \code{list("T","S")}}
 
 \item{scale_by_id}{Scales numeric data by group using mean = 0, standard deviation = 1 transformation. (default: FALSE)}
+
+\item{...}{Additional Arguments passed to \code{gluonts.model.n_beats.NBEATSEnsembleEstimator()}}
 }
 \description{
 GluonTS N-BEATS ENSEMBLE Modeling Function (Bridge)
