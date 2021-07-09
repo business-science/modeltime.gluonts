@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.7.1
+  - python=3.7
   - pip
   - pip:
     - mxnet~=1.7
