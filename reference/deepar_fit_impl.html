@@ -223,7 +223,6 @@
   <span class='va'>prediction_length</span>,
   <span class='va'>id</span>,
   epochs <span class='op'>=</span> <span class='fl'>5</span>,
-  batch_size <span class='op'>=</span> <span class='fl'>32</span>,
   num_batches_per_epoch <span class='op'>=</span> <span class='fl'>50</span>,
   learning_rate <span class='op'>=</span> <span class='fl'>0.001</span>,
   learning_rate_decay_factor <span class='op'>=</span> <span class='fl'>0.5</span>,
@@ -249,7 +248,9 @@
   lags_seq <span class='op'>=</span> <span class='cn'>NULL</span>,
   time_features <span class='op'>=</span> <span class='cn'>NULL</span>,
   num_parallel_samples <span class='op'>=</span> <span class='fl'>100</span>,
-  scale_by_id <span class='op'>=</span> <span class='cn'>FALSE</span>
+  batch_size <span class='op'>=</span> <span class='fl'>32</span>,
+  scale_by_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -279,10 +280,6 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
     <tr>
       <th>epochs</th>
       <td><p>Number of epochs that the network will train (default: 5).</p></td>
-    </tr>
-    <tr>
-      <th>batch_size</th>
-      <td><p>Number of examples in each batch (default: 32).</p></td>
     </tr>
     <tr>
       <th>num_batches_per_epoch</th>
@@ -391,8 +388,16 @@ This must be set if <code>use_feat_static_cat</code> == TRUE (default: NULL)</p>
 This is a model optimization that does not affect the accuracy (default: 100)</p></td>
     </tr>
     <tr>
+      <th>batch_size</th>
+      <td><p>Number of examples in each batch (default: 32).</p></td>
+    </tr>
+    <tr>
       <th>scale_by_id</th>
       <td><p>Scales numeric data by <code>id</code> group using mean = 0, standard deviation = 1 transformation. (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters passed to <code>gluonts.model.deepar.DeepAREstimator()</code></p></td>
     </tr>
     </table>
 
