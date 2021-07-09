@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • modeltime.gluonts</title>
+<title>Bridge prediction Function for GP Forecaster Models — gp_forecaster_predict_impl • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Bridge prediction Function for GP Forecaster Models — gp_forecaster_predict_impl" />
+<meta property="og:description" content="Bridge prediction Function for GP Forecaster Models" />
 
 
 
@@ -75,7 +76,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -206,111 +207,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Bridge prediction Function for GP Forecaster Models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-gp_forecaster.R'><code>R/parsnip-gp_forecaster.R</code></a></small>
+    <div class="hidden name"><code>gp_forecaster_predict_impl.Rd</code></div>
     </div>
 
-    <div id="modeltimegluonts-0229000-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.2.9000">
-<a href="#modeltimegluonts-0229000-development-version" class="anchor"></a>modeltime.gluonts 0.2.2.9000 (Development Version)<small> Unreleased </small>
-</h1>
-<div id="gp-forecaster-algorithm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gp-forecaster-algorithm" class="anchor"></a>GP Forecaster Algorithm</h2>
-<p>A new function, <code><a href="../reference/gp_forecaster.html">gp_forecaster()</a></code>, integrates the Gaussian Process Estimator from GluonTS.</p>
-<div id="support-for-gluonts-080" class="section level3">
-<h3 class="hasAnchor">
-<a href="#support-for-gluonts-080" class="anchor"></a>Support for GluonTS 0.8.0:</h3>
-<p>Modeltime GluonTS now support <code>gluonts 0.8.0</code>. Simply run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> to upgrade. The upgraded support makes <code>modeltime.gluonts</code> incompatible with earlier versions of GluonTS (e.g. <code>gluonts 0.6.3</code>). The solution is to upgrade to <code>gluonts 0.8.0</code>, which requires:</p>
-<ul>
-<li><p><code>gluonts==0.8.0</code></p></li>
-<li><p><code>mxnet~=1.7</code></p></li>
-</ul>
-</div>
-<div id="breaking-changes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h3>
-<ul>
-<li>GluonTS &lt;= 0.8.0. The <code>modeltime.gluonts</code> package version &gt;= 0.2.2.9000 is not compatible with <code>gluonts</code> &lt; 0.8.0. To fix, simply upgrade to <code>gluonts</code> 0.8.0.</li>
-</ul>
-</div>
-</div>
-</div>
-    <div id="modeltimegluonts-022" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.2">
-<a href="#modeltimegluonts-022" class="anchor"></a>modeltime.gluonts 0.2.2<small> Unreleased </small>
-</h1>
-<div id="dials-params" class="section level3">
-<h3 class="hasAnchor">
-<a href="#dials-params" class="anchor"></a>Dials Params</h3>
-<ul>
-<li>NBEATS Models: Adding Dials helpers <a href='https://github.com/business-science/modeltime.gluonts/issues/14'>#14</a></li>
-</ul>
-</div>
-</div>
-    <div id="modeltimegluonts-021" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.1">
-<a href="#modeltimegluonts-021" class="anchor"></a>modeltime.gluonts 0.2.1<small> Unreleased </small>
-</h1>
-<p>Improvements made to connect with the GluonTS Python Environment on Startup.</p>
-</div>
-    <div id="modeltimegluonts-020" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0">
-<a href="#modeltimegluonts-020" class="anchor"></a>modeltime.gluonts 0.2.0<small> Unreleased </small>
-</h1>
-<div id="new-vignettes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#new-vignettes" class="anchor"></a>New Vignettes</h3>
-<ul>
-<li><p><a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html">Managing GluonTS Environments</a></p></li>
-<li><p><a href="https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html">Using GPUs with GluonTS</a></p></li>
-</ul>
-</div>
-<div id="new-features" class="section level3">
-<h3 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h3>
-<ul>
-<li><p><strong>Internal Scaling by Group:</strong> After significant testing it appears that some data sets return better results when the data is scaled by time series “id” (group). To help facilitate this, a new option is available scale by id: <code>scale = TRUE</code>.</p></li>
-<li><p><strong>Custom Python Environments:</strong> Provide an option for setting a Custom Python Environment by supplying a <code>GLUONTS_PYTHON</code> environment variable. Before running <code><a href="https://github.com/business-science/modeltime.gluonts">library(modeltime.gluonts)</a></code> use <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> to set the path of your python executable in a Conda or Virtual Environment that has ‘gluonts’, ‘mxnet’, ‘numpy’, ‘pandas’ and ‘pathlib’ available as dependencies.</p></li>
-</ul>
-</div>
-<div id="fixes--improvements" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fixes--improvements" class="anchor"></a>Fixes &amp; Improvements</h3>
-<ul>
-<li>
-<strong>GluonTS 0.6.3 Upgrade:</strong> <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> now uses <code>gluonts==0.6.3</code>. This upgrade improves forecast accuracy.</li>
-<li>CRAN Comment - Add <code>SystemRequirements</code>: GluonTS.</li>
-<li>CRAN Comment - Fix <code>.onLoad</code> message to provide options for configuring the Python Environment.</li>
-</ul>
-</div>
-</div>
-    <div id="modeltimegluonts-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#modeltimegluonts-010" class="anchor"></a>modeltime.gluonts 0.1.0<small> 2020-11-30 </small>
-</h1>
-<ul>
-<li>
-<p><strong>Models:</strong> Initial Release incorporates 2 GluonTS Algorithms:</p>
-<ul>
-<li>
-<code><a href="../reference/deep_ar.html">deep_ar()</a></code>: Integrates GluonTS DeepAREstimator</li>
-<li>
-<code><a href="../reference/nbeats.html">nbeats()</a></code>: Integrates N-BEATS &amp; N-BEATS Ensemble Estimators</li>
-</ul>
-</li>
-<li><p><strong>New Vignette:</strong> <a href="https://business-science.github.io/modeltime.gluonts/articles/getting-started.html">Getting Started</a></p></li>
-<li><p><strong>Website:</strong> <a href="https://business-science.github.io/modeltime.gluonts/">Modeltime GluonTS</a></p></li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Bridge prediction Function for GP Forecaster Models</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>gp_forecaster_predict_impl</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An object of class <code>model_fit</code></p></td>
+    </tr>
+    <tr>
+      <th>new_data</th>
+      <td><p>A rectangular data object, such as a data frame.</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
