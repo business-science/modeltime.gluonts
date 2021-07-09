@@ -15,7 +15,7 @@ test_that("gp_forecaster: model fitting", {
         prediction_length       = 24,
         epochs                  = 1,
         batch_size              = 2,
-        num_batches_per_epoch   = 10,
+        num_batches_per_epoch   = 1,
         learn_rate              = 0.01,
         learn_rate_decay_factor = 0.25,
         learn_rate_min          = 2e-5,
