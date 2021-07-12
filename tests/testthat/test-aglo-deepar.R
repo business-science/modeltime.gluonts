@@ -9,7 +9,7 @@ test_that("deep_ar: model fitting", {
     skip_if_no_gluonts()
 
     # Model Spec
-    model_spec <<- deep_ar(
+    model_spec <- deep_ar(
         id                      = "id",
         freq                    = "M",
         prediction_length       = 24,
@@ -85,11 +85,7 @@ test_that("deep_ar: model fitting", {
 
 
 
-})
-
-# UPDATE MODEL SPEC ----
-
-testthat::test_that("deep_ar: update model spec", {
+    # UPDATE MODEL SPEC ----
 
     skip_if_no_gluonts()
 
@@ -130,11 +126,8 @@ testthat::test_that("deep_ar: update model spec", {
     expect_equal(eval_tidy(model_spec_updated$args$num_cells), 40)
     expect_equal(eval_tidy(model_spec_updated$args$dropout), 0.1)
 
-})
 
-# CHECKS / VALIDATIONS ----
-
-testthat::test_that("deep_ar: checks/validations", {
+    # CHECKS / VALIDATIONS ----
 
     skip_if_no_gluonts()
 

@@ -9,7 +9,7 @@ test_that("nbeats ensemble: model fitting", {
     skip_if_no_gluonts()
 
     # Model Spec
-    model_spec <<- nbeats(
+    model_spec <- nbeats(
         id                      = "id",
         freq                    = "M",
         prediction_length       = 24,
@@ -81,13 +81,7 @@ test_that("nbeats ensemble: model fitting", {
     testthat::expect_identical(nrow(testing(m750_splits)), nrow(predictions_tbl))
     testthat::expect_identical(testing(m750_splits)$date, predictions_tbl$.index)
 
-
-
-})
-
-# UPDATE MODEL SPEC ----
-
-testthat::test_that("nbeats ensemble: update model spec", {
+    # UPDATE MODEL SPEC ----
 
     skip_if_no_gluonts()
 
@@ -122,11 +116,7 @@ testthat::test_that("nbeats ensemble: update model spec", {
     expect_equal(eval_tidy(model_spec_updated$args$num_stacks), 10)
     expect_equal(eval_tidy(model_spec_updated$args$num_blocks), list(2))
 
-})
-
-# CHECKS / VALIDATIONS ----
-
-testthat::test_that("nbeats ensemble: checks/validations", {
+    # CHECKS / VALIDATIONS ----
 
     skip_if_no_gluonts()
 
