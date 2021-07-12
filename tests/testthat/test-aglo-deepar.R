@@ -2,6 +2,9 @@
 context("Test DeepAR")
 
 
+py_gc <- reticulate::import("gc")
+py_gc$collect()
+
 # MODEL FITTING ----
 
 test_that("deep_ar: model fitting", {

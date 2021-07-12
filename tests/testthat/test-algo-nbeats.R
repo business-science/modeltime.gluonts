@@ -1,6 +1,8 @@
 # DEEP AR TEST ----
 context("Test NBEATS")
 
+py_gc <- reticulate::import("gc")
+py_gc$collect()
 
 # MODEL FITTING ----
 
