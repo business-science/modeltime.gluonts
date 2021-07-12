@@ -5,6 +5,16 @@ library(tidymodels)
 library(tidyverse)
 library(timetk)
 
+# SEED ----
+# -Attempt to make reproducible
+np <- reticulate::import("numpy", convert = FALSE)
+mx <- reticulate::import("mxnet", convert = FALSE)
+
+np$random$seed(123L)
+mx$random$seed(123L)
+
+# DATA ----
+
 walmart_sales_weekly
 
 splits <- walmart_sales_weekly %>%
@@ -13,7 +23,7 @@ splits <- walmart_sales_weekly %>%
         cumulative = TRUE
     )
 
-plot_walmart_model <- function(..., title = "Forecast Plot") {
+plot_walmart_model <- function(..., title = "Forecast Plot", show_ci = TRUE) {
     modeltime_table(
         ...
     ) %>%
@@ -31,11 +41,10 @@ plot_walmart_model <- function(..., title = "Forecast Plot") {
         plot_modeltime_forecast(
             .interactive = FALSE,
             .facet_ncol  = 2,
-            .title       = title
+            .title       = title,
+            .conf_interval_show = show_ci
         )
 }
-
-
 
 
 # * DeepAR ----
@@ -101,7 +110,7 @@ model_fit_gp <- gp_forecaster(
     epochs                = 10,
     scale                 = TRUE
 ) %>%
-    set_engine("gluonts_gpforecaster", cardinality = 20) %>%
+    set_engine("gluonts_gp_forecaster", cardinality = 20) %>%
     fit(Weekly_Sales ~ Date + id, training(splits))
 
 plot_walmart_model(model_fit_gp, title = "GP Forecaster")
@@ -125,3 +134,12 @@ accuracy_tbl %>%
     slice_min(rmse)
 
 accuracy_tbl %>% write_rds("examples/accuracy_results_walmart.rds")
+
+
+plot_walmart_model(
+    model_fit_deepar,
+    model_fit_deepstate,
+    model_fit_nbeats,
+    model_fit_gp,
+    show_ci = FALSE
+)
