@@ -4,7 +4,11 @@
 \alias{install_gluonts}
 \title{Install GluonTS}
 \usage{
-install_gluonts()
+install_gluonts(include_pytorch = FALSE)
+}
+\arguments{
+\item{include_pytorch}{If \code{TRUE}, will install \code{torch}. Needed for Torch implementation
+of \code{deep_ar()}.}
 }
 \description{
 Installs \code{GluonTS} Probabilisitic Deep Learning Time Series Forecasting Software
