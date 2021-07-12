@@ -180,7 +180,7 @@ gp_forecaster <- function(
     freq,
     prediction_length,
 
-    # GP Args
+    # Model Args
     lookback_length = NULL,
 
 
@@ -207,7 +207,7 @@ gp_forecaster <- function(
         freq                    = rlang::enquo(freq),
         prediction_length       = rlang::enquo(prediction_length),
 
-        # GP Args
+        # Model Args
         lookback_length         = rlang::enquo(lookback_length), # context_length
 
 
@@ -256,6 +256,9 @@ update.gp_forecaster <- function(object, parameters = NULL,
                            id                      = NULL,
                            freq                    = NULL,
                            prediction_length       = NULL,
+
+                           # Model Args
+                           lookback_length         = NULL,
 
                            # Trainer Args
                            epochs                  = NULL,
