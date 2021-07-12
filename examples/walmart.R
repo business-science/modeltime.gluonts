@@ -101,7 +101,7 @@ model_fit_gp <- gp_forecaster(
     epochs                = 10,
     scale                 = TRUE
 ) %>%
-    set_engine("gluonts_gp_forecaster", cardinality = 20) %>%
+    set_engine("gluonts_gpforecaster", cardinality = 20) %>%
     fit(Weekly_Sales ~ Date + id, training(splits))
 
 plot_walmart_model(model_fit_gp, title = "GP Forecaster")
