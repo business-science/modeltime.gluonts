@@ -7,6 +7,9 @@ context("Test Deep State")
 # Skipping tests until can figure out the source of the error
 # Passes locally
 
+rm(model_spec)
+gc()
+
 # MODEL FITTING ----
 
 test_that("deep_state: model fitting", {
