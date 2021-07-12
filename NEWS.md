@@ -1,17 +1,24 @@
 
 # modeltime.gluonts 0.2.2.9000 (Development Version)
 
-## GP Forecaster Algorithm
-
-A new function, `gp_forecaster()`, integrates the Gaussian Process Estimator from GluonTS. 
-
-### Support for GluonTS 0.8.0:
+## Support for GluonTS 0.8.0:
 
 Modeltime GluonTS now support `gluonts 0.8.0`. Simply run `install_gluonts()` to upgrade. The upgraded support makes `modeltime.gluonts` incompatible with earlier versions of GluonTS (e.g. `gluonts 0.6.3`). The solution is to upgrade to `gluonts 0.8.0`, which requires:
 
 - `gluonts==0.8.0`
 
 - `mxnet~=1.7`
+
+## New Algorithms
+
+### GP Forecaster Algorithm
+
+A new function, `gp_forecaster()`, integrates the Gaussian Process Estimator from GluonTS. 
+
+### Deep State Algorithm
+
+A new function, `deep_state()`, integrates the Deep State Estimator from GluonTS. 
+
 
 ### Breaking Changes
 

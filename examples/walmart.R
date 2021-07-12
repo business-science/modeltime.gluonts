@@ -52,7 +52,27 @@ model_fit_deepar <- deep_ar(
 
 plot_walmart_model(model_fit_deepar, title = "DeepAR")
 
+# * DeepState ----
+#   Notes:
+#   - Reduced epochs to 2 to speed up
+
+model_fit_deepstate <- deep_state(
+    id                    = "id",
+    freq                  = "W",
+    prediction_length     = 26,
+    lookback_length       = 52*2,
+    add_trend             = FALSE,
+    epochs                = 2,
+    scale                 = TRUE
+) %>%
+    set_engine("gluonts_deepstate") %>%
+    fit(Weekly_Sales ~ Date + id, training(splits))
+
+plot_walmart_model(model_fit_deepstate, title = "DeepState")
+
 # * N-BEATS ----
+#   Notes:
+#   - Reduced epochs to 5 to speed up
 
 model_fit_nbeats <- nbeats(
     id                    = "id",
@@ -90,6 +110,7 @@ plot_walmart_model(model_fit_gp, title = "GP Forecaster")
 # ACCURACY EVALUATION -----
 accuracy_tbl <- modeltime_table(
     model_fit_deepar,
+    model_fit_deepstate,
     model_fit_nbeats,
     model_fit_gp
 ) %>%

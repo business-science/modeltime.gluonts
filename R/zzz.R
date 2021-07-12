@@ -74,6 +74,7 @@ pkg.env$np         <- NULL
     make_deep_ar()
     make_nbeats()
     make_gp_forecaster()
+    make_deep_state()
 
 
 }
