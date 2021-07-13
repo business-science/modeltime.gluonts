@@ -17,6 +17,8 @@ py_gc$collect()
 test_that("deep_state: model fitting", {
 
     skip_if_no_gluonts()
+    skip_on_ci()
+
 
     # Model Spec
     model_spec <- deep_state(

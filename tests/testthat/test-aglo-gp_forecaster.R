@@ -16,6 +16,7 @@ py_gc$collect()
 test_that("gp_forecaster: model fitting", {
 
     skip_if_no_gluonts()
+    skip_on_ci()
 
     # Model Spec
     model_spec <<- gp_forecaster(
