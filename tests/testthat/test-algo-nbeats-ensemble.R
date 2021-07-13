@@ -1,6 +1,8 @@
 # DEEP AR TEST ----
 context("Test NBEATS ENSEMBLE")
 
+
+gc()
 py_gc <- reticulate::import("gc")
 py_gc$collect()
 

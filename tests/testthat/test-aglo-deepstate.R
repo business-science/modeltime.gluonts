@@ -7,8 +7,10 @@ context("Test Deep State")
 # Skipping tests until can figure out the source of the error
 # Passes locally
 
+gc()
 py_gc <- reticulate::import("gc")
 py_gc$collect()
+
 
 # MODEL FITTING ----
 
