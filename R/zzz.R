@@ -56,10 +56,13 @@ pkg.env$np         <- NULL
     if (dependencies_ok) {
 
         try({
+
             pkg.env$gluonts <- reticulate::import("gluonts", delay_load = TRUE, convert = FALSE)
             pkg.env$pathlib <- reticulate::import("pathlib", delay_load = TRUE, convert = FALSE)
             pkg.env$np      <- reticulate::import("numpy", delay_load = TRUE, convert = FALSE)
             pkg.env$pd      <- reticulate::import("pandas", delay_load = TRUE, convert = FALSE)
+
+
         }, silent = TRUE)
 
         if (is.null(pkg.env$gluonts)) dependencies_ok <- FALSE
@@ -69,6 +72,9 @@ pkg.env$np         <- NULL
     if (!dependencies_ok) {
         if (interactive()) msg_no_gluonts()
     }
+
+    # CHECK GLUONTS VERSION
+    if (dependencies_ok) check_gluonts_version(min_required = "0.8.0")
 
     # LOAD MODELS ----
     make_deep_ar()

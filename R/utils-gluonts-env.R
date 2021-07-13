@@ -128,3 +128,20 @@ detect_default_gluonts_env <- function() {
     return(ret)
 
 }
+
+
+# Check Version
+check_gluonts_version <- function(min_required = "0.8.0") {
+
+    gluonts <- reticulate::import("gluonts")
+
+    installed_version_gluonts <- gluonts$`__version__`
+
+    version_diff <- utils::compareVersion(installed_version_gluonts, min_required)
+
+    if (version_diff < 0) {
+        rlang::warn(
+            stringr::str_glue("Detected gluonts version {installed_version_gluonts}. Upgrade required to gluonts {min_required}. Try running `install_gluonts()`.")
+        )
+    }
+}
