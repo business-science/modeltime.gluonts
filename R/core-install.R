@@ -6,6 +6,9 @@
 #' named `r-gluonts`.
 #' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment
 #'
+#' @param include_pytorch If `TRUE`, will install `torch`. Needed for Torch implementation
+#'   of `deep_ar()`.
+#'
 #' @details
 #'
 #' __Options for Connecting to Python__
@@ -32,7 +35,9 @@
 #'
 #'
 #' @export
-install_gluonts <- function() {
+install_gluonts <- function(
+    include_pytorch = FALSE
+) {
 
     if (!check_conda()) {
         return()
@@ -48,6 +53,14 @@ install_gluonts <- function() {
         "pathlib==1.0.1",
         "ujson"
     )
+
+    if (include_pytorch) {
+        default_pkgs <- c(
+            default_pkgs,
+            "torch~=1.6",
+            "pytorch-lightning~=1.1"
+        )
+    }
 
     cli::cli_process_start("Installing gluonts python dependencies...")
     message("\n")
