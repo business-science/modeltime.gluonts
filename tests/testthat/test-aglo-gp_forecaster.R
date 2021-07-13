@@ -92,6 +92,7 @@ test_that("gp_forecaster: model fitting", {
 testthat::test_that("gp_forecaster: update model spec", {
 
     skip_if_no_gluonts()
+    skip_on_ci()
 
     model_spec_updated <- model_spec %>%
         update(
@@ -129,6 +130,7 @@ testthat::test_that("gp_forecaster: update model spec", {
 testthat::test_that("gp_forecaster: checks/validations", {
 
     skip_if_no_gluonts()
+    skip_on_ci()
 
     # Missing prediction length
     expect_error({
