@@ -15,11 +15,11 @@ coverage](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master
 
 > Deep Learning for Time Series, simplified.
 
-**Important: This package is having ‘minor issues’ with CRAN acceptance
-due to `reticulate` python integration. Because of this, please use the
-`development version`, which is updated with the latest features:**
+**Important: This package is being maintained on GitHub (not CRAN).
+Please install the `development version`, which is updated with the
+latest features:**
 
-    # Install Development Version (Recommended until CRAN update is resolved)
+    # Install Development Version 
     remotes::install_github("business-science/modeltime.gluonts")
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning

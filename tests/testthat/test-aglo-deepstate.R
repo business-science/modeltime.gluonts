@@ -1,4 +1,4 @@
-# DEEP AR TEST ----
+# DEEP STATE TEST ----
 context("Test Deep State")
 
 
