@@ -1,4 +1,5 @@
 # WALMART EXAMPLES ----
+# - Requires modeltime >= 0.6.1.9000
 
 library(modeltime.gluonts)
 library(tidymodels)
@@ -129,17 +130,54 @@ accuracy_tbl <- modeltime_table(
     ) %>%
     modeltime_accuracy(acc_by_id = TRUE)
 
+accuracy_tbl %>% write_rds("examples/accuracy_results_walmart.rds")
+
+
 accuracy_tbl %>%
     group_by(id) %>%
     slice_min(rmse)
 
-accuracy_tbl %>% write_rds("examples/accuracy_results_walmart.rds")
+# FORECAST VISUALIZATION -----
 
-
-plot_walmart_model(
+forecast_tbl <- modeltime_table(
     model_fit_deepar,
     model_fit_deepstate,
     model_fit_nbeats,
-    model_fit_gp,
-    show_ci = FALSE
-)
+    model_fit_gp
+) %>%
+    modeltime_calibrate(
+        new_data = testing(splits),
+        id       = "id"
+    ) %>%
+    modeltime_forecast(
+        new_data      = testing(splits),
+        actual_data   = walmart_sales_weekly,
+        conf_interval = 0.95,
+        conf_by_id    = TRUE
+    )
+
+forecast_tbl %>% write_rds("examples/forecast_walmart.rds")
+
+forecast_tbl %>%
+    group_by(id) %>%
+    plot_modeltime_forecast(
+        .facet_ncol         = 2,
+        .interactive        = FALSE,
+        .conf_interval_show = FALSE,
+        .title              = "Walmart | Forecast Results"
+    )
+
+# SUMMARY ----
+
+read_rds("examples/accuracy_results_walmart.rds") %>%
+    group_by(id) %>%
+    slice_min(rmse)
+
+read_rds("examples/forecast_walmart.rds") %>%
+    group_by(id) %>%
+    plot_modeltime_forecast(
+        .facet_ncol         = 2,
+        .interactive        = FALSE,
+        .conf_interval_show = FALSE,
+        .title              = "Walmart | Forecast Results"
+    )
