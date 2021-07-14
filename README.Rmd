@@ -28,12 +28,16 @@ knitr::opts_chunk$set(
 
 > Deep Learning for Time Series, simplified. 
 
+<hr>
+## Installation Requirements
+
 __Important: This package is being maintained on GitHub (not CRAN). Please install the `development version`, which is updated with the latest features:__
 
 ```
 # Install Development Version 
 remotes::install_github("business-science/modeltime.gluonts")
 ```
+<hr>
 
 Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to develop forecasts using Deep Learning for those that are comfortable with the [Modeltime Forecasting Workflow](https://business-science.github.io/modeltime/). 
 

@@ -15,12 +15,18 @@ coverage](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master
 
 > Deep Learning for Time Series, simplified.
 
+<hr>
+
+## Installation Requirements
+
 **Important: This package is being maintained on GitHub (not CRAN).
 Please install the `development version`, which is updated with the
 latest features:**
 
     # Install Development Version 
     remotes::install_github("business-science/modeltime.gluonts")
+
+<hr>
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning
 Library**, making it easy to develop forecasts using Deep Learning for
