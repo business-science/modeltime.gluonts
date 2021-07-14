@@ -42,7 +42,7 @@ Suggests:
     roxygen2,
     testthat,
     covr
-SystemRequirements: GluonTS >=0.6.0 (https://ts.gluon.ai/)
+SystemRequirements: GluonTS >=0.8.0 (https://ts.gluon.ai/)
 VignetteBuilder: knitr
 URL: https://github.com/business-science/modeltime.gluonts
 BugReports: https://github.com/business-science/modeltime.gluonts/issues
