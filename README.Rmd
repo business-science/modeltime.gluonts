@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/business-science/modeltime.gluonts/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.gluonts/actions)
 <!-- badges: end -->
 
-> Deep Learning for Time Series, simplified. 
+> GluonTS Deep Learning in R. 
 
 <hr>
 ## Installation Requirements
@@ -38,6 +38,8 @@ __Important: This package is being maintained on GitHub (not CRAN). Please insta
 remotes::install_github("business-science/modeltime.gluonts")
 ```
 <hr>
+
+## GluonTS Deep Learning in R
 
 Modeltime GluonTS integrates the __Python GluonTS Deep Learning Library__, making it easy to develop forecasts using Deep Learning for those that are comfortable with the [Modeltime Forecasting Workflow](https://business-science.github.io/modeltime/). 
 

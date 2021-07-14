@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/business-science/modeltime.gluonts/branch/master
 [![R-CMD-check](https://github.com/business-science/modeltime.gluonts/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/modeltime.gluonts/actions)
 <!-- badges: end -->
 
-> Deep Learning for Time Series, simplified.
+> GluonTS Deep Learning in R.
 
 <hr>
 
@@ -27,6 +27,8 @@ latest features:**
     remotes::install_github("business-science/modeltime.gluonts")
 
 <hr>
+
+## GluonTS Deep Learning in R
 
 Modeltime GluonTS integrates the **Python GluonTS Deep Learning
 Library**, making it easy to develop forecasts using Deep Learning for
