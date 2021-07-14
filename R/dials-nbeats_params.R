@@ -1,7 +1,6 @@
 #' Tuning Parameters for NBEATS Models
 #'
 #' @inheritParams dials::learn_rate
-#' @param values A character string of possible values.
 #'
 #' @details
 #' The main parameters for NBEATS models are:

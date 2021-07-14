@@ -15,8 +15,6 @@ largest possible values, respectively.}
 \code{scales::log10_trans()} or \code{scales::reciprocal_trans()}. If not provided,
 the default is used which matches the units used in \code{range}. If no
 transformation, \code{NULL}.}
-
-\item{values}{A character string of possible values.}
 }
 \description{
 Tuning Parameters for NBEATS Models
