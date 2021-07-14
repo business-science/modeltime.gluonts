@@ -12,3 +12,5 @@
 ^\.github$
 ^_environment\.yml$
 ^examples$
+^lightning_logs$
+

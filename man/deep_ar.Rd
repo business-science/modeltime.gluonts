@@ -84,6 +84,7 @@ the object from scratch.
 The model can be created using the fit() function using the following engines:
 \itemize{
 \item \strong{GluonTS DeepAR:} "gluonts_deepar" (the default)
+\item \strong{Pytorch:} "torch". Requires \code{pytorch} and \code{pytorch-lightning}. Install with \code{install_gluonts(include_pytorch = TRUE)}.
 }
 }
 \section{Engine Details}{

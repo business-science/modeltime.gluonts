@@ -76,6 +76,12 @@ pkg.env$np         <- NULL
     # CHECK GLUONTS VERSION
     if (dependencies_ok) check_gluonts_version(min_required = "0.8.0")
 
+    # PYTORCH DEPENDENCIES
+    # - Not needed with trainer dict() implementation
+    # if (reticulate::py_module_available("pytorch_lightning")) {
+    #     pkg.env$pl <- reticulate::import("pytorch_lightning", delay_load = TRUE, convert = FALSE)
+    # }
+
     # LOAD MODELS ----
     make_deep_ar()
     make_nbeats()

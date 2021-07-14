@@ -47,8 +47,21 @@ plot_walmart_model <- function(..., title = "Forecast Plot", show_ci = TRUE) {
         )
 }
 
+get_accuracy_table <- function(...) {
+    modeltime_table(
+        ...
+    ) %>%
+        modeltime_calibrate(
+            new_data = testing(splits),
+            id       = "id"
+        ) %>%
+        modeltime_accuracy(acc_by_id = TRUE) %>%
+        group_by(id)
+}
+
 
 # * DeepAR ----
+t0 <- Sys.time()
 model_fit_deepar <- deep_ar(
     id                    = "id",
     freq                  = "W",
@@ -59,8 +72,45 @@ model_fit_deepar <- deep_ar(
 ) %>%
     set_engine("gluonts_deepar") %>%
     fit(Weekly_Sales ~ Date + id, training(splits))
+t1 <- Sys.time()
+diff_deepar <- t1-t0
+diff_deepar
 
 plot_walmart_model(model_fit_deepar, title = "DeepAR")
+
+# * DeepAR (Torch) ----
+t0 <- Sys.time()
+model_fit_deepar_torch <- deep_ar(
+    id                    = "id",
+    freq                  = "W",
+    prediction_length     = 26,
+    lookback_length       = 52*2,
+    epochs                = 10,
+    scale                 = TRUE
+) %>%
+    set_engine("torch") %>%
+    fit(Weekly_Sales ~ Date + id, training(splits))
+t1 <- Sys.time()
+diff_deepar_torch <- t1-t0
+diff_deepar_torch
+
+tibble(
+    deepar_gluonts = diff_deepar,
+    torch = diff_deepar_torch
+)
+
+plot_walmart_model(model_fit_deepar_torch, title = "DeepAR (Torch)")
+
+plot_walmart_model(
+    model_fit_deepar,
+    model_fit_deepar_torch
+)
+
+get_accuracy_table(
+    model_fit_deepar,
+    model_fit_deepar_torch
+) %>%
+    arrange(id, .model_id)
 
 # * DeepState ----
 #   Notes:
@@ -118,17 +168,12 @@ plot_walmart_model(model_fit_gp, title = "GP Forecaster")
 
 
 # ACCURACY EVALUATION -----
-accuracy_tbl <- modeltime_table(
+accuracy_tbl <- get_accuracy_table(
     model_fit_deepar,
     model_fit_deepstate,
     model_fit_nbeats,
     model_fit_gp
-) %>%
-    modeltime_calibrate(
-        new_data = testing(splits),
-        id       = "id"
-    ) %>%
-    modeltime_accuracy(acc_by_id = TRUE)
+)
 
 accuracy_tbl %>% write_rds("examples/accuracy_results_walmart.rds")
 
