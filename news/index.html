@@ -214,18 +214,28 @@
 <h1 class="page-header" data-toc-text="0.2.2.9000">
 <a href="#modeltimegluonts-0229000-development-version" class="anchor"></a>modeltime.gluonts 0.2.2.9000 (Development Version)<small> Unreleased </small>
 </h1>
-<div id="support-for-gluonts-080" class="section level2">
+<div id="support-for-gluonts-080-and-pytorch-backend" class="section level2">
 <h2 class="hasAnchor">
-<a href="#support-for-gluonts-080" class="anchor"></a>Support for GluonTS 0.8.0:</h2>
+<a href="#support-for-gluonts-080-and-pytorch-backend" class="anchor"></a>Support for GluonTS 0.8.0 and Pytorch Backend:</h2>
 <p>Modeltime GluonTS now support <code>gluonts 0.8.0</code>. Simply run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> to upgrade. The upgraded support makes <code>modeltime.gluonts</code> incompatible with earlier versions of GluonTS (e.g. <code>gluonts 0.6.3</code>). The solution is to upgrade to <code>gluonts 0.8.0</code>, which requires:</p>
 <ul>
 <li><p><code>gluonts==0.8.0</code></p></li>
 <li><p><code>mxnet~=1.7</code></p></li>
 </ul>
+<p>Additionally, GluonTS 0.8.0 now supports <strong>pytorch as a backend.</strong> Use <code><a href="../reference/install_gluonts.html">install_gluonts(include_pytorch = TRUE)</a></code> to simplify installation of the PyTorch backend. Pytorch backend requirements:</p>
+<ul>
+<li><p><code>torch~=1.6.0</code></p></li>
+<li><p><code>pytorch-lightning~=1.1</code></p></li>
+</ul>
 </div>
 <div id="new-algorithms" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-algorithms" class="anchor"></a>New Algorithms</h2>
+<div id="pytorch-deepar" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pytorch-deepar" class="anchor"></a>Pytorch DeepAR</h3>
+<p>A new engine has been added to <code><a href="../reference/deep_ar.html">deep_ar()</a></code> that enables the Pytorch backend using <code>set_engine("torch")</code>. This requires the Python packages <code>pytorch</code> and <code>pytorch-lightning</code>. Use <code><a href="../reference/install_gluonts.html">install_gluonts(include_pytorch = TRUE)</a></code> to simplify installation.</p>
+</div>
 <div id="gp-forecaster-algorithm" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gp-forecaster-algorithm" class="anchor"></a>GP Forecaster Algorithm</h3>
@@ -236,13 +246,28 @@
 <a href="#deep-state-algorithm" class="anchor"></a>Deep State Algorithm</h3>
 <p>A new function, <code><a href="../reference/deep_state.html">deep_state()</a></code>, integrates the Deep State Estimator from GluonTS.</p>
 </div>
-<div id="breaking-changes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h3>
+</div>
+<div id="improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvements" class="anchor"></a>Improvements</h2>
+<ul>
+<li>
+<code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>: Gains two new parameters to help with upgrading:
+<ol>
+<li>
+<code>fresh_install</code>: If TRUE, will remove prior installations of the r-glounts conda environment to setup for a fresh installation. This can be useful if errors appear during upgrades. Default: FALSE.</li>
+<li>
+<code>include_pytorch</code>: If TRUE, will install torch. Needed for Torch implementation of deep_ar(). Default: FALSE.</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>GluonTS &lt;= 0.8.0. The <code>modeltime.gluonts</code> package version &gt;= 0.2.2.9000 is not compatible with <code>gluonts</code> &lt; 0.8.0. To fix, simply upgrade to <code>gluonts</code> 0.8.0.</li>
 </ul>
-</div>
 </div>
 </div>
     <div id="modeltimegluonts-022" class="section level1">
