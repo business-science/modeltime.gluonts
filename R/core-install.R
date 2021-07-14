@@ -7,7 +7,10 @@
 #' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment
 #'
 #' @param include_pytorch If `TRUE`, will install `torch`. Needed for Torch implementation
-#'   of `deep_ar()`.
+#'   of `deep_ar()`. Default: `FALSE`.
+#'  @param fresh_install If `TRUE`, will remove prior installations of the `r-glounts`
+#'   conda environment to setup for a fresh installation. This can be useful if
+#'   errors appear during upgrades. Default: `FALSE`.
 #'
 #' @details
 #'
@@ -36,15 +39,16 @@
 #'
 #' @export
 install_gluonts <- function(
-    include_pytorch = FALSE
+    include_pytorch = FALSE,
+    fresh_install = FALSE
 ) {
 
+    # Check for Anaconda
     if (!check_conda()) {
         return()
     }
 
-    method <- "conda"
-
+    # PACKAGE SPEC
     default_pkgs <- c(
         "mxnet>=1.7",
         "gluonts==0.8.0",
@@ -62,12 +66,18 @@ install_gluonts <- function(
         )
     }
 
+    # If r-gluonts is already created
+    if (fresh_install) {
+        cli::cli_alert_info("Removing conda env `r-gluonts` to setup for fresh install...")
+        reticulate::conda_remove("r-gluonts")
+    }
+
     cli::cli_process_start("Installing gluonts python dependencies...")
     message("\n")
     reticulate::py_install(
         packages       = default_pkgs,
         envname        = "r-gluonts",
-        method         = method,
+        method         = "conda",
         conda          = "auto",
         python_version = "3.7.1",
         pip            = TRUE

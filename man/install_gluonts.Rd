@@ -4,11 +4,14 @@
 \alias{install_gluonts}
 \title{Install GluonTS}
 \usage{
-install_gluonts(include_pytorch = FALSE)
+install_gluonts(include_pytorch = FALSE, fresh_install = FALSE)
 }
 \arguments{
 \item{include_pytorch}{If \code{TRUE}, will install \code{torch}. Needed for Torch implementation
-of \code{deep_ar()}.}
+of \code{deep_ar()}. Default: \code{FALSE}.
+@param fresh_install If \code{TRUE}, will remove prior installations of the \code{r-glounts}
+conda environment to setup for a fresh installation. This can be useful if
+errors appear during upgrades. Default: \code{FALSE}.}
 }
 \description{
 Installs \code{GluonTS} Probabilisitic Deep Learning Time Series Forecasting Software
