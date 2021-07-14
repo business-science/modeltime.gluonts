@@ -216,15 +216,7 @@
     <p>Tuning Parameters for NBEATS Models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lookback_length</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='fu'>num_stacks</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='fu'>num_batches_per_epoch</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='fu'>learn_rate_decay_factor</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='fu'>scale_values</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>num_stacks</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,11 +242,7 @@ transformation, <code>NULL</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The main parameters for NBEATS models are:</p><ul>
-<li><p><code>lookback_length</code>: Number of time units that condition the predictions.</p></li>
 <li><p><code>num_stacks</code>: The number of stacks the network should contain.</p></li>
-<li><p><code>num_batches_per_epoch</code>: Number of batches at each epoch.</p></li>
-<li><p><code>learn_rate_decay_factor</code>: Factor by which to decrease the learning rate.</p></li>
-<li><p><code>scale_values</code>: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.</p></li>
 </ul>
 
 

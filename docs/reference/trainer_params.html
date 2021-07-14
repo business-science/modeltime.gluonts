@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Install GluonTS — install_gluonts • modeltime.gluonts</title>
+<title>General Tuning Parameters for GluonTS Trainers (All Models) — trainer_params • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,15 +46,8 @@
 
 
 
-<meta property="og:title" content="Install GluonTS — install_gluonts" />
-<meta property="og:description" content="Installs GluonTS Probabilisitic Deep Learning Time Series Forecasting Software
-using reticulate::py_install().
-A Python Environment will be created named r-gluonts.
-When loaded with library(modeltime.gluonts), the modeltime.gluonts R package
-will connect to the r-gluonts Python environment by default. See &quot;Details&quot; for
-connecting to custom python environments.
-
-" />
+<meta property="og:title" content="General Tuning Parameters for GluonTS Trainers (All Models) — trainer_params" />
+<meta property="og:description" content="These parameters are part of the gluonts.mx.trainer.Trainer() function." />
 
 
 
@@ -214,66 +207,60 @@ connecting to custom python environments.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Install GluonTS</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/core-install.R'><code>R/core-install.R</code></a></small>
-    <div class="hidden name"><code>install_gluonts.Rd</code></div>
+    <h1>General Tuning Parameters for GluonTS Trainers (All Models)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/dials-trainer_params.R'><code>R/dials-trainer_params.R</code></a></small>
+    <div class="hidden name"><code>trainer_params.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Installs <code>GluonTS</code> Probabilisitic Deep Learning Time Series Forecasting Software
-using <code><a href='https://rdrr.io/pkg/reticulate/man/py_install.html'>reticulate::py_install()</a></code>.</p><ul>
-<li><p>A <code>Python</code> Environment will be created named <code>r-gluonts</code>.</p></li>
-<li><p>When loaded with <code><a href='https://github.com/business-science/modeltime.gluonts'>library(modeltime.gluonts)</a></code>, the <code>modeltime.gluonts</code> R package
-will connect to the <code>r-gluonts</code> Python environment by default. See "Details" for
-connecting to custom python environments.</p></li>
-</ul>
-
+    <p>These parameters are part of the <code>gluonts.mx.trainer.Trainer()</code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span>fresh_install <span class='op'>=</span> <span class='cn'>FALSE</span>, include_pytorch <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lookback_length</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/unknown.html'>unknown</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>num_batches_per_epoch</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>learn_rate_decay_factor</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>scale_values</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fresh_install</th>
-      <td><p>If <code>TRUE</code>, will remove prior installations of the <code>r-glounts</code>
-conda environment to setup for a fresh installation. This can be useful if
-errors appear during upgrades. Default: <code>FALSE</code>.</p></td>
+      <th>range</th>
+      <td><p>A two-element vector holding the <em>defaults</em> for the smallest and
+largest possible values, respectively.</p></td>
     </tr>
     <tr>
-      <th>include_pytorch</th>
-      <td><p>If <code>TRUE</code>, will install <code>torch</code>. Needed for Torch implementation
-of <code><a href='deep_ar.html'>deep_ar()</a></code>. Default: <code>FALSE</code>.</p></td>
+      <th>trans</th>
+      <td><p>A <code>trans</code> object from the <code>scales</code> package, such as
+<code><a href='https://scales.r-lib.org/reference/log_trans.html'>scales::log10_trans()</a></code> or <code><a href='https://scales.r-lib.org/reference/reciprocal_trans.html'>scales::reciprocal_trans()</a></code>. If not provided,
+the default is used which matches the units used in <code>range</code>. If no
+transformation, <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>values</th>
+      <td><p>A character string of possible values.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>Options for Connecting to Python</strong></p><ul>
-<li><p><strong>Recommended</strong> <em>Use Pre-Configured Python Environment:</em> Use <code>install_gluonts()</code> to
-install GluonTS Python Libraries into a conda environment named 'r-gluonts'.</p></li>
-<li><p><strong>Advanced</strong> <em>Use a Custom Python Environment:</em> Before running <code><a href='https://github.com/business-science/modeltime.gluonts'>library(modeltime.gluonts)</a></code>,
-use <code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> to set the path of your
-python executable in an environment that has 'gluonts', 'mxnet', 'numpy', 'pandas',
-and 'pathlib' available as dependencies.</p></li>
+    <p>The main parameters for GluonTS Model Training are:</p><ul>
+<li><p><code>epochs</code>: The number of iterations of training. See <code><a href='https://dials.tidymodels.org/reference/dropout.html'>dials::epochs()</a></code>.</p></li>
+<li><p><code>num_batches_per_epoch</code>: Number of batches at each epoch.</p></li>
+<li><p><code>learn_rate</code>: The rate at which learning is changed. See <code><a href='https://dials.tidymodels.org/reference/learn_rate.html'>dials::learn_rate()</a></code>.</p></li>
+<li><p><code>learn_rate_decay_factor</code>: Factor by which to decrease the learning rate.</p></li>
+<li><p><code>penalty</code>: The weight decay (or L2 regularization) coefficient. See <code><a href='https://dials.tidymodels.org/reference/penalty.html'>dials::penalty()</a></code>.</p></li>
 </ul>
 
-<p><strong>Package Manager Support (Python Environment)</strong></p><ul>
-<li><p><strong>Conda Environments:</strong> Currently, <code>install_gluonts()</code> supports Conda and Miniconda Environments.</p></li>
-<li><p><strong>Virtual Environments:</strong> are not currently supported with the default installation method, <code>install_gluonts()</code>.
-However, you can connect to virtual environment that you have created using
-<code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(GLUONTS_PYTHON = 'path/to/python')</a></code> prior to running <code><a href='https://github.com/business-science/modeltime.ensemble'>library(modeltime.ensemble)</a></code>.</p></li>
+<p>Additional useful parameters that have been added to Modeltime are:</p><ul>
+<li><p><code>lookback_length</code>: Number of time units that condition the predictions.</p></li>
+<li><p><code>scale_values</code>: Scales numeric data by `id' group using mean = 0, standard deviation = 1 transformation.</p></li>
 </ul>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>install_gluonts</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

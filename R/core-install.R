@@ -2,13 +2,14 @@
 #'
 #' Installs `GluonTS` Probabilisitic Deep Learning Time Series Forecasting Software
 #' using `reticulate::py_install()`.
-#' - A `Python` Environment will be created
-#' named `r-gluonts`.
-#' - The Modletime GluonTS R package will connect to the `r-gluonts` Python environment
+#' - A `Python` Environment will be created named `r-gluonts`.
+#' - When loaded with `library(modeltime.gluonts)`, the `modeltime.gluonts` R package
+#'   will connect to the `r-gluonts` Python environment by default. See "Details" for
+#'   connecting to custom python environments.
 #'
 #' @param include_pytorch If `TRUE`, will install `torch`. Needed for Torch implementation
 #'   of `deep_ar()`. Default: `FALSE`.
-#'  @param fresh_install If `TRUE`, will remove prior installations of the `r-glounts`
+#' @param fresh_install If `TRUE`, will remove prior installations of the `r-glounts`
 #'   conda environment to setup for a fresh installation. This can be useful if
 #'   errors appear during upgrades. Default: `FALSE`.
 #'
@@ -39,8 +40,8 @@
 #'
 #' @export
 install_gluonts <- function(
-    include_pytorch = FALSE,
-    fresh_install = FALSE
+    fresh_install = FALSE,
+    include_pytorch = FALSE
 ) {
 
     # Check for Anaconda

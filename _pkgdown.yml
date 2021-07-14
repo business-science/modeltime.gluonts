@@ -79,6 +79,7 @@ reference:
   - title: Dials Tuning Parameters
     desc: Tuning parameters for various deep learning models
     contents:
+    - trainer_params
     - nbeats_params
   - title: GluonTS Developer Utilities
     desc: These are not meant for general use. Usage is internal to library functionality.

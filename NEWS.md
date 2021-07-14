@@ -29,8 +29,13 @@ A new function, `gp_forecaster()`, integrates the Gaussian Process Estimator fro
 
 A new function, `deep_state()`, integrates the Deep State Estimator from GluonTS. 
 
+## Improvements
 
-### Breaking Changes
+- `install_gluonts()`: Gains two new parameters to help with upgrading:
+    1. `fresh_install`: If TRUE, will remove prior installations of the r-glounts conda environment to setup for a fresh installation. This can be useful if errors appear during upgrades. Default: FALSE.
+    2. `include_pytorch`: If TRUE, will install torch. Needed for Torch implementation of deep_ar(). Default: FALSE.
+
+## Breaking Changes
 
 - GluonTS <= 0.8.0. The `modeltime.gluonts` package version >= 0.2.2.9000 is not compatible with `gluonts` < 0.8.0. To fix, simply upgrade to `gluonts` 0.8.0. 
 

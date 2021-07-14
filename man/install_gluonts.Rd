@@ -4,22 +4,24 @@
 \alias{install_gluonts}
 \title{Install GluonTS}
 \usage{
-install_gluonts(include_pytorch = FALSE, fresh_install = FALSE)
+install_gluonts(fresh_install = FALSE, include_pytorch = FALSE)
 }
 \arguments{
-\item{include_pytorch}{If \code{TRUE}, will install \code{torch}. Needed for Torch implementation
-of \code{deep_ar()}. Default: \code{FALSE}.
-@param fresh_install If \code{TRUE}, will remove prior installations of the \code{r-glounts}
+\item{fresh_install}{If \code{TRUE}, will remove prior installations of the \code{r-glounts}
 conda environment to setup for a fresh installation. This can be useful if
 errors appear during upgrades. Default: \code{FALSE}.}
+
+\item{include_pytorch}{If \code{TRUE}, will install \code{torch}. Needed for Torch implementation
+of \code{deep_ar()}. Default: \code{FALSE}.}
 }
 \description{
 Installs \code{GluonTS} Probabilisitic Deep Learning Time Series Forecasting Software
 using \code{reticulate::py_install()}.
 \itemize{
-\item A \code{Python} Environment will be created
-named \code{r-gluonts}.
-\item The Modletime GluonTS R package will connect to the \code{r-gluonts} Python environment
+\item A \code{Python} Environment will be created named \code{r-gluonts}.
+\item When loaded with \code{library(modeltime.gluonts)}, the \code{modeltime.gluonts} R package
+will connect to the \code{r-gluonts} Python environment by default. See "Details" for
+connecting to custom python environments.
 }
 }
 \details{
