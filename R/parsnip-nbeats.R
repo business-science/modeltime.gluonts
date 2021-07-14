@@ -179,7 +179,10 @@
 #' The `fit()` interface accepts date and date-time features and handles them internally.
 #'
 #'
+#' @references
 #'
+#' 1. Boris N. Oreshkin, Dmitri Carpov, Nicolas Chapados, Yoshua Bengio. "N-BEATS: Neural basis expansion analysis for interpretable time series forecasting"
+#'    arXiv:1905.10437 (2019).
 #'
 #' @seealso [fit.model_spec()], [set_engine()]
 #'

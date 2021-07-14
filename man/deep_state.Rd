@@ -230,6 +230,11 @@ predict(model_fitted, new_data)
 }
 
 }
+\references{
+\enumerate{
+\item Rangapuram, Syama Sundar, et al. "Deep state space models for time series forecasting." Advances in Neural Information Processing Systems. 2018.
+}
+}
 \seealso{
 \code{\link[=fit.model_spec]{fit.model_spec()}}, \code{\link[=set_engine]{set_engine()}}
 }

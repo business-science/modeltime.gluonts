@@ -229,6 +229,11 @@ predict(model_fitted, new_data)
 }
 
 }
+\references{
+\enumerate{
+\item Salinas, David, Valentin Flunkert, and Jan Gasthaus. "DeepAR: Probabilistic forecasting with autoregressive recurrent networks." arXiv preprint arXiv:1704.04110 (2017).
+}
+}
 \seealso{
 \code{\link[=fit.model_spec]{fit.model_spec()}}, \code{\link[=set_engine]{set_engine()}}
 }

@@ -129,7 +129,9 @@
 #' The `fit()` interface accepts date and date-time features and handles them internally.
 #'
 #'
+#' @references
 #'
+#' 1. Salinas, David, Valentin Flunkert, and Jan Gasthaus. "DeepAR: Probabilistic forecasting with autoregressive recurrent networks." arXiv preprint arXiv:1704.04110 (2017).
 #'
 #' @seealso [fit.model_spec()], [set_engine()]
 #'

@@ -130,6 +130,10 @@
 #'
 #' @seealso [fit.model_spec()], [set_engine()]
 #'
+#' @references
+#'
+#' 1. Rangapuram, Syama Sundar, et al. "Deep state space models for time series forecasting." Advances in Neural Information Processing Systems. 2018.
+#'
 #' @examples
 #' \donttest{
 #' library(tidymodels)
