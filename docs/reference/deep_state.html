@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General Interface for N-BEATS Time Series Models — nbeats • modeltime.gluonts</title>
+<title>General Interface for GP Forecaster Time Series Models — deep_state • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,10 @@
 
 
 
-<meta property="og:title" content="General Interface for N-BEATS Time Series Models — nbeats" />
-<meta property="og:description" content="nbeats() is a way to generate a specification of a N-BEATS model
+<meta property="og:title" content="General Interface for GP Forecaster Time Series Models — deep_state" />
+<meta property="og:description" content="deep_state() is a way to generate a specification of a DeepState Estimator
 before fitting and allows the model to be created using
-different packages. Currently the only package is gluonts.
-There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Beats." />
+different packages. Currently the only package is gluonts." />
 
 
 
@@ -210,28 +209,28 @@ There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Be
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>General Interface for N-BEATS Time Series Models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-nbeats.R'><code>R/parsnip-nbeats.R</code></a></small>
-    <div class="hidden name"><code>nbeats.Rd</code></div>
+    <h1>General Interface for GP Forecaster Time Series Models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-deepstate.R'><code>R/parsnip-deepstate.R</code></a></small>
+    <div class="hidden name"><code>deep_state.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>nbeats()</code> is a way to generate a <em>specification</em> of a N-BEATS model
+    <p><code>deep_state()</code> is a way to generate a <em>specification</em> of a DeepState Estimator
 before fitting and allows the model to be created using
-different packages. Currently the only package is <code>gluonts</code>.
-There are 2 N-Beats implementations: (1) Standard N-Beats, and (2) Ensemble N-Beats.</p>
+different packages. Currently the only package is <code>gluonts</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nbeats</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>deep_state</span><span class='op'>(</span>
   mode <span class='op'>=</span> <span class='st'>"regression"</span>,
   <span class='va'>id</span>,
   <span class='va'>freq</span>,
   <span class='va'>prediction_length</span>,
   lookback_length <span class='op'>=</span> <span class='cn'>NULL</span>,
-  loss_function <span class='op'>=</span> <span class='cn'>NULL</span>,
-  bagging_size <span class='op'>=</span> <span class='cn'>NULL</span>,
-  num_stacks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  num_blocks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add_trend <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cell_type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  num_layers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  num_cells <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dropout <span class='op'>=</span> <span class='cn'>NULL</span>,
   epochs <span class='op'>=</span> <span class='cn'>NULL</span>,
   batch_size <span class='op'>=</span> <span class='cn'>NULL</span>,
   num_batches_per_epoch <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -267,24 +266,29 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
     </tr>
     <tr>
       <th>lookback_length</th>
-      <td><p>Number of time units that condition the predictions Also known as 'lookback period'. Default is 2 * prediction_length.</p></td>
+      <td><p>Number of steps to unroll the RNN for before computing predictions
+(default: NULL, in which case past_length = prediction_length)</p></td>
     </tr>
     <tr>
-      <th>loss_function</th>
-      <td><p>The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".</p></td>
+      <th>add_trend</th>
+      <td><p>Flag to indicate whether to include trend component
+in the state-space model. Default: FALSE.</p></td>
     </tr>
     <tr>
-      <th>bagging_size</th>
-      <td><p>(Applicable to Ensemble N-Beats). The number of models that share the parameter combination of 'context_length' and 'loss_function'.
-Each of these models gets a different initialization random initialization. Default and recommended value: 10.</p></td>
+      <th>cell_type</th>
+      <td><p>Type of recurrent cells to use (available: 'lstm' or 'gru'; default: 'lstm')</p></td>
     </tr>
     <tr>
-      <th>num_stacks</th>
-      <td><p>The number of stacks the network should contain. Default and recommended value for generic mode: 30 Recommended value for interpretable mode: 2</p></td>
+      <th>num_layers</th>
+      <td><p>Number of RNN layers (default: 2)</p></td>
     </tr>
     <tr>
-      <th>num_blocks</th>
-      <td><p>The number of blocks per stack. A list of ints of length 1 or 'num_stacks'. Default and recommended value for generic mode: 1. Recommended value for interpretable mode: 3.</p></td>
+      <th>num_cells</th>
+      <td><p>Number of RNN cells for each layer (default: 40)</p></td>
+    </tr>
+    <tr>
+      <th>dropout</th>
+      <td><p>Dropout regularization parameter (default: 0.1)</p></td>
     </tr>
     <tr>
       <th>epochs</th>
@@ -337,8 +341,7 @@ the values are taken from the underlying model functions.
 If parameters need to be modified, <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code> can be used in lieu of recreating
 the object from scratch.</p>
 <p>The model can be created using the fit() function using the following engines:</p><ul>
-<li><p><strong>GluonTS N-BEATS:</strong> "gluonts_nbeats" (the default)</p></li>
-<li><p><strong>GluonTS N-BEATS Ensemble:</strong> "gluonts_nbeats_ensemble"</p></li>
+<li><p><strong>GluonTS DeepStateEstimator:</strong> "gluonts_deepstate" (the default)</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="engine-details"><a class="anchor" href="#engine-details"></a>Engine Details</h2>
@@ -348,25 +351,21 @@ the object from scratch.</p>
 
 <p>The standardized parameter names in <code>modeltime</code> can be mapped to their original
 names in each engine:</p><table class='table'>
-<tr><td>modeltime</td><td>NBEATSEstimator</td><td>NBEATSEnsembleEstimator</td></tr>
-<tr><td>id</td><td>ListDataset('item_id')</td><td>ListDataset('item_id')</td></tr>
-<tr><td>freq</td><td>freq</td><td>freq</td></tr>
-<tr><td>prediction_length</td><td>prediction_length</td><td>prediction_length</td></tr>
-<tr><td>lookback_length</td><td>context_length (= 2 x prediction_length)</td><td>meta_context_length (= prediction_length x c(2,4))</td></tr>
-<tr><td>bagging_size</td><td>NA</td><td>meta_bagging_size (3)</td></tr>
-<tr><td>loss_function</td><td>loss_function ('sMAPE')</td><td>meta_loss_function (list('sMAPE'))</td></tr>
-<tr><td>num_stacks</td><td>num_stacks (30)</td><td>num_stacks (30)</td></tr>
-<tr><td>num_blocks</td><td>num_blocks (list(1))</td><td>num_blocks (list(1))</td></tr>
-<tr><td>epochs</td><td>epochs (5)</td><td>epochs (5)</td></tr>
-<tr><td>batch_size</td><td>batch_size (32)</td><td>batch_size (32)</td></tr>
-<tr><td>num_batches_per_epoch</td><td>num_batches_per_epoch (50)</td><td>num_batches_per_epoch (50)</td></tr>
-<tr><td>learn_rate</td><td>learning_rate (0.001)</td><td>learning_rate (0.001)</td></tr>
-<tr><td>learn_rate_decay_factor</td><td>learning_rate_decay_factor (0.5)</td><td>learning_rate_decay_factor (0.5)</td></tr>
-<tr><td>learn_rate_min</td><td>minimum_learning_rate (5e-5)</td><td>minimum_learning_rate (5e-5)</td></tr>
-<tr><td>patience</td><td>patience (10)</td><td>patience (10)</td></tr>
-<tr><td>clip_gradient</td><td>clip_gradient (10)</td><td>clip_gradient (10)</td></tr>
-<tr><td>penalty</td><td>weight_decay (1e-8)</td><td>weight_decay (1e-8)</td></tr>
-<tr><td>scale</td><td>scale_by_id (FALSE)</td><td>scale_by_id (FALSE)</td></tr>
+<tr><td>modeltime</td><td>DeepStateEstimator</td></tr>
+<tr><td>id</td><td>NA</td></tr>
+<tr><td>freq</td><td>freq</td></tr>
+<tr><td>prediction_length</td><td>prediction_length</td></tr>
+<tr><td>lookback_length</td><td>past_length (= prediction_length)</td></tr>
+<tr><td>epochs</td><td>epochs (5)</td></tr>
+<tr><td>batch_size</td><td>batch_size (32)</td></tr>
+<tr><td>num_batches_per_epoch</td><td>num_batches_per_epoch (50)</td></tr>
+<tr><td>learn_rate</td><td>learning_rate (0.001)</td></tr>
+<tr><td>learn_rate_decay_factor</td><td>learning_rate_decay_factor (0.5)</td></tr>
+<tr><td>learn_rate_min</td><td>minimum_learning_rate (5e-5)</td></tr>
+<tr><td>patience</td><td>patience (10)</td></tr>
+<tr><td>clip_gradient</td><td>clip_gradient (10)</td></tr>
+<tr><td>penalty</td><td>weight_decay (1e-8)</td></tr>
+<tr><td>scale</td><td>scale_by_id (FALSE)</td></tr>
 </table>
 
 
@@ -374,15 +373,15 @@ names in each engine:</p><table class='table'>
 <p>Other options can be set using <code>set_engine()</code>.</p>
     <h2 class="hasAnchor" id="engine"><a class="anchor" href="#engine"></a>Engine</h2>
 
-    <p>gluonts_nbeats</p>
-<p>The engine uses <code>gluonts.model.n_beats.NBEATSEstimator()</code>.
+    <p>gluonts_deepstate</p>
+<p>The engine uses <code>gluonts.model.deep_state.DeepStateEstimator()</code>.
 Default values that have been changed to prevent long-running computations:</p><ul>
 <li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
-<li><p><code>loss_function = 'sMAPE'</code>: GluonTS by default uses MAPE. MAPE can suffer from issues with small values.</p></li>
+<li><p><code>cardinality = 1</code>: GluonTS requires user to provide. You can change this via <code>set_engine()</code></p></li>
 </ul>
 
 <p><em>Required Parameters</em></p>
-<p>The <code>gluonts_nbeats</code> implementation has several <em>Required Parameters</em>,
+<p>The <code>gluonts</code> implementation has several <em>Required Parameters</em>,
 which are user-defined.</p>
 <p><em>1. ID Variable (Required):</em></p>
 <p>An important difference between other parsnip models is that
@@ -390,47 +389,7 @@ each time series (even single time series) must be uniquely identified
 by an ID variable.</p><ul>
 <li><p>The ID feature must be of class <code>character</code> or <code>factor</code>.</p></li>
 <li><p>This ID feature is provided as a quoted expression
-during the model specification process (e.g. <code>nbeats(id = "ID")</code> assuming
-you have a column in your data named "ID").</p></li>
-</ul>
-
-<p><em>2. Frequency (Required):</em></p>
-<p>The GluonTS models use a Pandas Timestamp Frequency <code>freq</code> to generate
-features internally. Examples:</p><ul>
-<li><p><code>freq = "5min"</code> for timestamps that are 5-minutes apart</p></li>
-<li><p><code>freq = "D"</code> for Daily Timestamps</p></li>
-</ul>
-
-<p>The Pandas Timestamps are quite flexible.
-Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases'>Pandas Offset Aliases</a>.</p>
-<p><em>3. Prediction Length (Required):</em></p>
-<p>Unlike other parsnip models, a <code>prediction_length</code> is required
-during the model specification and fitting process.</p>
-<p>gluonts_nbeats_ensemble</p>
-<p>The engine uses <code>gluonts.model.n_beats.NBEATSEnsembleEstimator()</code>.</p>
-<p><em>Number of Models Created</em></p>
-<p>This model is very good, but can be expensive (long-running) due to the number of models that are being created.
-The number of models follows the formula:</p>
-<p><code>length(lookback_length) x length(loss_function) x meta_bagging_size</code></p>
-<p>The default values that have been changed from GluonTS implementation to prevent long-running computations:</p><ul>
-<li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
-<li><p><code>lookback_length = prediction_length * c(2, 4)</code>. GluonTS uses range of 2:7, which doubles the number of models created.</p></li>
-<li><p><code>bagging_size = 3</code>: Averages 5 like models together. GluonTS uses 10, which doubles the number of models created.</p></li>
-<li><p><code>loss_function = 'sMAPE'</code>: GluonTS uses 3 <code>meta_loss_function = list('sMAPE', 'MASE', 'MAPE')</code>,
-which 3X's (triples) the number of models created.</p></li>
-</ul>
-
-<p>The result is: 2 x 1 x 3 = <strong>6 models.</strong> Each model will have 5 epochs by default.</p>
-<p><em>Required Parameters</em></p>
-<p>The <code>gluonts_nbeats_ensemble</code> implementation has several <em>Required Parameters</em>,
-which are user-defined.</p>
-<p><em>1. ID Variable (Required):</em></p>
-<p>An important difference between other parsnip models is that
-each time series (even single time series) must be uniquely identified
-by an ID variable.</p><ul>
-<li><p>The ID feature must be of class <code>character</code> or <code>factor</code>.</p></li>
-<li><p>This ID feature is provided as a quoted expression
-during the model specification process (e.g. <code>nbeats(id = "ID")</code> assuming
+during the model specification process (e.g. <code>deep_state(id = "ID")</code> assuming
 you have a column in your data named "ID").</p></li>
 </ul>
 
@@ -464,7 +423,7 @@ a column named "date" and "id".</p></li>
 <p>An ID feature must be included in the recipe or formula fitting
 process. This assists with cataloging the time series inside <code>GluonTS</code> ListDataset.
 The column name must match the quoted feature name specified in the
-<code>nbeats(id = "id")</code> expects a column inside your data named "id".</p>
+<code>deep_state(id = "id")</code> expects a column inside your data named "id".</p>
 <p><strong>Date and Date-Time Variable</strong></p>
 <p>It's a requirement to have a date or date-time variable as a predictor.
 The <code>fit()</code> interface accepts date and date-time features and handles them internally.</p>
@@ -472,8 +431,7 @@ The <code>fit()</code> interface accepts date and date-time features and handles
 
     
 <ol>
-<li><p>Boris N. Oreshkin, Dmitri Carpov, Nicolas Chapados, Yoshua Bengio. "N-BEATS: Neural basis expansion analysis for interpretable time series forecasting"
-arXiv:1905.10437 (2019).</p></li>
+<li><p>Rangapuram, Syama Sundar, et al. "Deep state space models for time series forecasting." Advances in Neural Information Processing Systems. 2018.</p></li>
 </ol>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -489,7 +447,7 @@ arXiv:1905.10437 (2019).</p></li>
 
 <span class='co'># ---- MODEL SPEC ----</span>
 <span class='co'># - Important: Make sure *required* parameters are provided</span>
-<span class='va'>model_spec</span> <span class='op'>&lt;-</span> <span class='fu'>nbeats</span><span class='op'>(</span>
+<span class='va'>model_spec</span> <span class='op'>&lt;-</span> <span class='fu'>deep_state</span><span class='op'>(</span>
 
     <span class='co'># User Defined (Required) Parameters</span>
     id                    <span class='op'>=</span> <span class='st'>"id"</span>,
@@ -500,10 +458,10 @@ arXiv:1905.10437 (2019).</p></li>
     epochs                <span class='op'>=</span> <span class='fl'>1</span>,
     num_batches_per_epoch <span class='op'>=</span> <span class='fl'>4</span>
 <span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"gluonts_nbeats"</span><span class='op'>)</span>
+    <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"gluonts_deepstate"</span><span class='op'>)</span>
 
 <span class='va'>model_spec</span>
-</div><div class='output co'>#&gt; N-BEATS Model Specification (regression)
+</div><div class='output co'>#&gt; Deep State Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   id = id
@@ -512,7 +470,7 @@ arXiv:1905.10437 (2019).</p></li>
 #&gt;   epochs = 1
 #&gt;   num_batches_per_epoch = 4
 #&gt; 
-#&gt; Computational engine: gluonts_nbeats 
+#&gt; Computational engine: gluonts_deepstate 
 #&gt; </div><div class='input'>
 <span class='co'># ---- TRAINING ----</span>
 <span class='co'># Important: Make sure the date and id features are included as regressors</span>
@@ -523,12 +481,12 @@ arXiv:1905.10437 (2019).</p></li>
 <span class='va'>model_fitted</span>
 </div><div class='output co'>#&gt; parsnip model object
 #&gt; 
-#&gt; Fit time:  2.5s 
-#&gt; NBEATS
+#&gt; Fit time:  1.5s 
+#&gt; DeepState
 #&gt; --------
 #&gt; Model: &lt;gluonts.mx.model.predictor.RepresentableBlockPredictor&gt;
 #&gt; 
-#&gt; gluonts.model.n_beats._network.NBEATSPredictionNetwork(context_length=48, expansion_coefficient_lengths=[32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32], num_block_layers=[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4], num_blocks=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], num_stacks=30, prediction_length=24, scale=False, sharing=[False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], stack_types=["G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G", "G"], widths=[512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512])</div><div class='input'>
+#&gt; gluonts.model.deepstate._network.DeepStatePredictionNetwork(cardinality=[1], cell_type="lstm", dropout_rate=0.1, embedding_dimension=[1], innovation_bounds=gluonts.mx.distribution.lds.ParameterBounds(lower=1e-06, upper=0.01), issm=gluonts.model.deepstate.issm.CompositeISSM(add_trend=False, seasonal_issms=[gluonts.model.deepstate.issm.SeasonalityISSM(num_seasons=12, time_feature=gluonts.time_feature._base.MonthOfYearIndex())]), noise_std_bounds=gluonts.mx.distribution.lds.ParameterBounds(lower=1e-06, upper=1.0), num_cells=40, num_layers=2, num_parallel_samples=100, past_length=48, prediction_length=24, prior_cov_bounds=gluonts.mx.distribution.lds.ParameterBounds(lower=1e-06, upper=1.0), scaling=True)</div><div class='input'>
 <span class='co'># ---- PREDICT ----</span>
 <span class='co'># - IMPORTANT: New Data must have id and date features</span>
 <span class='va'>new_data</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
@@ -540,7 +498,7 @@ arXiv:1905.10437 (2019).</p></li>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 1</span>
 #&gt;   .pred
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> <span style='text-decoration: underline;'>1</span>764.</div><div class='input'><span class='co'># }</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='text-decoration: underline;'>8</span>867.</div><div class='input'><span class='co'># }</span>
 
 </div></pre>
   </div>

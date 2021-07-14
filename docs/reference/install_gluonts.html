@@ -95,7 +95,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -141,7 +141,7 @@ The Modletime GluonTS R package will connect to the r-gluonts Python environment
     <li class="dropdown-header">API Functions</li>
     <li>
       <a href="../reference/index.html">
-        <span class="fas fa-home"></span>
+        <span class="fa fa-home"></span>
          
         Function Reference
       </a>
@@ -228,8 +228,20 @@ named <code>r-gluonts</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span>include_pytorch <span class='op'>=</span> <span class='cn'>FALSE</span>, fresh_install <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>include_pytorch</th>
+      <td><p>If <code>TRUE</code>, will install <code>torch</code>. Needed for Torch implementation
+of <code><a href='deep_ar.html'>deep_ar()</a></code>. Default: <code>FALSE</code>.
+@param fresh_install If <code>TRUE</code>, will remove prior installations of the <code>r-glounts</code>
+conda environment to setup for a fresh installation. This can be useful if
+errors appear during upgrades. Default: <code>FALSE</code>.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 

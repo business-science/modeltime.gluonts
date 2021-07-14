@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -135,7 +135,7 @@
     <li class="dropdown-header">API Functions</li>
     <li>
       <a href="../reference/index.html">
-        <span class="fas fa-home"></span>
+        <span class="fa fa-home"></span>
          
         Function Reference
       </a>
@@ -242,7 +242,8 @@
   sharing <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>,
   expansion_coefficient_lengths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>32</span><span class='op'>)</span>,
   stack_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"G"</span><span class='op'>)</span>,
-  scale_by_id <span class='op'>=</span> <span class='cn'>FALSE</span>
+  scale_by_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -353,6 +354,10 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
     <tr>
       <th>scale_by_id</th>
       <td><p>Scales numeric data by <code>id</code> group using mean = 0, standard deviation = 1 transformation. (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional Arguments passed to <code>gluonts.model.n_beats.NBEATSEstimator()</code></p></td>
     </tr>
     </table>
 

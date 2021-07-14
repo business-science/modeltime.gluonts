@@ -1,7 +1,7 @@
 
 # modeltime.gluonts 0.2.2.9000 (Development Version)
 
-## Support for GluonTS 0.8.0:
+## Support for GluonTS 0.8.0 and Pytorch Backend:
 
 Modeltime GluonTS now support `gluonts 0.8.0`. Simply run `install_gluonts()` to upgrade. The upgraded support makes `modeltime.gluonts` incompatible with earlier versions of GluonTS (e.g. `gluonts 0.6.3`). The solution is to upgrade to `gluonts 0.8.0`, which requires:
 
@@ -9,7 +9,17 @@ Modeltime GluonTS now support `gluonts 0.8.0`. Simply run `install_gluonts()` to
 
 - `mxnet~=1.7`
 
+Additionally, GluonTS 0.8.0 now supports __pytorch as a backend.__ Use `install_gluonts(include_pytorch = TRUE)` to simplify installation of the PyTorch backend. Pytorch backend requirements:
+
+- `torch~=1.6.0`
+            
+- `pytorch-lightning~=1.1`
+
 ## New Algorithms
+
+### Pytorch  DeepAR 
+
+A new engine has been added to `deep_ar()` that enables the Pytorch backend using `set_engine("torch")`. This requires the Python packages `pytorch` and `pytorch-lightning`. Use `install_gluonts(include_pytorch = TRUE)` to simplify installation.
 
 ### GP Forecaster Algorithm
 

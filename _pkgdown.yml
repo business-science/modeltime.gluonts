@@ -62,12 +62,15 @@ navbar:
 
 reference:
   - title: Installation
+    desc: Use this function to quickly install and configure a GluonTS environment for use with `modeltime.gluonts`.
     contents:
     - install_gluonts
   - title: GluonTS Algorithm Integrations
     desc: The main algorithms that have been integrated with modeltime.
     contents:
     - deep_ar
+    - deep_state
+    - gp_forecaster
     - nbeats
   - title: Saving and Loading Models
     desc: The `parsnip`-adjacent algorithms that implement time series models.
@@ -77,10 +80,12 @@ reference:
     desc: Tuning parameters for various deep learning models
     contents:
     - nbeats_params
-  - title: GluonTS Helpers
+  - title: GluonTS Developer Utilities
+    desc: These are not meant for general use. Usage is internal to library functionality.
     contents:
     - to_gluon_list_dataset
     - as_pandas_timestamp
+    - is_gluonts_activated
 
 repo:
   url:

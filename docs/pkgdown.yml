@@ -1,9 +1,9 @@
-pandoc: 2.11.4
+pandoc: '2.13'
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
   managing-envs: managing-envs.html
   using-gpus: using-gpus.html
-last_built: 2021-03-22T15:19Z
+last_built: 2021-07-14T11:16Z
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl • modeltime.gluonts</title>
+<title>GluonTS DeepState Forecaster Modeling Function (Bridge) — deepstate_fit_impl • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl" />
-<meta property="og:description" content="GluonTS DeepAR Modeling Function (Bridge)" />
+<meta property="og:title" content="GluonTS DeepState Forecaster Modeling Function (Bridge) — deepstate_fit_impl" />
+<meta property="og:description" content="GluonTS DeepState Forecaster Modeling Function (Bridge)" />
 
 
 
@@ -207,16 +207,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GluonTS DeepAR Modeling Function (Bridge)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-deepar.R'><code>R/parsnip-deepar.R</code></a></small>
-    <div class="hidden name"><code>deepar_fit_impl.Rd</code></div>
+    <h1>GluonTS DeepState Forecaster Modeling Function (Bridge)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-deepstate.R'><code>R/parsnip-deepstate.R</code></a></small>
+    <div class="hidden name"><code>deepstate_fit_impl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>GluonTS DeepAR Modeling Function (Bridge)</p>
+    <p>GluonTS DeepState Forecaster Modeling Function (Bridge)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deepar_fit_impl</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>deepstate_fit_impl</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>y</span>,
   <span class='va'>freq</span>,
@@ -233,19 +233,18 @@
   init <span class='op'>=</span> <span class='st'>"xavier"</span>,
   ctx <span class='op'>=</span> <span class='cn'>NULL</span>,
   hybridize <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  context_length <span class='op'>=</span> <span class='cn'>NULL</span>,
+  past_length <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add_trend <span class='op'>=</span> <span class='cn'>FALSE</span>,
   num_layers <span class='op'>=</span> <span class='fl'>2</span>,
   num_cells <span class='op'>=</span> <span class='fl'>40</span>,
   cell_type <span class='op'>=</span> <span class='st'>"lstm"</span>,
   dropout_rate <span class='op'>=</span> <span class='fl'>0.1</span>,
   use_feat_dynamic_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
   use_feat_static_cat <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  use_feat_static_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
   cardinality <span class='op'>=</span> <span class='cn'>NULL</span>,
   embedding_dimension <span class='op'>=</span> <span class='cn'>NULL</span>,
   distr_output <span class='op'>=</span> <span class='st'>"default"</span>,
   scaling <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  lags_seq <span class='op'>=</span> <span class='cn'>NULL</span>,
   time_features <span class='op'>=</span> <span class='cn'>NULL</span>,
   num_parallel_samples <span class='op'>=</span> <span class='fl'>100</span>,
   batch_size <span class='op'>=</span> <span class='fl'>32</span>,
@@ -323,9 +322,14 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
       <td><p>Increases efficiency by using symbolic programming. (default: TRUE)</p></td>
     </tr>
     <tr>
-      <th>context_length</th>
+      <th>past_length</th>
       <td><p>Number of steps to unroll the RNN for before computing predictions
-(default: NULL, in which case context_length = prediction_length)</p></td>
+(default: NULL, in which case past_length = 4 * num_periods_to_train)</p></td>
+    </tr>
+    <tr>
+      <th>add_trend</th>
+      <td><p>Flag to indicate whether to include trend component
+in the state-space model. Default: FALSE.</p></td>
     </tr>
     <tr>
       <th>num_layers</th>
@@ -352,13 +356,8 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
       <td><p>Whether to use the feat_static_cat field from the data (default: FALSE)</p></td>
     </tr>
     <tr>
-      <th>use_feat_static_real</th>
-      <td><p>Whether to use the feat_static_real field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
       <th>cardinality</th>
-      <td><p>Number of values of each categorical feature.
-This must be set if <code>use_feat_static_cat</code> == TRUE (default: NULL)</p></td>
+      <td><p>Number of time series. Default: 1</p></td>
     </tr>
     <tr>
       <th>embedding_dimension</th>
@@ -371,11 +370,6 @@ This must be set if <code>use_feat_static_cat</code> == TRUE (default: NULL)</p>
     <tr>
       <th>scaling</th>
       <td><p>Whether to automatically scale the target values (default: TRUE)</p></td>
-    </tr>
-    <tr>
-      <th>lags_seq</th>
-      <td><p>Indices of the lagged target values to use as inputs of the RNN
-(default: NULL, in which case these are automatically determined based on freq)</p></td>
     </tr>
     <tr>
       <th>time_features</th>
@@ -397,7 +391,7 @@ This is a model optimization that does not affect the accuracy (default: 100)</p
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters passed to <code>gluonts.model.deepar.DeepAREstimator()</code></p></td>
+      <td><p>Additional parameters passed to <code>gluonts.model.deepstate.DeepStateEstimator()</code></p></td>
     </tr>
     </table>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl • modeltime.gluonts</title>
+<title>GluonTS GP Forecaster Modeling Function (Bridge) — gp_forecaster_fit_impl • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl" />
-<meta property="og:description" content="GluonTS DeepAR Modeling Function (Bridge)" />
+<meta property="og:title" content="GluonTS GP Forecaster Modeling Function (Bridge) — gp_forecaster_fit_impl" />
+<meta property="og:description" content="GluonTS GP Forecaster Modeling Function (Bridge)" />
 
 
 
@@ -207,16 +207,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GluonTS DeepAR Modeling Function (Bridge)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-deepar.R'><code>R/parsnip-deepar.R</code></a></small>
-    <div class="hidden name"><code>deepar_fit_impl.Rd</code></div>
+    <h1>GluonTS GP Forecaster Modeling Function (Bridge)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-gp_forecaster.R'><code>R/parsnip-gp_forecaster.R</code></a></small>
+    <div class="hidden name"><code>gp_forecaster_fit_impl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>GluonTS DeepAR Modeling Function (Bridge)</p>
+    <p>GluonTS GP Forecaster Modeling Function (Bridge)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deepar_fit_impl</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>gp_forecaster_fit_impl</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>y</span>,
   <span class='va'>freq</span>,
@@ -234,18 +234,11 @@
   ctx <span class='op'>=</span> <span class='cn'>NULL</span>,
   hybridize <span class='op'>=</span> <span class='cn'>TRUE</span>,
   context_length <span class='op'>=</span> <span class='cn'>NULL</span>,
-  num_layers <span class='op'>=</span> <span class='fl'>2</span>,
-  num_cells <span class='op'>=</span> <span class='fl'>40</span>,
-  cell_type <span class='op'>=</span> <span class='st'>"lstm"</span>,
-  dropout_rate <span class='op'>=</span> <span class='fl'>0.1</span>,
-  use_feat_dynamic_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  use_feat_static_cat <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  use_feat_static_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  cardinality <span class='op'>=</span> <span class='cn'>NULL</span>,
-  embedding_dimension <span class='op'>=</span> <span class='cn'>NULL</span>,
-  distr_output <span class='op'>=</span> <span class='st'>"default"</span>,
-  scaling <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  lags_seq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cardinality <span class='op'>=</span> <span class='fl'>1</span>,
+  kernel_output <span class='op'>=</span> <span class='cn'>NULL</span>,
+  params_scaling <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max_iter_jitter <span class='op'>=</span> <span class='fl'>10</span>,
+  jitter_method <span class='op'>=</span> <span class='st'>"iter"</span>,
   time_features <span class='op'>=</span> <span class='cn'>NULL</span>,
   num_parallel_samples <span class='op'>=</span> <span class='fl'>100</span>,
   batch_size <span class='op'>=</span> <span class='fl'>32</span>,
@@ -328,54 +321,24 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
 (default: NULL, in which case context_length = prediction_length)</p></td>
     </tr>
     <tr>
-      <th>num_layers</th>
-      <td><p>Number of RNN layers (default: 2)</p></td>
-    </tr>
-    <tr>
-      <th>num_cells</th>
-      <td><p>Number of RNN cells for each layer (default: 40)</p></td>
-    </tr>
-    <tr>
-      <th>cell_type</th>
-      <td><p>Type of recurrent cells to use (available: 'lstm' or 'gru'; default: 'lstm')</p></td>
-    </tr>
-    <tr>
-      <th>dropout_rate</th>
-      <td><p>Dropout regularization parameter (default: 0.1)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_dynamic_real</th>
-      <td><p>Whether to use the 'feat_dynamic_real' field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_static_cat</th>
-      <td><p>Whether to use the feat_static_cat field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_static_real</th>
-      <td><p>Whether to use the feat_static_real field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
       <th>cardinality</th>
-      <td><p>Number of values of each categorical feature.
-This must be set if <code>use_feat_static_cat</code> == TRUE (default: NULL)</p></td>
+      <td><p>Number of time series. Default: 1</p></td>
     </tr>
     <tr>
-      <th>embedding_dimension</th>
-      <td><p>Dimension of the embeddings for categorical features (default: <code>min(50, (cat+1)//2)</code> for cat in cardinality)</p></td>
+      <th>kernel_output</th>
+      <td><p>KernelOutput instance to determine which kernel subclass to be instantiated (default: RBFKernelOutput()).</p></td>
     </tr>
     <tr>
-      <th>distr_output</th>
-      <td><p>Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())</p></td>
+      <th>params_scaling</th>
+      <td><p>Determines whether or not to scale the model parameters (default: True).</p></td>
     </tr>
     <tr>
-      <th>scaling</th>
-      <td><p>Whether to automatically scale the target values (default: TRUE)</p></td>
+      <th>max_iter_jitter</th>
+      <td><p>Maximum number of iterations for jitter to iteratively make the matrix positive definite (default: 10).</p></td>
     </tr>
     <tr>
-      <th>lags_seq</th>
-      <td><p>Indices of the lagged target values to use as inputs of the RNN
-(default: NULL, in which case these are automatically determined based on freq)</p></td>
+      <th>jitter_method</th>
+      <td><p>Iteratively jitter method or use eigenvalue decomposition depending on problem size (default: "iter").</p></td>
     </tr>
     <tr>
       <th>time_features</th>
@@ -397,7 +360,7 @@ This is a model optimization that does not affect the accuracy (default: 100)</p
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters passed to <code>gluonts.model.deepar.DeepAREstimator()</code></p></td>
+      <td><p>Additional parameters passed to <code>gluonts.model.gp_forecaster.GP ForecasterEstimator()</code></p></td>
     </tr>
     </table>
 

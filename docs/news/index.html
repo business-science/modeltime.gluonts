@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -134,7 +134,7 @@
     <li class="dropdown-header">API Functions</li>
     <li>
       <a href="../reference/index.html">
-        <span class="fas fa-home"></span>
+        <span class="fa fa-home"></span>
          
         Function Reference
       </a>
@@ -210,13 +210,58 @@
       <small>Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="modeltimegluonts-0229000-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2.9000">
+<a href="#modeltimegluonts-0229000-development-version" class="anchor"></a>modeltime.gluonts 0.2.2.9000 (Development Version)<small> Unreleased </small>
+</h1>
+<div id="support-for-gluonts-080-and-pytorch-backend" class="section level2">
+<h2 class="hasAnchor">
+<a href="#support-for-gluonts-080-and-pytorch-backend" class="anchor"></a>Support for GluonTS 0.8.0 and Pytorch Backend:</h2>
+<p>Modeltime GluonTS now support <code>gluonts 0.8.0</code>. Simply run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> to upgrade. The upgraded support makes <code>modeltime.gluonts</code> incompatible with earlier versions of GluonTS (e.g. <code>gluonts 0.6.3</code>). The solution is to upgrade to <code>gluonts 0.8.0</code>, which requires:</p>
+<ul>
+<li><p><code>gluonts==0.8.0</code></p></li>
+<li><p><code>mxnet~=1.7</code></p></li>
+</ul>
+<p>Additionally, GluonTS 0.8.0 now supports <strong>pytorch as a backend.</strong> Use <code><a href="../reference/install_gluonts.html">install_gluonts(include_pytorch = TRUE)</a></code> to simplify installation of the PyTorch backend. Pytorch backend requirements:</p>
+<ul>
+<li><p><code>torch~=1.6.0</code></p></li>
+<li><p><code>pytorch-lightning~=1.1</code></p></li>
+</ul>
+</div>
+<div id="new-algorithms" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-algorithms" class="anchor"></a>New Algorithms</h2>
+<div id="pytorch-deepar" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pytorch-deepar" class="anchor"></a>Pytorch DeepAR</h3>
+<p>A new engine has been added to <code><a href="../reference/deep_ar.html">deep_ar()</a></code> that enables the Pytorch backend using <code>set_engine("torch")</code>. This requires the Python packages <code>pytorch</code> and <code>pytorch-lightning</code>. Use <code><a href="../reference/install_gluonts.html">install_gluonts(include_pytorch = TRUE)</a></code> to simplify installation.</p>
+</div>
+<div id="gp-forecaster-algorithm" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gp-forecaster-algorithm" class="anchor"></a>GP Forecaster Algorithm</h3>
+<p>A new function, <code><a href="../reference/gp_forecaster.html">gp_forecaster()</a></code>, integrates the Gaussian Process Estimator from GluonTS.</p>
+</div>
+<div id="deep-state-algorithm" class="section level3">
+<h3 class="hasAnchor">
+<a href="#deep-state-algorithm" class="anchor"></a>Deep State Algorithm</h3>
+<p>A new function, <code><a href="../reference/deep_state.html">deep_state()</a></code>, integrates the Deep State Estimator from GluonTS.</p>
+</div>
+<div id="breaking-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h3>
+<ul>
+<li>GluonTS &lt;= 0.8.0. The <code>modeltime.gluonts</code> package version &gt;= 0.2.2.9000 is not compatible with <code>gluonts</code> &lt; 0.8.0. To fix, simply upgrade to <code>gluonts</code> 0.8.0.</li>
+</ul>
+</div>
+</div>
+</div>
     <div id="modeltimegluonts-022" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.2">
 <a href="#modeltimegluonts-022" class="anchor"></a>modeltime.gluonts 0.2.2<small> Unreleased </small>
 </h1>
-<div id="dials-params" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dials-params" class="anchor"></a>Dials Params</h2>
+<div id="dials-params" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dials-params" class="anchor"></a>Dials Params</h3>
 <ul>
 <li>NBEATS Models: Adding Dials helpers <a href='https://github.com/business-science/modeltime.gluonts/issues/14'>#14</a></li>
 </ul>
@@ -232,12 +277,12 @@
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#modeltimegluonts-020" class="anchor"></a>modeltime.gluonts 0.2.0<small> Unreleased </small>
 </h1>
-<div id="documentation" class="section level3">
+<div id="new-vignettes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h3>
+<a href="#new-vignettes" class="anchor"></a>New Vignettes</h3>
 <ul>
-<li><p><strong>New Vignette:</strong> <a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html">Managing GluonTS Environments</a></p></li>
-<li><p><strong>New Vignette:</strong> <a href="https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html">Using GPUs with GluonTS</a></p></li>
+<li><p><a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html">Managing GluonTS Environments</a></p></li>
+<li><p><a href="https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html">Using GPUs with GluonTS</a></p></li>
 </ul>
 </div>
 <div id="new-features" class="section level3">

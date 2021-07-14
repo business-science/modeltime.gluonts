@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl • modeltime.gluonts</title>
+<title>Bridge prediction Function for GP Forecaster Models — gp_forecaster_predict_impl • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="GluonTS DeepAR Modeling Function (Bridge) — deepar_fit_impl" />
-<meta property="og:description" content="GluonTS DeepAR Modeling Function (Bridge)" />
+<meta property="og:title" content="Bridge prediction Function for GP Forecaster Models — gp_forecaster_predict_impl" />
+<meta property="og:description" content="Bridge prediction Function for GP Forecaster Models" />
 
 
 
@@ -207,197 +207,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GluonTS DeepAR Modeling Function (Bridge)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-deepar.R'><code>R/parsnip-deepar.R</code></a></small>
-    <div class="hidden name"><code>deepar_fit_impl.Rd</code></div>
+    <h1>Bridge prediction Function for GP Forecaster Models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/parsnip-gp_forecaster.R'><code>R/parsnip-gp_forecaster.R</code></a></small>
+    <div class="hidden name"><code>gp_forecaster_predict_impl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>GluonTS DeepAR Modeling Function (Bridge)</p>
+    <p>Bridge prediction Function for GP Forecaster Models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deepar_fit_impl</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>y</span>,
-  <span class='va'>freq</span>,
-  <span class='va'>prediction_length</span>,
-  <span class='va'>id</span>,
-  epochs <span class='op'>=</span> <span class='fl'>5</span>,
-  num_batches_per_epoch <span class='op'>=</span> <span class='fl'>50</span>,
-  learning_rate <span class='op'>=</span> <span class='fl'>0.001</span>,
-  learning_rate_decay_factor <span class='op'>=</span> <span class='fl'>0.5</span>,
-  patience <span class='op'>=</span> <span class='fl'>10</span>,
-  minimum_learning_rate <span class='op'>=</span> <span class='fl'>5e-05</span>,
-  clip_gradient <span class='op'>=</span> <span class='fl'>10</span>,
-  weight_decay <span class='op'>=</span> <span class='fl'>1e-08</span>,
-  init <span class='op'>=</span> <span class='st'>"xavier"</span>,
-  ctx <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hybridize <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  context_length <span class='op'>=</span> <span class='cn'>NULL</span>,
-  num_layers <span class='op'>=</span> <span class='fl'>2</span>,
-  num_cells <span class='op'>=</span> <span class='fl'>40</span>,
-  cell_type <span class='op'>=</span> <span class='st'>"lstm"</span>,
-  dropout_rate <span class='op'>=</span> <span class='fl'>0.1</span>,
-  use_feat_dynamic_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  use_feat_static_cat <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  use_feat_static_real <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  cardinality <span class='op'>=</span> <span class='cn'>NULL</span>,
-  embedding_dimension <span class='op'>=</span> <span class='cn'>NULL</span>,
-  distr_output <span class='op'>=</span> <span class='st'>"default"</span>,
-  scaling <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  lags_seq <span class='op'>=</span> <span class='cn'>NULL</span>,
-  time_features <span class='op'>=</span> <span class='cn'>NULL</span>,
-  num_parallel_samples <span class='op'>=</span> <span class='fl'>100</span>,
-  batch_size <span class='op'>=</span> <span class='fl'>32</span>,
-  scale_by_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gp_forecaster_predict_impl</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A dataframe of xreg (exogenous regressors)</p></td>
+      <th>object</th>
+      <td><p>An object of class <code>model_fit</code></p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>A numeric vector of values to fit</p></td>
-    </tr>
-    <tr>
-      <th>freq</th>
-      <td><p>A <code>pandas</code> timeseries frequency such as "5min" for 5-minutes or "D" for daily.
-Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases'>Pandas Offset Aliases</a>.</p></td>
-    </tr>
-    <tr>
-      <th>prediction_length</th>
-      <td><p>Numeric value indicating the length of the prediction horizon</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>A quoted column name that tracks the GluonTS FieldName "item_id"</p></td>
-    </tr>
-    <tr>
-      <th>epochs</th>
-      <td><p>Number of epochs that the network will train (default: 5).</p></td>
-    </tr>
-    <tr>
-      <th>num_batches_per_epoch</th>
-      <td><p>Number of batches at each epoch (default: 50).</p></td>
-    </tr>
-    <tr>
-      <th>learning_rate</th>
-      <td><p>Initial learning rate (default:  10-3 ).</p></td>
-    </tr>
-    <tr>
-      <th>learning_rate_decay_factor</th>
-      <td><p>Factor (between 0 and 1) by which to decrease the learning rate (default: 0.5).</p></td>
-    </tr>
-    <tr>
-      <th>patience</th>
-      <td><p>The patience to observe before reducing the learning rate, nonnegative integer (default: 10).</p></td>
-    </tr>
-    <tr>
-      <th>minimum_learning_rate</th>
-      <td><p>Lower bound for the learning rate (default:  5x10-5 ).</p></td>
-    </tr>
-    <tr>
-      <th>clip_gradient</th>
-      <td><p>Maximum value of gradient. The gradient is clipped if it is too large (default: 10).</p></td>
-    </tr>
-    <tr>
-      <th>weight_decay</th>
-      <td><p>The weight decay (or L2 regularization) coefficient. Modifies objective by adding a penalty for having large weights (default  10-8 ).</p></td>
-    </tr>
-    <tr>
-      <th>init</th>
-      <td><p>Initializer of the weights of the network (default: “xavier”).</p></td>
-    </tr>
-    <tr>
-      <th>ctx</th>
-      <td><p>The mxnet CPU/GPU context. Refer to using CPU/GPU in the mxnet documentation.
-(default: NULL, uses CPU)</p></td>
-    </tr>
-    <tr>
-      <th>hybridize</th>
-      <td><p>Increases efficiency by using symbolic programming. (default: TRUE)</p></td>
-    </tr>
-    <tr>
-      <th>context_length</th>
-      <td><p>Number of steps to unroll the RNN for before computing predictions
-(default: NULL, in which case context_length = prediction_length)</p></td>
-    </tr>
-    <tr>
-      <th>num_layers</th>
-      <td><p>Number of RNN layers (default: 2)</p></td>
-    </tr>
-    <tr>
-      <th>num_cells</th>
-      <td><p>Number of RNN cells for each layer (default: 40)</p></td>
-    </tr>
-    <tr>
-      <th>cell_type</th>
-      <td><p>Type of recurrent cells to use (available: 'lstm' or 'gru'; default: 'lstm')</p></td>
-    </tr>
-    <tr>
-      <th>dropout_rate</th>
-      <td><p>Dropout regularization parameter (default: 0.1)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_dynamic_real</th>
-      <td><p>Whether to use the 'feat_dynamic_real' field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_static_cat</th>
-      <td><p>Whether to use the feat_static_cat field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>use_feat_static_real</th>
-      <td><p>Whether to use the feat_static_real field from the data (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>cardinality</th>
-      <td><p>Number of values of each categorical feature.
-This must be set if <code>use_feat_static_cat</code> == TRUE (default: NULL)</p></td>
-    </tr>
-    <tr>
-      <th>embedding_dimension</th>
-      <td><p>Dimension of the embeddings for categorical features (default: <code>min(50, (cat+1)//2)</code> for cat in cardinality)</p></td>
-    </tr>
-    <tr>
-      <th>distr_output</th>
-      <td><p>Distribution to use to evaluate observations and sample predictions (default: StudentTOutput())</p></td>
-    </tr>
-    <tr>
-      <th>scaling</th>
-      <td><p>Whether to automatically scale the target values (default: TRUE)</p></td>
-    </tr>
-    <tr>
-      <th>lags_seq</th>
-      <td><p>Indices of the lagged target values to use as inputs of the RNN
-(default: NULL, in which case these are automatically determined based on freq)</p></td>
-    </tr>
-    <tr>
-      <th>time_features</th>
-      <td><p>Time features to use as inputs of the RNN
-(default: None, in which case these are automatically determined based on freq)</p></td>
-    </tr>
-    <tr>
-      <th>num_parallel_samples</th>
-      <td><p>Number of evaluation samples per time series to increase parallelism during inference.
-This is a model optimization that does not affect the accuracy (default: 100)</p></td>
-    </tr>
-    <tr>
-      <th>batch_size</th>
-      <td><p>Number of examples in each batch (default: 32).</p></td>
-    </tr>
-    <tr>
-      <th>scale_by_id</th>
-      <td><p>Scales numeric data by <code>id</code> group using mean = 0, standard deviation = 1 transformation. (default: FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters passed to <code>gluonts.model.deepar.DeepAREstimator()</code></p></td>
+      <th>new_data</th>
+      <td><p>A rectangular data object, such as a data frame.</p></td>
     </tr>
     </table>
 
