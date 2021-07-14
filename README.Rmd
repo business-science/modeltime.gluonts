@@ -48,9 +48,9 @@ knitr::include_graphics("man/figures/m4_hourly_forecast.jpg")
 ```
 
 
-## GluonTS in R
+## Make Your First DeepAR Model
 
-Using `deep_ar()`, which connects to `GluonTS DeepAREstimator()`.
+Use `deep_ar()`, which connects to the GluonTS `DeepAREstimator()`.
 
 ```{r example, eval = F}
 library(modeltime.gluonts)

@@ -37,9 +37,9 @@ Workflow](https://business-science.github.io/modeltime/).
 
 <img src="man/figures/m4_hourly_forecast.jpg" width="90%" style="display: block; margin: auto;" />
 
-## GluonTS in R
+## Make Your First DeepAR Model
 
-Using `deep_ar()`, which connects to `GluonTS DeepAREstimator()`.
+Use `deep_ar()`, which connects to the GluonTS `DeepAREstimator()`.
 
 ``` r
 library(modeltime.gluonts)
