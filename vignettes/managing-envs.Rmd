@@ -23,6 +23,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+These are the full instructions to get `modeltime.gluonts` installed, the python dependencies installed, and to connect R and Python together so you can forecast with amazing accuracy. 
+
+```{r, echo = F}
+knitr::include_graphics("../man/figures/m4_hourly_forecast.jpg")
+```
+
 # Install from GitHub
 
 Modeltime GluonTS is maintained on GitHub and can be installed using:
