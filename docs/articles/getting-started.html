@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -67,13 +67,13 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Start Here</li>
     <li>
+      <a href="../articles/managing-envs.html">Installation</a>
+    </li>
+    <li>
       <a href="../articles/getting-started.html">Getting Started</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Advanced</li>
-    <li>
-      <a href="../articles/managing-envs.html">Managing GluonTS Environments</a>
-    </li>
     <li>
       <a href="../articles/using-gpus.html">Using GPUs with GluonTS</a>
     </li>
@@ -171,10 +171,10 @@
 
     
     
-<div id="making-an-n-beats-ensemble" class="section level2">
+<div id="making-an-deepar-model" class="section level2">
 <h2 class="hasAnchor">
-<a href="#making-an-n-beats-ensemble" class="anchor"></a>Making an N-Beats Ensemble</h2>
-<p>Let’s get started by making an <strong>N-BEATS ENSEMBLE.</strong> N-BEATS is a powerful algorithm that has shown <a href="#references">exceptional results<sup>1</sup></a>. In a matter of minutes, you’ll generate the 4 forecasts shown below. If you’d like to improve your time series forecasting abilities, then please take my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">High-Performance Time Series Course</a>.</p>
+<a href="#making-an-deepar-model" class="anchor"></a>Making an DeepAR Model</h2>
+<p>Let’s get started by making a <strong>DeepAR Model.</strong> In a matter of minutes, you’ll generate the 7 forecasts shown below. If you’d like to improve your time series forecasting abilities, then please take my <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/">High-Performance Time Series Course</a>.</p>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="libraries" class="section level2">
@@ -193,47 +193,29 @@
 <p>Next, set up the Python Environment with <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>. You only need to run this one time, and then you are good to go.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div id="troubleshooting-installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#troubleshooting-installation" class="anchor"></a>Troubleshooting Installation</h3>
-<p>Python Environment setup is always fun. Here are a few recommendations if you run into an issue.</p>
-<ul>
-<li><p><strong>Check to make sure Conda or Miniconda is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">reticulate::conda_version()</a></code>. If no conda version is returned, then use <code><a href="https://rdrr.io/pkg/reticulate/man/install_miniconda.html">reticulate::install_miniconda()</a></code> to install. Then (re-)run <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>.</p></li>
-<li><p><strong>Check if GluonTS (Python) is available</strong> using <code><a href="https://rdrr.io/pkg/reticulate/man/py_module_available.html">reticulate::py_module_available("gluonts")</a></code>. If this returns <code>TRUE</code>, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).</p></li>
-<li><p><strong>Windows 10 error: Microsoft Visual C++ is required.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues/4">Here are the instructions for installing the C++ tools needed.</a></p></li>
-<li><p><strong>Other installation issues.</strong> <a href="https://github.com/business-science/modeltime.gluonts/issues">Please file a GitHub issue here.</a></p></li>
-</ul>
-</div>
+<p>We have a more detailed installation instructions and troubleshooting guidance in our <a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html">Installation Guide</a>.</p>
 </div>
 <div id="time-series-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#time-series-data" class="anchor"></a>Time Series Data</h2>
-<p>We’ll use the <code>m4_hourly</code> dataset, which contains 4 hourly time series.</p>
+<p>We’ll use the <code>walmart_sales_weekly</code> dataset, which contains 7 weekly time series of sales data for various departments in a Walmart Store.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">m4_hourly</span> <span class="op">%&gt;%</span>
-  <span class="fu">select</span><span class="op">(</span><span class="va">id</span>, <span class="va">date</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/standardize_vec.html">standardize_vec</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">walmart_sales_weekly</span> <span class="op">%&gt;%</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">id</span>, <span class="va">Date</span>, <span class="va">Weekly_Sales</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">set_names</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"date"</span>, <span class="st">"value"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">data</span>
-<span class="co">#&gt; # A tibble: 3,060 x 3</span>
-<span class="co">#&gt;    id    date                  value</span>
-<span class="co">#&gt;    &lt;fct&gt; &lt;dttm&gt;                &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 H10   2015-07-01 12:00:00  1.98  </span>
-<span class="co">#&gt;  2 H10   2015-07-01 13:00:00  1.95  </span>
-<span class="co">#&gt;  3 H10   2015-07-01 14:00:00  1.78  </span>
-<span class="co">#&gt;  4 H10   2015-07-01 15:00:00  1.62  </span>
-<span class="co">#&gt;  5 H10   2015-07-01 16:00:00  1.33  </span>
-<span class="co">#&gt;  6 H10   2015-07-01 17:00:00  1.16  </span>
-<span class="co">#&gt;  7 H10   2015-07-01 18:00:00  0.682 </span>
-<span class="co">#&gt;  8 H10   2015-07-01 19:00:00  0.0876</span>
-<span class="co">#&gt;  9 H10   2015-07-01 20:00:00 -0.252 </span>
-<span class="co">#&gt; 10 H10   2015-07-01 21:00:00 -0.591 </span>
-<span class="co">#&gt; # … with 3,050 more rows</span></code></pre></div>
+<span class="va">data</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/timetk/man/plot_time_series.html">plot_time_series</a></span><span class="op">(</span>
+    <span class="va">date</span>, 
+    <span class="va">value</span>, 
+    .facet_ncol <span class="op">=</span> <span class="fl">3</span>, 
+    .interactive <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span></code></pre></div>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>We’ll create the forecast region using <code><a href="https://rdrr.io/pkg/timetk/man/future_frame.html">future_frame()</a></code>. We are forecasting 1 week (24x7 timestamps) into the future.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">HORIZON</span> <span class="op">&lt;-</span> <span class="fl">24</span><span class="op">*</span><span class="fl">7</span>
+<code class="sourceCode R"><span class="va">HORIZON</span> <span class="op">&lt;-</span> <span class="fl">52</span>
 
 <span class="va">new_data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -241,54 +223,47 @@
   <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">new_data</span>
-<span class="co">#&gt; # A tibble: 672 x 2</span>
-<span class="co">#&gt;    id    date               </span>
-<span class="co">#&gt;    &lt;fct&gt; &lt;dttm&gt;             </span>
-<span class="co">#&gt;  1 H10   2015-07-30 16:00:00</span>
-<span class="co">#&gt;  2 H10   2015-07-30 17:00:00</span>
-<span class="co">#&gt;  3 H10   2015-07-30 18:00:00</span>
-<span class="co">#&gt;  4 H10   2015-07-30 19:00:00</span>
-<span class="co">#&gt;  5 H10   2015-07-30 20:00:00</span>
-<span class="co">#&gt;  6 H10   2015-07-30 21:00:00</span>
-<span class="co">#&gt;  7 H10   2015-07-30 22:00:00</span>
-<span class="co">#&gt;  8 H10   2015-07-30 23:00:00</span>
-<span class="co">#&gt;  9 H10   2015-07-31 00:00:00</span>
-<span class="co">#&gt; 10 H10   2015-07-31 01:00:00</span>
-<span class="co">#&gt; # … with 662 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 364 x 2</span>
+<span class="co">#&gt;    id    date      </span>
+<span class="co">#&gt;    &lt;fct&gt; &lt;date&gt;    </span>
+<span class="co">#&gt;  1 1_1   2012-11-02</span>
+<span class="co">#&gt;  2 1_1   2012-11-09</span>
+<span class="co">#&gt;  3 1_1   2012-11-16</span>
+<span class="co">#&gt;  4 1_1   2012-11-23</span>
+<span class="co">#&gt;  5 1_1   2012-11-30</span>
+<span class="co">#&gt;  6 1_1   2012-12-07</span>
+<span class="co">#&gt;  7 1_1   2012-12-14</span>
+<span class="co">#&gt;  8 1_1   2012-12-21</span>
+<span class="co">#&gt;  9 1_1   2012-12-28</span>
+<span class="co">#&gt; 10 1_1   2013-01-04</span>
+<span class="co">#&gt; # … with 354 more rows</span></code></pre></div>
 </div>
-<div id="making-an-n-beats-ensemble-model" class="section level2">
+<div id="making-a-deepar-model" class="section level2">
 <h2 class="hasAnchor">
-<a href="#making-an-n-beats-ensemble-model" class="anchor"></a>Making an N-Beats Ensemble Model</h2>
-<p>We’ll create a model using the N-BEATS ENSEMBLE algorithm using the <code><a href="../reference/nbeats.html">nbeats()</a></code> function.</p>
+<a href="#making-a-deepar-model" class="anchor"></a>Making a DeepAR Model</h2>
+<p>We’ll create a DeepAR model using the <code><a href="../reference/deep_ar.html">deep_ar()</a></code> function.</p>
 <ul>
-<li>This is a univariate modeling algorithm that ensembles (combines) multiple N-BEATS Deep Learning models.</li>
-<li>We select the Ensemble Version of N-BEATS by setting the engine to <code>gluonts_nbeats_ensemble</code>.</li>
-<li>The meta-learner uses 3 sub-models by adjusting the <code>lookback_length</code>. We can include more sub-models adjusting the <code>bagging_size</code>.</li>
+<li>This is a univariate modeling algorithm that uses Deep Learning and Autoregression.</li>
+<li>We select the GluonTS version by setting the engine to <code>gluonts_deepar</code>.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nbeats.html">nbeats</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">model_fit_deepar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deep_ar.html">deep_ar</a></span><span class="op">(</span>
   id                    <span class="op">=</span> <span class="st">"id"</span>,
-  freq                  <span class="op">=</span> <span class="st">"H"</span>,
+  freq                  <span class="op">=</span> <span class="st">"W"</span>,
   prediction_length     <span class="op">=</span> <span class="va">HORIZON</span>,
-  lookback_length       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">HORIZON</span>, <span class="fl">4</span><span class="op">*</span><span class="va">HORIZON</span><span class="op">)</span>,
-  epochs                <span class="op">=</span> <span class="fl">5</span>,
-  num_batches_per_epoch <span class="op">=</span> <span class="fl">15</span>,
-  batch_size            <span class="op">=</span> <span class="fl">1</span> 
+  lookback_length       <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">HORIZON</span>,
+  epochs                <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_nbeats_ensemble"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_deepar"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span> <span class="op">+</span> <span class="va">id</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
-<p>An NBEATS ENSEMBLE is produced.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span></code></pre></div>
-<p><img src="nbeats_model.jpg" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="forecasting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#forecasting" class="anchor"></a>Forecasting</h2>
 <p>With a model in hand, we can simply follow the <a href="https://business-science.github.io/modeltime/">Modeltime Workflow</a> to generate a forecast for the multiple time series groups.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">modeltime_forecast_tbl</span> <span class="op">&lt;-</span> <span class="fu">modeltime_table</span><span class="op">(</span>
-  <span class="va">model_fit_nbeats_ensemble</span>
+  <span class="va">model_fit_deepar</span>
 <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">modeltime_forecast</span><span class="op">(</span>
     new_data    <span class="op">=</span> <span class="va">new_data</span>,
@@ -297,15 +272,15 @@
   <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> </code></pre></div>
 <p>We can visualize the forecast with <code>plot_modeltime_forecast()</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">modeltime_forecast_tbl</span> <span class="op">%&gt;%</span>
   <span class="fu">plot_modeltime_forecast</span><span class="op">(</span>
     .conf_interval_show <span class="op">=</span> <span class="cn">FALSE</span>, 
-    .facet_ncol         <span class="op">=</span> <span class="fl">2</span>, 
+    .facet_ncol         <span class="op">=</span> <span class="fl">3</span>, 
     .facet_scales       <span class="op">=</span> <span class="st">"free"</span>,
     .interactive        <span class="op">=</span> <span class="cn">FALSE</span>
   <span class="op">)</span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="saving-and-loading-models" class="section level2">
 <h2 class="hasAnchor">
@@ -316,12 +291,12 @@
 <li>This saves all of the model files in the directory.</li>
 <li><strong>Note that N-BEATS models can be VERY LARGE.</strong></li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/save_gluonts_model.html">save_gluonts_model</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"nbeats_ensemble_model"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_fit_deepar</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/save_gluonts_model.html">save_gluonts_model</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"deepar_model"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>You can reload the model into R using <code><a href="../reference/save_gluonts_model.html">load_gluonts_model()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_fit_nbeats_ensemble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/save_gluonts_model.html">load_gluonts_model</a></span><span class="op">(</span><span class="st">"nbeats_ensemble_model"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_fit_deepar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/save_gluonts_model.html">load_gluonts_model</a></span><span class="op">(</span><span class="st">"deepar_model"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="take-the-high-performance-forecasting-course" class="section level2">
 <h2 class="hasAnchor">
@@ -365,11 +340,6 @@ Become the Time Series Expert for your organization.
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a>
 </p>
 </div>
-</div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
-<p>1: N-BEATS: Neural basis expansion analysis for interpretable time series forecasting <a href="https://arxiv.org/abs/1905.10437" class="uri">https://arxiv.org/abs/1905.10437</a></p>
 </div>
   </div>
 

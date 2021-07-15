@@ -1,7 +1,7 @@
 Package: modeltime.gluonts
 Type: Package
 Title: 'GluonTS' Deep Learning
-Version: 0.2.2.9000
+Version: 0.3.0
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph"))
@@ -16,7 +16,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Depends:
-    modeltime (>= 0.3.1)
+    modeltime (>= 0.6.1)
 Imports: 
     parsnip (>= 0.1.4),
     timetk (>= 2.6.0),

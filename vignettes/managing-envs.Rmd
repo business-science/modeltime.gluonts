@@ -1,8 +1,11 @@
 ---
-title: "Managing Python GluonTS Environments"
-output: rmarkdown::html_vignette
+title: "Installation Guide"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
 vignette: >
-  %\VignetteIndexEntry{Managing GluonTS Environments}
+  %\VignetteIndexEntry{Installation Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,23 +23,135 @@ knitr::opts_chunk$set(
 )
 ```
 
-This section covers how to create, modify, and customize Python GluonTS Environments. 
+# Install from GitHub
 
-## Package Requirements
+Modeltime GluonTS is maintained on GitHub and can be installed using:
 
-The `modeltime.gluonts` has the following minimum requirements:
+``` r
+remotes::install_github("business-science/modeltime.gluonts")
+```
 
-- A recent version of Python (Recommend >= 3.6)
+# Installation
+
+There are 2 key components to installing `modeltime.gluonts`:
+
+1. Download the R-Package, `modeltime.gluonts`. This installs the R-Bindings, which allows you to interface with GluonTS. 
+
+2. Set up the Python Environment so `modeltime.gluonts` can connect to the `gluonts` python package. 
+
+### Step 1: Download & Install Modeltime GluonTS
+
+Download the latest GitHub version.  
+
+``` r
+remotes::install_github("business-science/modeltime.gluonts")
+```
+
+### Step 2: Default Python Environment Setup
+
+We've provided a helper function, `install_gluonts()` to prepare and bind to a python environment containing `gluonts` and the required python packages. 
+
+- You only need to run this one time, and then you are good to go. 
+- Each time you load `modeltime.gluonts`, the package will include this environment in it's search process. 
+
+
+
+```{r, eval=F}
+# GluonTS Installation - Run 1st time
+install_gluonts(fresh_install = FALSE, include_pytorch = FALSE)
+```
+
+What happens:
+
+- `fresh_install`: Default: `FALSE`. If `TRUE`, this removes any previous "r-gluonts" environments, which can help in the case of errors. _Caution: If you have added packages to this environment after a prior install, these packages will be removed._
+
+- `include_pytorch`:  Default: `FALSE`. If `TRUE`, will install the optional Pytorch and Pytorch Lightning dependencies for use with the "torch" engine, which is available in models such as `deep_ar()`.
+
+### Step 3: Restart R and Try an Example
+
+Restart your R session (if in RStudio, close and re-open). Then try this example. 
+
+```{r, eval=F}
+library(modeltime.gluonts)
+library(tidymodels)
+library(tidyverse)
+
+# Fit a GluonTS DeepAR Model
+model_fit_deepar <- deep_ar(
+    id                    = "id",
+    freq                  = "M",
+    prediction_length     = 24,
+    lookback_length       = 48,
+    epochs                = 5
+) %>%
+    set_engine("gluonts_deepar") %>%
+    fit(value ~ ., training(m750_splits))
+
+# Forecast with 95% Confidence Interval
+modeltime_table(
+    model_fit_deepar
+) %>%
+    modeltime_calibrate(new_data = testing(m750_splits)) %>%
+    modeltime_forecast(
+        new_data      = testing(m750_splits),
+        actual_data   = m750,
+        conf_interval = 0.95
+    ) %>%
+    plot_modeltime_forecast(.interactive = FALSE)
+```
+
+```{r, echo = F}
+knitr::include_graphics("../man/figures/deepar_example_1.png")
+```
+
+# Upgrading to Modeltime GluonTS >= 0.3.0
+
+Modeltime GluonTS 0.3.0 introduced new features that are only available in GluonTS >= 0.8.0. To incorporate these features, we now need to upgrade GluonTS. 
+
+We recommend running `install_gluonts()` with `fresh_install = TRUE`. This will completely replace your previous "r-gluonts" environment with a new one. It's designed to help reduce the likelihood of errors during the upgrading process.
+
+``` r
+install_gluonts(fresh_install = TRUE)
+```
+
+Optionally, you can add the __Pytorch Backend__ (new feature) with:
+
+``` r
+install_gluonts(fresh_install = TRUE, include_pytorch = TRUE)
+```
+
+# Troubleshooting Installation
+
+Python Environment setup is always fun. Here are a few recommendations if you run into an issue.
+
+- __Check to make sure Conda or Miniconda is available__ using `reticulate::conda_version()`. If no conda version is returned, then use `reticulate::install_miniconda()` to install Miniconda (recommended vs full Aniconda). Then (re-)run `install_gluonts()`. 
+
+- __Check if GluonTS (Python) is available__ using `reticulate::py_module_available("gluonts")`. If this returns `TRUE`, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).
+
+- __Windows 10 error: Microsoft Visual C++ is required.__ [Here are the instructions for installing the C++ tools needed.](https://github.com/business-science/modeltime.gluonts/issues/4) 
+
+- __Other installation issues.__ [Please file a GitHub issue here.](https://github.com/business-science/modeltime.gluonts/issues)
+
+# Python Environment Requirements
+
+The `modeltime.gluonts` >= 0.3.0 has the following minimum python environment requirements. We provide a helper function `install_gluonts()` to help set these up.
+
+- A recent version of Python (Recommend 3.7)
 - A Python environment containing the "GluonTS Stack":
-  - `gluonts`
+  - `gluonts>=0.8.0` (required for `modeltime.gluonts` >= 0.3.0)
   - `mxnet`
   - `pandas`
   - `numpy`
   - `pathlib`
   
+Optional: Dependencies for Pytorch:
+
+  - `torch`
+  - `pytorch_lightning`
+  
 That's it. If you have these inside a Conda or Virtual Environment, then you can use `modeltime.gluonts`.
 
-## Connecting Your Python Environment
+# Custom Python Environments
 
 There are 2 main ways to connect an python environment to `modeltime.gluonts`:
 
@@ -44,9 +159,9 @@ There are 2 main ways to connect an python environment to `modeltime.gluonts`:
 
 2. __Custom GluonTS Environment Setup__: Most flexible. You create the environment, you ensure that dependency requirements are met, and you define how to connect to it.
 
-## Method 1: Default GluonTS Environment Setup
+## Method 1: Modifying the Default Environment Setup
 
-This process uses the __Conda Package Manager__ to set up a new conda environment called "r-gluonts". It's quick and easy, and most importantly the package versions that are selected all work together (I test them when developing).
+This process uses the __Conda Package Manager__ to set up a new conda environment called "r-gluonts". It's quick and easy, and most importantly the package versions that are selected all work together (I test them when developing). And, you can modify it once created.
 
 ### 1. Make sure you have conda
 
@@ -103,26 +218,11 @@ knitr::include_graphics("discover_config_rgluonts.jpg")
 
 
 
-## Method 2: Custom GluonTS Python Environments
+## Method 2: Making Custom Environments
 
 It's quite possible you may have a Virtual Environment or different Conda Environment that you would prefer to use. This is possible by setting a __System Environment Variable named 'GLUONTS_PYTHON'__ before running `library(modeltime.gluonts)`.
 
-### 1. [GOTCHA #1] Restart R Session 
-
-You will need to restart R session if you've already used a `reticulate` environment or run `library(modeltime.gluonts)`. Restarting the R Session is the only current way to disconnect from an active Python Environment. 
-
-Make sure that the environment has been changed to the default reticulate environment. We can see that `r-reticulate` environment is being used. 
-
-``` r
-reticulate::py_discover_config()
-```
-
-```{r, echo=F}
-knitr::include_graphics("discover_config_reticulate.jpg")
-```
-
-
-### 2. Create a Custom Python Environment
+### 1. Create a Custom Python Environment
 
 You can create an environment containing the python packages needed. 
 
@@ -142,7 +242,7 @@ reticulate::py_install(
 )
 ```
 
-### 3. Locate the Python Path
+### 2. Locate the Python Path
 
 This locates the path to the python executable for the 'my_gluonts_env' environment that we just created. 
 
@@ -156,7 +256,7 @@ my_gluonts_env_python_path
 #> "/Users/mdancho/Library/r-miniconda/envs/my_gluonts_env/bin/python"
 ```
 
-### 4. Set the System Environment Variable
+### 3. Set the System Environment Variable
 
 Set the system environment variable named 'GLUONTS_PYTHON' with the path to the python executable. Once this is set, loading `library(modeltime.gluonts)` will use this path to activate the environment. 
 
@@ -179,9 +279,11 @@ Running `library(modeltime.gluonts)` now binds to the custom environment.
 library(modeltime.gluonts)
 ```
 
-### 6. [Gotcha #2] Check Your Environment
+### 6. [Gotcha #1] Check Your Environment
 
 Make sure that the environment has been changed to the default reticulate environment. We can see that  environment is being used. If setting your python environment was done properly, you should see `my_gluonts_env` in the Python Path. 
+
+__Troubleshooting__: If the incorrect environment is shown, simply restart your R Session, 
 
 ``` r
 reticulate::py_discover_config()

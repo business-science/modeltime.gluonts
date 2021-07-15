@@ -14,12 +14,12 @@ navbar:
       href: articles/index.html
       menu:
         - text: "Start Here"
+        - text: 'Installation'
+          href: articles/managing-envs.html
         - text: 'Getting Started'
           href: articles/getting-started.html
         - text: '---'
         - text: "Advanced"
-        - text: 'Managing GluonTS Environments'
-          href: articles/managing-envs.html
         - text: 'Using GPUs with GluonTS'
           href: articles/using-gpus.html
     - text: "API"

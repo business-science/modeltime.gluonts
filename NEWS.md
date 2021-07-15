@@ -1,5 +1,5 @@
 
-# modeltime.gluonts 0.2.2.9000 (Development Version)
+# modeltime.gluonts 0.3.0
 
 ## Support for GluonTS 0.8.0 and Pytorch Backend:
 
@@ -28,6 +28,10 @@ A new function, `gp_forecaster()`, integrates the Gaussian Process Estimator fro
 ### Deep State Algorithm
 
 A new function, `deep_state()`, integrates the Deep State Estimator from GluonTS. 
+
+## Tutorials
+
+- We've updated the [Installation and Troubleshooting Guidance](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html). This includes revised requirements for installation, upgrading to `modeltime.gluonts` >= 0.3.0, troubleshooting installation, python environment requirements, and custom python environments. 
 
 ## Improvements
 

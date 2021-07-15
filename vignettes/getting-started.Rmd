@@ -20,9 +20,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Making an N-Beats Ensemble
+## Making an DeepAR Model
 
-Let's get started by making an __N-BEATS ENSEMBLE.__ N-BEATS is a powerful algorithm that has shown [exceptional results^1^](#references).  In a matter of minutes, you'll generate the 4 forecasts shown below. If you'd like to improve your time series forecasting abilities, then please take my [High-Performance Time Series Course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/). 
+Let's get started by making a __DeepAR Model.__ In a matter of minutes, you'll generate the 7 forecasts shown below. If you'd like to improve your time series forecasting abilities, then please take my [High-Performance Time Series Course](https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting/). 
 
 ```{r, echo=F}
 library(tidyverse)
@@ -33,7 +33,7 @@ modeltime_forecast_tbl <- read_rds("modeltime_forecast_tbl.rds")
 
 modeltime_forecast_tbl %>%
   plot_modeltime_forecast(
-    .facet_ncol   = 2, 
+    .facet_ncol   = 3, 
     .facet_scales = "free",
     .interactive  = FALSE
   )
@@ -59,36 +59,31 @@ Next, set up the Python Environment with `install_gluonts()`. You only need to r
 install_gluonts()
 ```
 
-### Troubleshooting Installation
-
-Python Environment setup is always fun. Here are a few recommendations if you run into an issue.
-
-- __Check to make sure Conda or Miniconda is available__ using `reticulate::conda_version()`. If no conda version is returned, then use `reticulate::install_miniconda()` to install. Then (re-)run `install_gluonts()`. 
-
-- __Check if GluonTS (Python) is available__ using `reticulate::py_module_available("gluonts")`. If this returns `TRUE`, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).
-
-- __Windows 10 error: Microsoft Visual C++ is required.__ [Here are the instructions for installing the C++ tools needed.](https://github.com/business-science/modeltime.gluonts/issues/4) 
-
-- __Other installation issues.__ [Please file a GitHub issue here.](https://github.com/business-science/modeltime.gluonts/issues)
+We have a more detailed installation instructions and troubleshooting guidance in our [Installation Guide](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html). 
 
 ## Time Series Data
 
-We'll use the `m4_hourly` dataset, which contains 4 hourly time series.
+We'll use the `walmart_sales_weekly` dataset, which contains 7 weekly time series of sales data for various departments in a Walmart Store.
 
 ```{r}
-data <- m4_hourly %>%
-  select(id, date, value) %>%
-  group_by(id) %>%
-  mutate(value = standardize_vec(value)) %>%
-  ungroup()
+data <- walmart_sales_weekly %>%
+  select(id, Date, Weekly_Sales) %>%
+  set_names(c("id", "date", "value"))
 
-data
+data %>%
+  group_by(id) %>%
+  plot_time_series(
+    date, 
+    value, 
+    .facet_ncol = 3, 
+    .interactive = FALSE
+  )
 ```
 
 We'll create the forecast region using `future_frame()`. We are forecasting 1 week (24x7 timestamps) into the future.
 
 ```{r}
-HORIZON <- 24*7
+HORIZON <- 52
 
 new_data <- data %>%
   group_by(id) %>%
@@ -99,38 +94,25 @@ new_data
 ```
 
 
-## Making an N-Beats Ensemble Model
+## Making a DeepAR Model
 
-We'll create a model using the N-BEATS ENSEMBLE algorithm using the `nbeats()` function. 
+We'll create a DeepAR model using the `deep_ar()` function. 
 
-- This is a univariate modeling algorithm that ensembles (combines) multiple N-BEATS Deep Learning models. 
-- We select the Ensemble Version of N-BEATS by setting the engine to `gluonts_nbeats_ensemble`.
-- The meta-learner uses 3 sub-models by adjusting the `lookback_length`. We can include more sub-models adjusting the `bagging_size`. 
+- This is a univariate modeling algorithm that uses Deep Learning and Autoregression. 
+- We select the GluonTS version by setting the engine to `gluonts_deepar`.
+
 
 
 ```{r, eval = FALSE}
-model_fit_nbeats_ensemble <- nbeats(
+model_fit_deepar <- deep_ar(
   id                    = "id",
-  freq                  = "H",
+  freq                  = "W",
   prediction_length     = HORIZON,
-  lookback_length       = c(HORIZON, 4*HORIZON),
-  epochs                = 5,
-  num_batches_per_epoch = 15,
-  batch_size            = 1 
+  lookback_length       = 2*HORIZON,
+  epochs                = 5
 ) %>%
-  set_engine("gluonts_nbeats_ensemble") %>%
+  set_engine("gluonts_deepar") %>%
   fit(value ~ date + id, data)
-```
-
-
-An NBEATS ENSEMBLE is produced. 
-
-```{r, eval=F}
-model_fit_nbeats_ensemble
-```
-
-```{r, echo=F}
-knitr::include_graphics("nbeats_model.jpg")
 ```
 
 
@@ -140,7 +122,7 @@ With a model in hand, we can simply follow the [Modeltime Workflow](https://busi
 
 ```{r, eval=F}
 modeltime_forecast_tbl <- modeltime_table(
-  model_fit_nbeats_ensemble
+  model_fit_deepar
 ) %>%
   modeltime_forecast(
     new_data    = new_data,
@@ -156,7 +138,7 @@ We can visualize the forecast with `plot_modeltime_forecast()`.
 modeltime_forecast_tbl %>%
   plot_modeltime_forecast(
     .conf_interval_show = FALSE, 
-    .facet_ncol         = 2, 
+    .facet_ncol         = 3, 
     .facet_scales       = "free",
     .interactive        = FALSE
   )
@@ -172,15 +154,15 @@ GluonTS models will need to "serialized" (a fancy word for saved to a directory 
 - __Note that N-BEATS models can be VERY LARGE.__
 
 ```{r, eval = FALSE}
-model_fit_nbeats_ensemble %>%
-  save_gluonts_model(path = "nbeats_ensemble_model", overwrite = TRUE)
+model_fit_deepar %>%
+  save_gluonts_model(path = "deepar_model", overwrite = TRUE)
 ```
 
 
 You can reload the model into R using `load_gluonts_model()`.
 
 ```{r, eval=FALSE}
-model_fit_nbeats_ensemble <- load_gluonts_model("nbeats_ensemble_model")
+model_fit_deepar <- load_gluonts_model("deepar_model")
 ```
 
 
@@ -222,6 +204,4 @@ Become the Time Series Expert for your organization.
 <a href="https://university.business-science.io/p/ds4b-203-r-high-performance-time-series-forecasting">Take the High-Performance Time Series Forecasting Course</a>
 </p>
 
-## References {#references}
 
-1: N-BEATS: Neural basis expansion analysis for interpretable time series forecasting https://arxiv.org/abs/1905.10437

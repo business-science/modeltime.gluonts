@@ -28,16 +28,6 @@ knitr::opts_chunk$set(
 
 > GluonTS Deep Learning in R. 
 
-<hr>
-## Installation Requirements
-
-__Important: This package is being maintained on GitHub (not CRAN). Please install the `development version`, which is updated with the latest features:__
-
-```
-# Install Development Version 
-remotes::install_github("business-science/modeltime.gluonts")
-```
-<hr>
 
 ## GluonTS Deep Learning in R
 
@@ -48,9 +38,23 @@ knitr::include_graphics("man/figures/m4_hourly_forecast.jpg")
 ```
 
 
+## Installation Requirements
+
+__Important: This package is being maintained on GitHub (not CRAN). Please install the GitHub version, which is updated with the latest features:__
+
+```
+# Install GitHub Version 
+remotes::install_github("business-science/modeltime.gluonts")
+
+# Install Python Dependencies
+modeltime.gluonts::install_gluonts()
+```
+
+For more detailed installation instructions and troubleshooting guidance, visit our [Installation Guide](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html). 
+
 ## Make Your First DeepAR Model
 
-Use `deep_ar()`, which connects to the GluonTS `DeepAREstimator()`.
+Make your first `deep_ar()` model, which connects to the GluonTS `DeepAREstimator()`. For a more detailed walkthough, visit our [Getting Started Guide](https://business-science.github.io/modeltime.gluonts/articles/getting-started.html).
 
 ```{r example, eval = F}
 library(modeltime.gluonts)
@@ -86,92 +90,7 @@ knitr::include_graphics("man/figures/deepar_example_1.png")
 ```
 
 
-## Installation
 
-There are 2 key components to installing Modeltime GluonTS:
-
-1. Download the R-Package, `modeltime.gluonts`. This installs the R-Bindings, which allows you to interface with GluonTS. 
-
-2. Set up the Python Environment so `modeltime.gluonts` can connect to the `gluonts` python package. 
-
-### Step 1 - Download & Install Modeltime GluonTS
-
-Download the latest development version.  
-
-``` r
-remotes::install_github("business-science/modeltime.gluonts")
-```
-
-### Step 2 - Python Environment Setup
-
-Next, you'll need to set up a Python Environment that contains at a minimum: 
-
-- `gluonts==0.8.0`
-- `mxnet`
-- `pandas`
-- `numpy`
-- `pathlib`
-
-The python environment then needs to be activated with `reticulate`.
-
-__Fast GluonTS Setup__
-
-You can use `install_gluonts()` to prepare and bind to a python environment containing `gluonts` and the required python packages. 
-
-- You only need to run this one time, and then you are good to go. 
-- Each time you load `modeltime.gluonts`, the package will include this environment in it's search process. 
-
-
-```{r, eval=F}
-# GluonTS Installation - Run 1st time
-install_gluonts()
-```
-
-### Step 3 - Restart R and Try an Example
-
-Restart your R session (if in RStudio, close and re-open). Then try this example. 
-
-```{r, eval=F}
-library(modeltime.gluonts)
-library(tidymodels)
-library(tidyverse)
-
-# Fit a GluonTS DeepAR Model
-model_fit_deepar <- deep_ar(
-    id                    = "id",
-    freq                  = "M",
-    prediction_length     = 24,
-    lookback_length       = 48,
-    epochs                = 5
-) %>%
-    set_engine("gluonts_deepar") %>%
-    fit(value ~ ., training(m750_splits))
-
-# Forecast with 95% Confidence Interval
-modeltime_table(
-    model_fit_deepar
-) %>%
-    modeltime_calibrate(new_data = testing(m750_splits)) %>%
-    modeltime_forecast(
-        new_data      = testing(m750_splits),
-        actual_data   = m750,
-        conf_interval = 0.95
-    ) %>%
-    plot_modeltime_forecast(.interactive = FALSE)
-```
-
-
-## Troubleshooting Installation
-
-Python Environment setup is always fun. Here are a few recommendations if you run into an issue.
-
-- __Check to make sure Conda or Miniconda is available__ using `reticulate::conda_version()`. If no conda version is returned, then use `reticulate::install_miniconda()` to install Miniconda (recommended vs full Aniconda). Then (re-)run `install_gluonts()`. 
-
-- __Check if GluonTS (Python) is available__ using `reticulate::py_module_available("gluonts")`. If this returns `TRUE`, then your installation has succeeded in building the environment, but you may have other issues like missing C++ build tools (next).
-
-- __Windows 10 error: Microsoft Visual C++ is required.__ [Here are the instructions for installing the C++ tools needed.](https://github.com/business-science/modeltime.gluonts/issues/4) 
-
-- __Other installation issues.__ [Please file a GitHub issue here.](https://github.com/business-science/modeltime.gluonts/issues)
 
 
 
