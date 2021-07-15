@@ -248,11 +248,14 @@
 <h1 class="hasAnchor">
 <a href="#upgrading-to-modeltime-gluonts-0-3-0" class="anchor"></a>Upgrading to Modeltime GluonTS &gt;= 0.3.0</h1>
 <p>Modeltime GluonTS 0.3.0 introduced new features that are only available in GluonTS &gt;= 0.8.0. To incorporate these features, we now need to upgrade GluonTS.</p>
-<p>We recommend running <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> with <code>fresh_install = TRUE</code>. This will completely replace your previous “r-gluonts” environment with a new one. It’s designed to help reduce the likelihood of errors during the upgrading process.</p>
+<p>First, upgrade <code>modeltime.gluonts</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"business-science/modeltime.gluonts"</span><span class="op">)</span></code></pre></div>
+<p>Next, we recommend running <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code> with <code>fresh_install = TRUE</code>. This will completely replace your previous “r-gluonts” python environment with a new one. It’s designed to help reduce the likelihood of errors during the upgrading process.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span>fresh_install <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Optionally, you can add the <strong>Pytorch Backend</strong> (new feature) with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span>fresh_install <span class="op">=</span> <span class="cn">TRUE</span>, include_pytorch <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="troubleshooting-installation" class="section level1">
@@ -306,21 +309,21 @@
 <h3 class="hasAnchor">
 <a href="#make-sure-you-have-conda" class="anchor"></a>1. Make sure you have conda</h3>
 <p>Get the conda version. If you don’t have conda, then install with <code><a href="https://rdrr.io/pkg/reticulate/man/install_miniconda.html">reticulate::install_miniconda()</a></code> or <code><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">reticulate::conda_install()</a></code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">conda_version</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="run-install_gluonts-set-up-the-default-environment" class="section level3">
 <h3 class="hasAnchor">
 <a href="#run-install_gluonts-set-up-the-default-environment" class="anchor"></a>2. Run install_gluonts() (set up the Default Environment):</h3>
 <p>This downloads the “GluonTS Stack” that the <code>modeltime.gluonts</code> package is tested using and places it into a Conda environment named “r-gluonts”. When you run <code><a href="https://github.com/business-science/modeltime.gluonts">library("modeltime.gluonts")</a></code>, it attempts to use the “r-gluonts” environment.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">modeltime.gluonts</span><span class="fu">::</span><span class="fu"><a href="../reference/install_gluonts.html">install_gluonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="optional-modifying-the-default-environment" class="section level3">
 <h3 class="hasAnchor">
 <a href="#optional-modifying-the-default-environment" class="anchor"></a>3. [Optional] Modifying the Default Environment:</h3>
 <p>You can modify this environment, adding more python libraries as needed.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/py_install.html">py_install</a></span><span class="op">(</span>
     envname  <span class="op">=</span> <span class="st">"r-gluonts"</span>,
     packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
@@ -334,14 +337,14 @@
 <h3 class="hasAnchor">
 <a href="#activate-the-default-environment" class="anchor"></a>4. Activate the Default Environment:</h3>
 <p>Each time you load <code><a href="https://github.com/business-science/modeltime.gluonts">library(modeltime.gluonts)</a></code>, the package will bind to the “r-gluonts” python environment by default. If found, it will automatically bind to this environment.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.gluonts">modeltime.gluonts</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="check-the-environment" class="section level3">
 <h3 class="hasAnchor">
 <a href="#check-the-environment" class="anchor"></a>5. Check the Environment</h3>
 <p>Make sure that the environment has been changed to the default ‘r-gluonts’ environment. We can see that <code>r-gluonts</code> environment is being used in the python path.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/py_discover_config.html">py_discover_config</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="discover_config_rgluonts.jpg" width="90%" style="display: block; margin: auto;"></p>
 </div>
@@ -354,7 +357,7 @@
 <h3 class="hasAnchor">
 <a href="#create-a-custom-python-environment" class="anchor"></a>1. Create a Custom Python Environment</h3>
 <p>You can create an environment containing the python packages needed.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/py_install.html">py_install</a></span><span class="op">(</span>
     envname  <span class="op">=</span> <span class="st">"my_gluonts_env"</span>,
     python_version <span class="op">=</span> <span class="st">"3.6"</span>,
@@ -373,7 +376,7 @@
 <h3 class="hasAnchor">
 <a href="#locate-the-python-path" class="anchor"></a>2. Locate the Python Path</h3>
 <p>This locates the path to the python executable for the ‘my_gluonts_env’ environment that we just created.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="va">my_gluonts_env_python_path</span> <span class="op">&lt;-</span> <span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/conda-tools.html">conda_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"my_gluonts_env"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -386,10 +389,10 @@
 <h3 class="hasAnchor">
 <a href="#set-the-system-environment-variable" class="anchor"></a>3. Set the System Environment Variable</h3>
 <p>Set the system environment variable named ‘GLUONTS_PYTHON’ with the path to the python executable. Once this is set, loading <code><a href="https://github.com/business-science/modeltime.gluonts">library(modeltime.gluonts)</a></code> will use this path to activate the environment.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>GLUONTS_PYTHON <span class="op">=</span> <span class="va">my_gluonts_env_python_path</span><span class="op">)</span></code></pre></div>
 <p>Verify it’s been set.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GLUONTS_PYTHON"</span><span class="op">)</span>
 <span class="co">#&gt; "/Users/mdancho/Library/r-miniconda/envs/my_gluonts_env/bin/python"</span></code></pre></div>
 </div>
@@ -397,7 +400,7 @@
 <h3 class="hasAnchor">
 <a href="#load-modeltime-gluonts" class="anchor"></a>5. Load Modeltime GluonTS</h3>
 <p>Running <code><a href="https://github.com/business-science/modeltime.gluonts">library(modeltime.gluonts)</a></code> now binds to the custom environment.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/business-science/modeltime.gluonts">modeltime.gluonts</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="gotcha-1-check-your-environment" class="section level3">
@@ -405,7 +408,7 @@
 <a href="#gotcha-1-check-your-environment" class="anchor"></a>6. [Gotcha #1] Check Your Environment</h3>
 <p>Make sure that the environment has been changed to the default reticulate environment. We can see that environment is being used. If setting your python environment was done properly, you should see <code>my_gluonts_env</code> in the Python Path.</p>
 <p><strong>Troubleshooting</strong>: If the incorrect environment is shown, simply restart your R Session,</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/py_discover_config.html">py_discover_config</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="discover_config_custom.jpg" width="90%" style="display: block; margin: auto;"></p>
 </div>
