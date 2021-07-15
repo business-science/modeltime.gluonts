@@ -346,33 +346,35 @@ the object from scratch.</p>
 
 <p>The standardized parameter names in <code>modeltime</code> can be mapped to their original
 names in each engine:</p><table class='table'>
-<tr><td>modeltime</td><td>DeepAREstimator</td></tr>
-<tr><td>id</td><td>NA</td></tr>
-<tr><td>freq</td><td>freq</td></tr>
-<tr><td>prediction_length</td><td>prediction_length</td></tr>
-<tr><td>lookback_length</td><td>context_length (= prediction_length)</td></tr>
-<tr><td>epochs</td><td>epochs (5)</td></tr>
-<tr><td>batch_size</td><td>batch_size (32)</td></tr>
-<tr><td>num_batches_per_epoch</td><td>num_batches_per_epoch (50)</td></tr>
-<tr><td>learn_rate</td><td>learning_rate (0.001)</td></tr>
-<tr><td>learn_rate_decay_factor</td><td>learning_rate_decay_factor (0.5)</td></tr>
-<tr><td>learn_rate_min</td><td>minimum_learning_rate (5e-5)</td></tr>
-<tr><td>patience</td><td>patience (10)</td></tr>
-<tr><td>clip_gradient</td><td>clip_gradient (10)</td></tr>
-<tr><td>penalty</td><td>weight_decay (1e-8)</td></tr>
-<tr><td>cell_type</td><td>cell_type ('lstm')</td></tr>
-<tr><td>num_layers</td><td>num_layers (2)</td></tr>
-<tr><td>num_cells</td><td>num_cells (40)</td></tr>
-<tr><td>dropout</td><td>dropout_rate (0.1)</td></tr>
-<tr><td>scale</td><td>scale_by_id (FALSE)</td></tr>
+<tr><td>modeltime</td><td>DeepAREstimator (GluonTS)</td><td>DeepAREstimator (Torch)</td></tr>
+<tr><td>id</td><td>NA</td><td>NA</td></tr>
+<tr><td>freq</td><td>freq</td><td>freq</td></tr>
+<tr><td>prediction_length</td><td>prediction_length</td><td>prediction_length</td></tr>
+<tr><td>lookback_length</td><td>context_length (= prediction_length)</td><td>context_length (= prediction_length)</td></tr>
+<tr><td>epochs</td><td>epochs (5)</td><td>max_epochs</td></tr>
+<tr><td>batch_size</td><td>batch_size (32)</td><td>batch_size (32)</td></tr>
+<tr><td>num_batches_per_epoch</td><td>num_batches_per_epoch (50)</td><td>Not Used</td></tr>
+<tr><td>learn_rate</td><td>learning_rate (0.001)</td><td>Not Used</td></tr>
+<tr><td>learn_rate_decay_factor</td><td>learning_rate_decay_factor (0.5)</td><td>Not Used</td></tr>
+<tr><td>learn_rate_min</td><td>minimum_learning_rate (5e-5)</td><td>Not Used</td></tr>
+<tr><td>patience</td><td>patience (10)</td><td>Not Used</td></tr>
+<tr><td>clip_gradient</td><td>clip_gradient (10)</td><td>Not Used</td></tr>
+<tr><td>penalty</td><td>weight_decay (1e-8)</td><td>Not Used</td></tr>
+<tr><td>cell_type</td><td>cell_type ('lstm')</td><td>Not Used</td></tr>
+<tr><td>num_layers</td><td>num_layers (2)</td><td>Not Used</td></tr>
+<tr><td>num_cells</td><td>num_cells (40)</td><td>num_cells (40)</td></tr>
+<tr><td>dropout</td><td>dropout_rate (0.1)</td><td>dropout_rate (0.1)</td></tr>
+<tr><td>scale</td><td>scale_by_id (FALSE)</td><td>scale_by_id (FALSE)</td></tr>
 </table>
 
 
 
 <p>Other options can be set using <code>set_engine()</code>.</p>
-    <h2 class="hasAnchor" id="engine"><a class="anchor" href="#engine"></a>Engine</h2>
+    <h2 class="hasAnchor" id="engine-gluonts-deepar-"><a class="anchor" href="#engine-gluonts-deepar-"></a>Engine "gluonts_deepar"</h2>
 
-    <p>gluonts_deepar</p>
+    
+
+
 <p>The engine uses <code>gluonts.model.deepar.DeepAREstimator()</code>.
 Default values that have been changed to prevent long-running computations:</p><ul>
 <li><p><code>epochs = 5</code>: GluonTS uses 100 by default.</p></li>
@@ -403,6 +405,34 @@ Refer to <a href='https://pandas.pydata.org/pandas-docs/stable/user_guide/timese
 <p><em>3. Prediction Length (Required):</em></p>
 <p>Unlike other parsnip models, a <code>prediction_length</code> is required
 during the model specification and fitting process.</p>
+<p><em>Other Parameters</em></p>
+<p>Other parameters of <code>gluonts.model.deepar.DeepAREstimator()</code>
+can be set using <code>set_engine()</code>.</p>
+    <h2 class="hasAnchor" id="engine-torch-"><a class="anchor" href="#engine-torch-"></a>Engine "torch"</h2>
+
+    
+
+
+<p>The engine uses <code>gluonts.torch.model.deepar.DeepAREstimator()</code>.</p>
+<p>Default values that have been changed to prevent long-running computations:</p><ul>
+<li><p><code>epochs = 5</code>: Torch DeepAR uses 100 by default.</p></li>
+</ul>
+
+<p><strong>Important Engine Details</strong></p>
+<p>A special feature is the use of <code>pytorch_lightning</code> for training,
+which is different than the implementation for <code>gluonts</code>.</p>
+<p>We can access the <code>pytorch_lightning.trainer.trainer.Trainer()</code> function
+via <code>set_engine()</code>. This allows us to set parameters like:</p><ul>
+<li><p>Setting up GPUs</p></li>
+<li><p>Modifying the Pyorch Lightning Logging Checkpoints</p></li>
+</ul>
+
+<p>To access the <code>Trainer()</code> function parameters, simply add
+arguments to <code>set_engine()</code>, which will get passed to
+the <code><a href='deepar_torch_fit_impl.html'>deepar_torch_fit_impl()</a></code> (an intermediate function)
+that translates parameters for Pytorch Lightning.</p>
+<p>For further details, Google the <code>pytorch_lightning.trainer.trainer.Trainer()</code>
+function.</p>
     <h2 class="hasAnchor" id="fit-details"><a class="anchor" href="#fit-details"></a>Fit Details</h2>
 
     
