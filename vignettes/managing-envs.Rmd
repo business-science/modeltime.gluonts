@@ -29,13 +29,8 @@ These are the full instructions to get `modeltime.gluonts` installed, the python
 knitr::include_graphics("../man/figures/m4_hourly_forecast.jpg")
 ```
 
-# Install from GitHub
 
-Modeltime GluonTS is maintained on GitHub and can be installed using:
 
-``` r
-remotes::install_github("business-science/modeltime.gluonts")
-```
 
 # Installation
 
@@ -47,7 +42,7 @@ There are 2 key components to installing `modeltime.gluonts`:
 
 ### Step 1: Download & Install Modeltime GluonTS
 
-Download the latest GitHub version.  
+Modeltime GluonTS is maintained on GitHub and can be installed using:
 
 ``` r
 remotes::install_github("business-science/modeltime.gluonts")
