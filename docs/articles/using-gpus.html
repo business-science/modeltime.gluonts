@@ -180,21 +180,21 @@
 <li>One or more Nvidia GPUs</li>
 <li>CUDA software properly installed</li>
 </ul>
-<p>Refer to <a href="https://mxnet.apache.org/versions/1.6.0/api/python/docs/tutorials/getting-started/crash-course/6-use_gpus.html">MXNet’s Official GPU Documentation</a> on using GPUs.</p>
+<p>Refer to <a href="https://mxnet.apache.org/versions/1.7/api/python/docs/tutorials/getting-started/crash-course/6-use_gpus.html">MXNet’s Official GPU Documentation</a> on using GPUs.</p>
 </div>
-<div id="step-1---create-a-custom-gluonts-python-environment" class="section level2">
+<div id="step-1-create-a-custom-gluonts-python-environment" class="section level2">
 <h2 class="hasAnchor">
-<a href="#step-1---create-a-custom-gluonts-python-environment" class="anchor"></a>Step 1 - Create a Custom GluonTS Python Environment</h2>
-<p>Follow the steps in <a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-custom-gluonts-python-environments-1">Create Custom GluonTS Python Environment</a>. You will need to install a version of mxnet that is compatible with your CUDA software.</p>
+<a href="#step-1-create-a-custom-gluonts-python-environment" class="anchor"></a>Step 1: Create a Custom GluonTS Python Environment</h2>
+<p>Create a Custom GluonTS Python Environment. You will need to install a version of <code>mxnet</code> that is compatible with your CUDA software.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/py_install.html">py_install</a></span><span class="op">(</span>
     envname  <span class="op">=</span> <span class="st">"my_gluonts_env"</span>,
-    python_version <span class="op">=</span> <span class="st">"3.6"</span>,
+    python_version <span class="op">=</span> <span class="st">"3.7.1"</span>,
     packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
         <span class="co"># IMPORTANT</span>
         <span class="st">"mxnet-cu92"</span>, <span class="co"># replace `cu92` according to your CUDA version.</span>
         
-        <span class="st">"gluonts"</span>,
+        <span class="st">"gluonts==0.8.0"</span>,
         <span class="st">"pandas"</span>,
         <span class="st">"numpy"</span>,
         <span class="st">"pathlib"</span>
@@ -203,10 +203,10 @@
     pip <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="step-2---connect-to-the-gluonts-gpu-environment" class="section level2">
+<div id="step-2-connect-to-the-gluonts-gpu-environment" class="section level2">
 <h2 class="hasAnchor">
-<a href="#step-2---connect-to-the-gluonts-gpu-environment" class="anchor"></a>Step 2 - Connect to the GluonTS GPU Environment</h2>
-<p><a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-custom-gluonts-python-environments-1">Follow instructions</a> to set the path and check your custom gluonts environment. You will need to:</p>
+<a href="#step-2-connect-to-the-gluonts-gpu-environment" class="anchor"></a>Step 2: Connect to the GluonTS GPU Environment</h2>
+<p><a href="https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-making-custom-environments-1">Follow instructions</a> to set the path and check your custom gluonts environment. You will need to:</p>
 <ul>
 <li>Locate the Python Path to your new Custom GPU-enabled Python Environment</li>
 <li>Set the System Environment Variable</li>
@@ -214,9 +214,9 @@
 <li>Check Your Environment to make sure <code>modeltime.gluonts</code> is connecting to your GPU-enabled GluonTS Python Environment</li>
 </ul>
 </div>
-<div id="step-3---begin-using-gpus-" class="section level2">
+<div id="step-3-begin-using-gpus-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#step-3---begin-using-gpus-" class="anchor"></a>Step 3 - Begin using GPUs.</h2>
+<a href="#step-3-begin-using-gpus-" class="anchor"></a>Step 3: Begin using GPUs.</h2>
 <p>You’re now ready to start using GPUs. Just start training as normal.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_fit_deepar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deep_ar.html">deep_ar</a></span><span class="op">(</span>
@@ -234,9 +234,9 @@
   <span class="fu">set_engine</span><span class="op">(</span><span class="st">"gluonts_deepar"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">fit</span><span class="op">(</span><span class="va">value</span> <span class="op">~</span> <span class="va">date</span> <span class="op">+</span> <span class="va">id</span>, <span class="va">m750</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="step-4-optional---configure-your-gpus-using-the-mxnet-context-ctx" class="section level2">
+<div id="step-4-optional-configure-your-gpus-using-the-mxnet-context-ctx" class="section level2">
 <h2 class="hasAnchor">
-<a href="#step-4-optional---configure-your-gpus-using-the-mxnet-context-ctx" class="anchor"></a>Step 4 (Optional) - Configure your GPUs using the MXNet Context (CTX)</h2>
+<a href="#step-4-optional-configure-your-gpus-using-the-mxnet-context-ctx" class="anchor"></a>Step 4 (Optional): Configure your GPUs using the MXNet Context (CTX)</h2>
 <p>One final point is that if you have multiple GPUs, you can configure how to distribute the work using the MXNet Context (<code>ctx</code>). For example, if you have two GPUs, you can specify to use both of them by adding to the <code>set_engine()</code>.</p>
 <pre><code>mxnet &lt;- reticulate::import("mxnet")
 

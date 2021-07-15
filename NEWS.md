@@ -32,8 +32,9 @@ A new function, `deep_state()`, integrates the Deep State Estimator from GluonTS
 ## Tutorials
 
 - We've updated the [Installation Guide](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html). This includes revised requirements for installation, upgrading to `modeltime.gluonts` >= 0.3.0, troubleshooting installation, python environment requirements, and custom python environments. 
+- We've updated the [Getting Started Guide](https://business-science.github.io/modeltime.gluonts/articles/getting-started.html) to go through a DeepAR example.
 
-- We've updated the [Getting Started Guide] to go through a DeepAR example
+- We've update the [GPU Setup Instructions](https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html) to cover Modeltime >=0.3.0.
 
 ## Improvements
 

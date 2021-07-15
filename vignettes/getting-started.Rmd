@@ -151,7 +151,6 @@ GluonTS models will need to "serialized" (a fancy word for saved to a directory 
 
 - Provide a directory where you want to save the model. 
 - This saves all of the model files in the directory.
-- __Note that N-BEATS models can be VERY LARGE.__
 
 ```{r, eval = FALSE}
 model_fit_deepar %>%

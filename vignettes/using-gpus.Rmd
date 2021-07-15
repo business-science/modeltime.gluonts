@@ -29,22 +29,22 @@ You must have:
 - One or more Nvidia GPUs
 - CUDA software properly installed
 
-Refer to [MXNet's Official GPU Documentation](https://mxnet.apache.org/versions/1.6.0/api/python/docs/tutorials/getting-started/crash-course/6-use_gpus.html) on using GPUs. 
+Refer to [MXNet's Official GPU Documentation](https://mxnet.apache.org/versions/1.7/api/python/docs/tutorials/getting-started/crash-course/6-use_gpus.html) on using GPUs. 
 
-## Step 1 - Create a Custom GluonTS Python Environment
+## Step 1: Create a Custom GluonTS Python Environment
 
-Follow the steps in [Create Custom GluonTS Python Environment](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-custom-gluonts-python-environments-1). You will need to install a version of mxnet that is compatible with your CUDA software. 
+Create a Custom GluonTS Python Environment. You will need to install a version of `mxnet` that is compatible with your CUDA software. 
 
 
 ``` r
 reticulate::py_install(
     envname  = "my_gluonts_env",
-    python_version = "3.6",
+    python_version = "3.7.1",
     packages = c(
         # IMPORTANT
         "mxnet-cu92", # replace `cu92` according to your CUDA version.
         
-        "gluonts",
+        "gluonts==0.8.0",
         "pandas",
         "numpy",
         "pathlib"
@@ -56,16 +56,16 @@ reticulate::py_install(
 
 
 
-## Step 2 - Connect to the GluonTS GPU Environment
+## Step 2: Connect to the GluonTS GPU Environment
 
-[Follow instructions](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-custom-gluonts-python-environments-1) to set the path and check your custom gluonts environment. You will need to:
+[Follow instructions](https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html#method-2-making-custom-environments-1) to set the path and check your custom gluonts environment. You will need to:
 
 - Locate the Python Path to your new Custom GPU-enabled Python Environment
 - Set the System Environment Variable
 - Load Modeltime GluonTS
 - Check Your Environment to make sure `modeltime.gluonts` is connecting to your GPU-enabled GluonTS Python Environment
 
-## Step 3 - Begin using GPUs. 
+## Step 3: Begin using GPUs. 
 
 You're now ready to start using GPUs. Just start training as normal. 
 
@@ -87,7 +87,7 @@ model_fit_deepar <- deep_ar(
   fit(value ~ date + id, m750)
 ```
 
-## Step 4 (Optional) - Configure your GPUs using the MXNet Context (CTX)
+## Step 4 (Optional): Configure your GPUs using the MXNet Context (CTX)
 
 One final point is that if you have multiple GPUs, you can configure how to distribute the work using the MXNet Context (`ctx`). For example, if you have two GPUs, you can specify to use both of them by adding to the `set_engine()`.
 
