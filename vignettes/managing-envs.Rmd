@@ -108,7 +108,13 @@ knitr::include_graphics("../man/figures/deepar_example_1.png")
 
 Modeltime GluonTS 0.3.0 introduced new features that are only available in GluonTS >= 0.8.0. To incorporate these features, we now need to upgrade GluonTS. 
 
-We recommend running `install_gluonts()` with `fresh_install = TRUE`. This will completely replace your previous "r-gluonts" environment with a new one. It's designed to help reduce the likelihood of errors during the upgrading process.
+First, upgrade `modeltime.gluonts`:
+
+``` r
+remotes::install_github("business-science/modeltime.gluonts")
+```
+
+Next, we recommend running `install_gluonts()` with `fresh_install = TRUE`. This will completely replace your previous "r-gluonts" python environment with a new one. It's designed to help reduce the likelihood of errors during the upgrading process.
 
 ``` r
 install_gluonts(fresh_install = TRUE)
