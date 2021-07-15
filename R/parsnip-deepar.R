@@ -40,32 +40,32 @@
 #'
 #' ```{r echo = FALSE}
 #' tibble::tribble(
-#'     ~ "modeltime", ~ "DeepAREstimator",
-#'     "id", "NA",
-#'     "freq", "freq",
-#'     "prediction_length", "prediction_length",
-#'     "lookback_length", "context_length (= prediction_length)",
-#'     "epochs", "epochs (5)",
-#'     "batch_size", "batch_size (32)",
-#'     "num_batches_per_epoch", "num_batches_per_epoch (50)",
-#'     "learn_rate", "learning_rate (0.001)",
-#'     "learn_rate_decay_factor", "learning_rate_decay_factor (0.5)",
-#'     "learn_rate_min", "minimum_learning_rate (5e-5)",
-#'     "patience", "patience (10)",
-#'     "clip_gradient", "clip_gradient (10)",
-#'     "penalty", "weight_decay (1e-8)",
-#'     "cell_type", "cell_type ('lstm')",
-#'     "num_layers", "num_layers (2)",
-#'     "num_cells", "num_cells (40)",
-#'     "dropout", "dropout_rate (0.1)",
-#'     "scale", "scale_by_id (FALSE)"
+#'     ~ "modeltime", ~ "DeepAREstimator (GluonTS)", ~ "DeepAREstimator (Torch)",
+#'     "id", "NA", "NA",
+#'     "freq", "freq", "freq",
+#'     "prediction_length", "prediction_length", "prediction_length",
+#'     "lookback_length", "context_length (= prediction_length)", "context_length (= prediction_length)",
+#'     "epochs", "epochs (5)", "max_epochs",
+#'     "batch_size", "batch_size (32)", "batch_size (32)",
+#'     "num_batches_per_epoch", "num_batches_per_epoch (50)", "Not Used",
+#'     "learn_rate", "learning_rate (0.001)", "Not Used",
+#'     "learn_rate_decay_factor", "learning_rate_decay_factor (0.5)", "Not Used",
+#'     "learn_rate_min", "minimum_learning_rate (5e-5)", "Not Used",
+#'     "patience", "patience (10)", "Not Used",
+#'     "clip_gradient", "clip_gradient (10)", "Not Used",
+#'     "penalty", "weight_decay (1e-8)", "Not Used",
+#'     "cell_type", "cell_type ('lstm')", "Not Used",
+#'     "num_layers", "num_layers (2)", "Not Used",
+#'     "num_cells", "num_cells (40)", "num_cells (40)",
+#'     "dropout", "dropout_rate (0.1)", "dropout_rate (0.1)",
+#'     "scale", "scale_by_id (FALSE)", "scale_by_id (FALSE)"
 #' ) %>% knitr::kable()
 #' ```
 #'
 #' Other options can be set using `set_engine()`.
 #'
 #'
-#' @section Engine: gluonts_deepar
+#' @section Engine "gluonts_deepar":
 #'
 #' The engine uses `gluonts.model.deepar.DeepAREstimator()`.
 #' Default values that have been changed to prevent long-running computations:
@@ -104,6 +104,37 @@
 #' Unlike other parsnip models, a `prediction_length` is required
 #' during the model specification and fitting process.
 #'
+#' _Other Parameters_
+#'
+#' Other parameters of `gluonts.model.deepar.DeepAREstimator()`
+#' can be set using `set_engine()`.
+#'
+#' @section Engine "torch":
+#'
+#' The engine uses `gluonts.torch.model.deepar.DeepAREstimator()`.
+#'
+#' Default values that have been changed to prevent long-running computations:
+#'
+#' - `epochs = 5`: Torch DeepAR uses 100 by default.
+#'
+#' __Important Engine Details__
+#'
+#' A special feature is the use of `pytorch_lightning` for training,
+#' which is different than the implementation for `gluonts`.
+#'
+#' We can access the `pytorch_lightning.trainer.trainer.Trainer()` function
+#' via `set_engine()`. This allows us to set parameters like:
+#'
+#' - Setting up GPUs
+#' - Modifying the Pyorch Lightning Logging Checkpoints
+#'
+#' To access the `Trainer()` function parameters, simply add
+#' arguments to `set_engine()`, which will get passed to
+#' the [deepar_torch_fit_impl()] (an intermediate function)
+#' that translates parameters for Pytorch Lightning.
+#'
+#' For further details, Google the `pytorch_lightning.trainer.trainer.Trainer()`
+#' function.
 #'
 #'
 #' @section Fit Details:

@@ -91,34 +91,34 @@ The model can be created using the fit() function using the following engines:
 
 
 The standardized parameter names in \code{modeltime} can be mapped to their original
-names in each engine:\tabular{ll}{
-   modeltime \tab DeepAREstimator \cr
-   id \tab NA \cr
-   freq \tab freq \cr
-   prediction_length \tab prediction_length \cr
-   lookback_length \tab context_length (= prediction_length) \cr
-   epochs \tab epochs (5) \cr
-   batch_size \tab batch_size (32) \cr
-   num_batches_per_epoch \tab num_batches_per_epoch (50) \cr
-   learn_rate \tab learning_rate (0.001) \cr
-   learn_rate_decay_factor \tab learning_rate_decay_factor (0.5) \cr
-   learn_rate_min \tab minimum_learning_rate (5e-5) \cr
-   patience \tab patience (10) \cr
-   clip_gradient \tab clip_gradient (10) \cr
-   penalty \tab weight_decay (1e-8) \cr
-   cell_type \tab cell_type ('lstm') \cr
-   num_layers \tab num_layers (2) \cr
-   num_cells \tab num_cells (40) \cr
-   dropout \tab dropout_rate (0.1) \cr
-   scale \tab scale_by_id (FALSE) \cr
+names in each engine:\tabular{lll}{
+   modeltime \tab DeepAREstimator (GluonTS) \tab DeepAREstimator (Torch) \cr
+   id \tab NA \tab NA \cr
+   freq \tab freq \tab freq \cr
+   prediction_length \tab prediction_length \tab prediction_length \cr
+   lookback_length \tab context_length (= prediction_length) \tab context_length (= prediction_length) \cr
+   epochs \tab epochs (5) \tab max_epochs \cr
+   batch_size \tab batch_size (32) \tab batch_size (32) \cr
+   num_batches_per_epoch \tab num_batches_per_epoch (50) \tab Not Used \cr
+   learn_rate \tab learning_rate (0.001) \tab Not Used \cr
+   learn_rate_decay_factor \tab learning_rate_decay_factor (0.5) \tab Not Used \cr
+   learn_rate_min \tab minimum_learning_rate (5e-5) \tab Not Used \cr
+   patience \tab patience (10) \tab Not Used \cr
+   clip_gradient \tab clip_gradient (10) \tab Not Used \cr
+   penalty \tab weight_decay (1e-8) \tab Not Used \cr
+   cell_type \tab cell_type ('lstm') \tab Not Used \cr
+   num_layers \tab num_layers (2) \tab Not Used \cr
+   num_cells \tab num_cells (40) \tab num_cells (40) \cr
+   dropout \tab dropout_rate (0.1) \tab dropout_rate (0.1) \cr
+   scale \tab scale_by_id (FALSE) \tab scale_by_id (FALSE) \cr
 }
 
 
 Other options can be set using \code{set_engine()}.
 }
 
-\section{Engine}{
- gluonts_deepar
+\section{Engine "gluonts_deepar"}{
+
 
 The engine uses \code{gluonts.model.deepar.DeepAREstimator()}.
 Default values that have been changed to prevent long-running computations:
@@ -159,6 +159,42 @@ Refer to \href{https://pandas.pydata.org/pandas-docs/stable/user_guide/timeserie
 
 Unlike other parsnip models, a \code{prediction_length} is required
 during the model specification and fitting process.
+
+\emph{Other Parameters}
+
+Other parameters of \code{gluonts.model.deepar.DeepAREstimator()}
+can be set using \code{set_engine()}.
+}
+
+\section{Engine "torch"}{
+
+
+The engine uses \code{gluonts.torch.model.deepar.DeepAREstimator()}.
+
+Default values that have been changed to prevent long-running computations:
+\itemize{
+\item \code{epochs = 5}: Torch DeepAR uses 100 by default.
+}
+
+\strong{Important Engine Details}
+
+A special feature is the use of \code{pytorch_lightning} for training,
+which is different than the implementation for \code{gluonts}.
+
+We can access the \code{pytorch_lightning.trainer.trainer.Trainer()} function
+via \code{set_engine()}. This allows us to set parameters like:
+\itemize{
+\item Setting up GPUs
+\item Modifying the Pyorch Lightning Logging Checkpoints
+}
+
+To access the \code{Trainer()} function parameters, simply add
+arguments to \code{set_engine()}, which will get passed to
+the \code{\link[=deepar_torch_fit_impl]{deepar_torch_fit_impl()}} (an intermediate function)
+that translates parameters for Pytorch Lightning.
+
+For further details, Google the \code{pytorch_lightning.trainer.trainer.Trainer()}
+function.
 }
 
 \section{Fit Details}{
