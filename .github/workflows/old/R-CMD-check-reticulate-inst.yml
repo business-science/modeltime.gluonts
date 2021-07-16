@@ -16,7 +16,7 @@ on:
       - main
       - master
 
-name: R-CMD-check-NO-PYTHON
+name: R-CMD-check-RETICULATE-ONLY
 
 jobs:
   R-CMD-check:
