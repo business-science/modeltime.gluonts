@@ -12,7 +12,7 @@ test_that("nbeats ensemble: model fitting", {
 
     skip_if_no_gluonts()
 
-    skip_on_ci() # N-BEATS models are very large, skip on CI to reduce memory load
+    # skip_on_ci()
 
     # Model Spec
     model_spec <- nbeats(

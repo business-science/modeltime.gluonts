@@ -17,6 +17,8 @@ test_that("gp_forecaster: model fitting", {
 
     skip_if_no_gluonts()
 
+    skip_on_ci() # Error: C stack usage  15940564 is too close to the limit
+
     # Model Spec
     model_spec <<- gp_forecaster(
         id                      = "id",
