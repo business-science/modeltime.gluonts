@@ -1,9 +1,9 @@
 # DEEP AR TEST ----
 context("Test DeepAR")
 
-gc()
-py_gc <- reticulate::import("gc")
-py_gc$collect()
+# gc()
+# py_gc <- reticulate::import("gc")
+# py_gc$collect()
 
 
 # MODEL FITTING ----

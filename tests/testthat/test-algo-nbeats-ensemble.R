@@ -2,15 +2,17 @@
 context("Test NBEATS ENSEMBLE")
 
 
-gc()
-py_gc <- reticulate::import("gc")
-py_gc$collect()
+# gc()
+# py_gc <- reticulate::import("gc")
+# py_gc$collect()
 
 # MODEL FITTING ----
 
 test_that("nbeats ensemble: model fitting", {
 
     skip_if_no_gluonts()
+
+    skip_on_ci() # N-BEATS models are very large, skip on CI to reduce memory load
 
     # Model Spec
     model_spec <- nbeats(

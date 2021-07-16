@@ -7,16 +7,15 @@ context("Test GP Forecaster")
 # Skipping tests until can figure out the source of the error
 # Passes locally
 
-gc()
-py_gc <- reticulate::import("gc")
-py_gc$collect()
+# gc()
+# py_gc <- reticulate::import("gc")
+# py_gc$collect()
 
 # MODEL FITTING ----
 
 test_that("gp_forecaster: model fitting", {
 
     skip_if_no_gluonts()
-    skip_on_ci()
 
     # Model Spec
     model_spec <<- gp_forecaster(
@@ -85,14 +84,9 @@ test_that("gp_forecaster: model fitting", {
     testthat::expect_identical(nrow(testing(m750_splits)), nrow(predictions_tbl))
     testthat::expect_identical(testing(m750_splits)$date, predictions_tbl$.index)
 
-})
 
-# UPDATE MODEL SPEC ----
 
-testthat::test_that("gp_forecaster: update model spec", {
-
-    skip_if_no_gluonts()
-    skip_on_ci()
+    # UPDATE MODEL SPEC ----
 
     model_spec_updated <- model_spec %>%
         update(
@@ -123,14 +117,7 @@ testthat::test_that("gp_forecaster: update model spec", {
     expect_equal(eval_tidy(model_spec_updated$args$clip_gradient), 10)
     expect_equal(eval_tidy(model_spec_updated$args$penalty), 0.1)
 
-})
-
-# CHECKS / VALIDATIONS ----
-
-testthat::test_that("gp_forecaster: checks/validations", {
-
-    skip_if_no_gluonts()
-    skip_on_ci()
+    # CHECKS / VALIDATIONS ----
 
     # Missing prediction length
     expect_error({

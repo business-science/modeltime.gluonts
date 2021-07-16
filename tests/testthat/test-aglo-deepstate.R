@@ -7,9 +7,9 @@ context("Test Deep State")
 # Skipping tests until can figure out the source of the error
 # Passes locally
 
-gc()
-py_gc <- reticulate::import("gc")
-py_gc$collect()
+# gc()
+# py_gc <- reticulate::import("gc")
+# py_gc$collect()
 
 
 # MODEL FITTING ----
@@ -17,7 +17,6 @@ py_gc$collect()
 test_that("deep_state: model fitting", {
 
     skip_if_no_gluonts()
-    skip_on_ci()
 
 
     # Model Spec
