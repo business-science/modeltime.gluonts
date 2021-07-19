@@ -51,7 +51,7 @@ install_gluonts <- function(
 
     # PACKAGE SPEC
     default_pkgs <- c(
-        "mxnet~=1.8",
+        "mxnet~=1.7",
         "gluonts==0.8.0",
         "numpy==1.17.2",
         "pandas==1.0.5",
@@ -62,8 +62,8 @@ install_gluonts <- function(
     if (include_pytorch) {
         default_pkgs <- c(
             default_pkgs,
-            "torch==1.9.0",
-            "pytorch-lightning==1.3.8"
+            "torch~=1.6",
+            "pytorch-lightning~=1.1"
         )
     }
 
