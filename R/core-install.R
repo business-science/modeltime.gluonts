@@ -56,7 +56,7 @@ install_gluonts <- function(
         "numpy==1.17.2",
         "pandas==1.0.5",
         "pathlib==1.0.1",
-        "ujson"
+        "ujson==4.0.2"
     )
 
     if (include_pytorch) {
