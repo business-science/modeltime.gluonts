@@ -274,10 +274,11 @@
 <ul>
 <li>
 <code>gluonts&gt;=0.8.0</code> (required for <code>modeltime.gluonts</code> &gt;= 0.3.0)</li>
-<li><code>mxnet</code></li>
+<li><code>mxnet~=1.7</code></li>
 <li><code>pandas</code></li>
 <li><code>numpy</code></li>
 <li><code>pathlib</code></li>
+<li><code>ujson</code></li>
 </ul>
 </li>
 </ul>
@@ -285,6 +286,17 @@
 <ul>
 <li><code>torch</code></li>
 <li><code>pytorch_lightning</code></li>
+</ul>
+<p><strong>Tested environment:</strong> These package versions are tested on Windows, Mac, and Linux systems and can be used to set up an environment:</p>
+<ul>
+<li><code>gluonts==0.8.0</code></li>
+<li><code>mxnet~=1.7</code></li>
+<li><code>numpy==1.17.2</code></li>
+<li><code>pandas==1.0.5</code></li>
+<li><code>pathlib==1.0.1</code></li>
+<li><code>ujson==4.0.2</code></li>
+<li><code>torch==1.9.0</code></li>
+<li><code>pytorch-lightning==1.3.8</code></li>
 </ul>
 <p>That’s it. If you have these inside a Conda or Virtual Environment, then you can use <code>modeltime.gluonts</code>.</p>
 </div>
@@ -359,9 +371,10 @@
     packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
         <span class="st">"mxnet~=1.7"</span>,
         <span class="st">"gluonts==0.8.0"</span>,
-        <span class="st">"pandas"</span>,
-        <span class="st">"numpy"</span>,
-        <span class="st">"pathlib"</span>
+        <span class="st">"pandas==1.0.5"</span>,
+        <span class="st">"numpy==1.17.2"</span>,
+        <span class="st">"pathlib==1.0.1"</span>,
+        <span class="st">"ujson==4.0.2"</span>
     <span class="op">)</span>,
     method <span class="op">=</span> <span class="st">"conda"</span>,
     pip <span class="op">=</span> <span class="cn">TRUE</span>
