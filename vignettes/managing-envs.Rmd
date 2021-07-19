@@ -236,10 +236,10 @@ You can create an environment containing the python packages needed.
 ``` r
 reticulate::py_install(
     envname  = "my_gluonts_env",
-    python_version = "3.6",
+    python_version = "3.7",
     packages = c(
-        "mxnet==1.6.0",
-        "gluonts==0.6.3",
+        "mxnet~=1.7",
+        "gluonts==0.8.0",
         "pandas",
         "numpy",
         "pathlib"
