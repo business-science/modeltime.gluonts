@@ -8,7 +8,7 @@ dependencies:
   - pip:
     - mxnet~=1.7
     - gluonts==0.8.0
-    - numpy==1.17.2
+    - numpy==1.16.6
     - pandas==1.0.5
     - pathlib==1.0.1
     - ujson
