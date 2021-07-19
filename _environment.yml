@@ -13,5 +13,5 @@ dependencies:
     - pandas==1.0.5
     - pathlib==1.0.1
     - ujson==4.0.2
-    - torch=~1.6
+    - torch~=1.6
     - pytorch-lightning~=1.1
