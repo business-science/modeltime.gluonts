@@ -51,7 +51,7 @@ install_gluonts <- function(
 
     # PACKAGE SPEC
     default_pkgs <- c(
-        "mxnet~=1.7",
+        "mxnet~=1.8",
         "gluonts==0.8.0",
         "numpy==1.17.2",
         "pandas==1.0.5",

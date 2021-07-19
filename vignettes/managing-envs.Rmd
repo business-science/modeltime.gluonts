@@ -146,7 +146,7 @@ The `modeltime.gluonts` >= 0.3.0 has the following minimum python environment re
 - A recent version of Python (Recommend 3.7)
 - A Python environment containing the "GluonTS Stack":
   - `gluonts>=0.8.0` (required for `modeltime.gluonts` >= 0.3.0)
-  - `mxnet~=1.7`
+  - `mxnet~=1.8`
   - `pandas`
   - `numpy`
   - `pathlib`
@@ -160,7 +160,7 @@ Optional: Dependencies for Pytorch:
 __Tested environment:__ These package versions are tested on Windows, Mac, and Linux systems and can be used to set up an environment:
 
   - `gluonts==0.8.0`
-  - `mxnet~=1.7`
+  - `mxnet~=1.8`
   - `numpy==1.17.2`
   - `pandas==1.0.5`
   - `pathlib==1.0.1`
@@ -250,7 +250,7 @@ reticulate::py_install(
     envname  = "my_gluonts_env",
     python_version = "3.7",
     packages = c(
-        "mxnet~=1.7",
+        "mxnet~=1.8",
         "gluonts==0.8.0",
         "pandas==1.0.5",
         "numpy==1.17.2",

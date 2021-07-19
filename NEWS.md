@@ -7,7 +7,7 @@ Modeltime GluonTS now support `gluonts 0.8.0`. Simply run `install_gluonts()` to
 
 - `gluonts==0.8.0`
 
-- `mxnet~=1.7`
+- `mxnet~=1.8`
 
 Additionally, GluonTS 0.8.0 now supports __pytorch as a backend.__ Use `install_gluonts(include_pytorch = TRUE)` to simplify installation of the PyTorch backend. Pytorch backend requirements:
 

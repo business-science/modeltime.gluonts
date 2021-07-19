@@ -6,7 +6,7 @@ channels:
 dependencies:
   - pip
   - pip:
-    - mxnet~=1.7
+    - mxnet~=1.8
     - gluonts==0.8.0
     # - numpy==1.17.2
     - numpy==1.17.2
