@@ -53,7 +53,7 @@ install_gluonts <- function(
     default_pkgs <- c(
         "mxnet~=1.7",
         "gluonts==0.8.0",
-        "numpy==1.17.2",
+        "numpy",
         "pandas==1.0.5",
         "pathlib==1.0.1",
         "ujson==4.0.2"

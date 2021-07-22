@@ -161,7 +161,7 @@ __Test Environment:__ These package versions are tested on Windows, Mac, and Lin
 
   - `gluonts==0.8.0`
   - `mxnet~=1.7`
-  - `numpy==1.17.2`
+  - `numpy`
   - `pandas==1.0.5`
   - `pathlib==1.0.1`
   - `ujson==4.0.2`
@@ -253,7 +253,7 @@ reticulate::py_install(
         "mxnet~=1.7",
         "gluonts==0.8.0",
         "pandas==1.0.5",
-        "numpy==1.17.2",
+        "numpy",
         "pathlib==1.0.1",
         "ujson==4.0.2"
     ),
