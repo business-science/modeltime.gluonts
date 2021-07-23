@@ -105,6 +105,21 @@ check_gluonts_dependencies <- function() {
 
 #' @export
 #' @rdname gluonts-env
+check_pytorch_dependencies <- function() {
+
+    dependencies_ok <- FALSE
+    try({
+        dependencies_ok <- all(
+            reticulate::py_module_available("torch"),
+            reticulate::py_module_available("pytorch_lightning")
+        )
+    }, silent = TRUE)
+
+    return(dependencies_ok)
+}
+
+#' @export
+#' @rdname gluonts-env
 detect_default_gluonts_env <- function() {
 
     ret <- NULL

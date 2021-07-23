@@ -6,6 +6,7 @@
 \alias{activate_gluonts}
 \alias{get_python_env}
 \alias{check_gluonts_dependencies}
+\alias{check_pytorch_dependencies}
 \alias{detect_default_gluonts_env}
 \title{GluonTS Environment Connection Utilities}
 \usage{
@@ -16,6 +17,8 @@ activate_gluonts()
 get_python_env()
 
 check_gluonts_dependencies()
+
+check_pytorch_dependencies()
 
 detect_default_gluonts_env()
 }

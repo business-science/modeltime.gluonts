@@ -2,9 +2,12 @@
 % Please edit documentation in R/core-install.R
 \name{install_gluonts}
 \alias{install_gluonts}
+\alias{uninstall_gluonts}
 \title{Install GluonTS}
 \usage{
 install_gluonts(fresh_install = FALSE, include_pytorch = FALSE)
+
+uninstall_gluonts()
 }
 \arguments{
 \item{fresh_install}{If \code{TRUE}, will remove prior installations of the \code{r-glounts}
@@ -15,14 +18,19 @@ errors appear during upgrades. Default: \code{FALSE}.}
 of \code{deep_ar()}. Default: \code{FALSE}.}
 }
 \description{
-Installs \code{GluonTS} Probabilisitic Deep Learning Time Series Forecasting Software
+\code{install_gluonts()}: Installs \code{GluonTS} Probabilisitic Deep Learning Time Series Forecasting Software
 using \code{reticulate::py_install()}.
 \itemize{
 \item A \code{Python} Environment will be created named \code{r-gluonts}.
 \item When loaded with \code{library(modeltime.gluonts)}, the \code{modeltime.gluonts} R package
 will connect to the \code{r-gluonts} Python environment by default. See "Details" for
 connecting to custom python environments.
+\item If \code{fresh_install}, will remove any prior installations of the "r-gluonts" python environment
+\item If \code{include_pytorch}, will install additional dependencies needed for the optional
+pytorch backend that is available in some algorithms.
 }
+
+\code{uninstall_gluonts()}: Will remove the "r-gluonts" python environment and python packages
 }
 \details{
 \strong{Options for Connecting to Python}

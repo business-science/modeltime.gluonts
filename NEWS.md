@@ -1,4 +1,23 @@
 
+# modeltime.gluont 0.3.0.9000 (Development Version)
+
+## Installation Support
+
+### Windows Conflicting Dependencies
+
+Improved support for conflicting package dependencies on Windows Operating Systems. Solution is to separate the installation process into two stages, which happens inside of `install_gluonts()`.
+
+```
+pytorch-lightning 1.3.8 depends on numpy>=1.17.2
+mxnet 1.7.0.post1 depends on numpy<1.17.0 and >=1.8.2
+```
+
+### New Uninstall Function
+
+Users can now `uninstall_gluonts()`.
+
+
+
 # modeltime.gluonts 0.3.0
 
 ## Support for GluonTS 0.8.0 and Pytorch Backend:
