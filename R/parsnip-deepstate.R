@@ -1,7 +1,7 @@
 
-# GP FORECASTER ----
+# DEEP STATE ----
 
-#' General Interface for GP Forecaster Time Series Models
+#' General Interface for Deep State Time Series Models
 #'
 #' `deep_state()` is a way to generate a _specification_ of a DeepState Estimator
 #'  before fitting and allows the model to be created using

@@ -3,7 +3,7 @@
 \name{install_gluonts}
 \alias{install_gluonts}
 \alias{uninstall_gluonts}
-\title{Install GluonTS}
+\title{Install / Uninstall GluonTS}
 \usage{
 install_gluonts(fresh_install = FALSE, include_pytorch = FALSE)
 

@@ -1,4 +1,4 @@
-#' Install GluonTS
+#' Install / Uninstall GluonTS
 #'
 #' @description
 #' `install_gluonts()`: Installs `GluonTS` Probabilisitic Deep Learning Time Series Forecasting Software
