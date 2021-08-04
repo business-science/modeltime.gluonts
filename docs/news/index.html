@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
       </span>
     </div>
 
@@ -210,6 +210,27 @@
       <small>Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="modeltimegluont-0309000-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0.9000">
+<a href="#modeltimegluont-0309000-development-version" class="anchor"></a>modeltime.gluont 0.3.0.9000 (Development Version)<small> Unreleased </small>
+</h1>
+<div id="installation-support" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation-support" class="anchor"></a>Installation Support</h2>
+<div id="windows-conflicting-dependencies" class="section level3">
+<h3 class="hasAnchor">
+<a href="#windows-conflicting-dependencies" class="anchor"></a>Windows Conflicting Dependencies</h3>
+<p>Improved support for conflicting package dependencies on Windows Operating Systems. Solution is to separate the installation process into two stages, which happens inside of <code><a href="../reference/install_gluonts.html">install_gluonts()</a></code>.</p>
+<pre><code>pytorch-lightning 1.3.8 depends on numpy&gt;=1.17.2
+mxnet 1.7.0.post1 depends on numpy&lt;1.17.0 and &gt;=1.8.2</code></pre>
+</div>
+<div id="new-uninstall-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-uninstall-function" class="anchor"></a>New Uninstall Function</h3>
+<p>Users can now <code><a href="../reference/install_gluonts.html">uninstall_gluonts()</a></code>.</p>
+</div>
+</div>
+</div>
     <div id="modeltimegluonts-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#modeltimegluonts-030" class="anchor"></a>modeltime.gluonts 0.3.0<small> Unreleased </small>

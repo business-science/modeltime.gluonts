@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Install GluonTS — install_gluonts • modeltime.gluonts</title>
+<title>Install / Uninstall GluonTS — install_gluonts • modeltime.gluonts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,15 +46,19 @@
 
 
 
-<meta property="og:title" content="Install GluonTS — install_gluonts" />
-<meta property="og:description" content="Installs GluonTS Probabilisitic Deep Learning Time Series Forecasting Software
+<meta property="og:title" content="Install / Uninstall GluonTS — install_gluonts" />
+<meta property="og:description" content="install_gluonts(): Installs GluonTS Probabilisitic Deep Learning Time Series Forecasting Software
 using reticulate::py_install().
 A Python Environment will be created named r-gluonts.
 When loaded with library(modeltime.gluonts), the modeltime.gluonts R package
 will connect to the r-gluonts Python environment by default. See &quot;Details&quot; for
 connecting to custom python environments.
+If fresh_install, will remove any prior installations of the &quot;r-gluonts&quot; python environment
+If include_pytorch, will install additional dependencies needed for the optional
+pytorch backend that is available in some algorithms.
 
-" />
+
+uninstall_gluonts(): Will remove the &quot;r-gluonts&quot; python environment and python packages" />
 
 
 
@@ -96,7 +100,7 @@ connecting to custom python environments.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">modeltime.gluonts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
       </span>
     </div>
 
@@ -214,23 +218,29 @@ connecting to custom python environments.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Install GluonTS</h1>
+    <h1>Install / Uninstall GluonTS</h1>
     <small class="dont-index">Source: <a href='https://github.com/business-science/modeltime.gluonts/blob/master/R/core-install.R'><code>R/core-install.R</code></a></small>
     <div class="hidden name"><code>install_gluonts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Installs <code>GluonTS</code> Probabilisitic Deep Learning Time Series Forecasting Software
+    <p><code>install_gluonts()</code>: Installs <code>GluonTS</code> Probabilisitic Deep Learning Time Series Forecasting Software
 using <code><a href='https://rdrr.io/pkg/reticulate/man/py_install.html'>reticulate::py_install()</a></code>.</p><ul>
 <li><p>A <code>Python</code> Environment will be created named <code>r-gluonts</code>.</p></li>
 <li><p>When loaded with <code><a href='https://github.com/business-science/modeltime.gluonts'>library(modeltime.gluonts)</a></code>, the <code>modeltime.gluonts</code> R package
 will connect to the <code>r-gluonts</code> Python environment by default. See "Details" for
 connecting to custom python environments.</p></li>
+<li><p>If <code>fresh_install</code>, will remove any prior installations of the "r-gluonts" python environment</p></li>
+<li><p>If <code>include_pytorch</code>, will install additional dependencies needed for the optional
+pytorch backend that is available in some algorithms.</p></li>
 </ul>
 
+<p><code>uninstall_gluonts()</code>: Will remove the "r-gluonts" python environment and python packages</p>
     </div>
 
-    <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span>fresh_install <span class='op'>=</span> <span class='cn'>FALSE</span>, include_pytorch <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>install_gluonts</span><span class='op'>(</span>fresh_install <span class='op'>=</span> <span class='cn'>FALSE</span>, include_pytorch <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>uninstall_gluonts</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

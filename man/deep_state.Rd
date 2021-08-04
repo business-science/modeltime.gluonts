@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsnip-deepstate.R
 \name{deep_state}
 \alias{deep_state}
-\title{General Interface for GP Forecaster Time Series Models}
+\title{General Interface for Deep State Time Series Models}
 \usage{
 deep_state(
   mode = "regression",
