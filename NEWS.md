@@ -1,11 +1,11 @@
 
-# modeltime.gluont 0.3.0.9000 (Development Version)
+# modeltime.gluont 0.3.1
 
 ## Installation Support
 
 ### Windows Conflicting Dependencies
 
-Improved support for conflicting package dependencies on Windows Operating Systems. Solution is to separate the installation process into two stages, which happens inside of `install_gluonts()`.
+Improved support for conflicting package dependencies on Windows Operating Systems. Solution is to separate the installation process into two stages, which happens inside of `install_gluonts()`. #32
 
 ```
 pytorch-lightning 1.3.8 depends on numpy>=1.17.2
