@@ -24,6 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install miniconda r-gluonts env
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: r-gluonts
+          python-version: 3.7.1
+          environment-file: _environment.yml
+
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
