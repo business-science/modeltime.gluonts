@@ -5,7 +5,7 @@ articles:
   getting-started: getting-started.html
   managing-envs: managing-envs.html
   using-gpus: using-gpus.html
-last_built: 2024-01-04T22:23Z
+last_built: 2024-01-04T22:31Z
 urls:
   reference: https://business-science.github.io/modeltime.gluonts/reference
   article: https://business-science.github.io/modeltime.gluonts/articles
