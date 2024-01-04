@@ -1,108 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/getting-started.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/articles/getting-started.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/managing-envs.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/articles/managing-envs.html</loc>
   </url>
   <url>
-    <loc>/articles/using-gpus.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/articles/using-gpus.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/as_pandas_timestamp.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/as_pandas_timestamp.html</loc>
   </url>
   <url>
-    <loc>/reference/deep_ar.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deep_ar.html</loc>
   </url>
   <url>
-    <loc>/reference/deep_state.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deep_state.html</loc>
   </url>
   <url>
-    <loc>/reference/deepar_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deepar_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/deepar_predict_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deepar_predict_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/deepar_torch_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deepar_torch_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/deepstate_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deepstate_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/deepstate_predict_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/deepstate_predict_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/gluonts-env.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/gluonts-env.html</loc>
   </url>
   <url>
-    <loc>/reference/gp_forecaster.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/gp_forecaster.html</loc>
   </url>
   <url>
-    <loc>/reference/gp_forecaster_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/gp_forecaster_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/gp_forecaster_predict_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/gp_forecaster_predict_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/install_gluonts.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/install_gluonts.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats_ensemble_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats_ensemble_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats_ensemble_predict_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats_ensemble_predict_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats_fit_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats_fit_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats_params.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats_params.html</loc>
   </url>
   <url>
-    <loc>/reference/nbeats_predict_impl.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/nbeats_predict_impl.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/save_gluonts_model.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/save_gluonts_model.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyeval.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/tidyeval.html</loc>
   </url>
   <url>
-    <loc>/reference/to_gluon_list_dataset.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/to_gluon_list_dataset.html</loc>
   </url>
   <url>
-    <loc>/reference/trainer_params.html</loc>
+    <loc>https://business-science.github.io/modeltime.gluonts/reference/trainer_params.html</loc>
   </url>
 </urlset>
