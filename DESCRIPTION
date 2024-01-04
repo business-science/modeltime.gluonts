@@ -1,7 +1,7 @@
 Package: modeltime.gluonts
 Type: Package
 Title: 'GluonTS' Deep Learning
-Version: 0.3.1
+Version: 0.3.1.9000
 Authors@R: c(
     person("Matt", "Dancho", email = "mdancho@business-science.io", role = c("aut", "cre")),
     person("Business Science", role = "cph"))
@@ -12,7 +12,7 @@ Description:
     (<https://ts.gluon.ai/index.html>).
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Depends:
     modeltime (>= 0.6.1)

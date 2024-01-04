@@ -7,10 +7,11 @@
 deepstate_predict_impl(object, new_data)
 }
 \arguments{
-\item{object}{An object of class \code{model_fit}}
+\item{object}{An object of class \code{model_fit}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 }
 \description{
 Bridge prediction Function for GP Forecaster Models
 }
+\keyword{internal}

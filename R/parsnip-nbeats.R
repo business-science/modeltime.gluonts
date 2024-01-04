@@ -422,6 +422,8 @@ translate.nbeats <- function(x, engine = x$engine, ...) {
 #' @param loss_function The loss function (also known as metric) to use for training the network. Unlike other models in GluonTS this network does not use a distribution. One of the following: "sMAPE", "MASE" or "MAPE". The default value is "MAPE".
 #' @param ... Additional Arguments passed to `gluonts.model.n_beats.NBEATSEstimator()`
 #'
+#' @keywords internal
+#'
 #' @export
 nbeats_fit_impl <- function(x, y, freq, prediction_length, id,
 
@@ -623,6 +625,8 @@ print.nbeats_fit_impl <- function(x, ...) {
 #'
 #' @inheritParams parsnip::predict.model_fit
 #'
+#' @keywords internal
+#'
 #' @export
 nbeats_predict_impl <- function(object, new_data) {
 
@@ -702,6 +706,8 @@ predict.nbeats_fit_impl <- function(object, new_data, ...) {
 #' The total number of models used is:
 #'
 #' `meta_context_length x meta_loss_function x meta_bagging_size`
+#'
+#' @keywords internal
 #'
 #' @export
 nbeats_ensemble_fit_impl <- function(x, y, freq, prediction_length, id,
@@ -905,6 +911,8 @@ print.nbeats_ensemble_fit_impl <- function(x, ...) {
 #' Bridge prediction Function for N-BEATS ENSEMBLE Models
 #'
 #' @inheritParams parsnip::predict.model_fit
+#'
+#' @keywords internal
 #'
 #' @export
 nbeats_ensemble_predict_impl <- function(object, new_data) {

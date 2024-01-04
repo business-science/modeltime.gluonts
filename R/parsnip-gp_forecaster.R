@@ -379,6 +379,8 @@ translate.gp_forecaster <- function(x, engine = x$engine, ...) {
 #' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #' @param ... Additional parameters passed to `gluonts.model.gp_forecaster.GP ForecasterEstimator()`
 #'
+#' @keywords internal
+#'
 #' @export
 gp_forecaster_fit_impl <- function(x, y, freq, prediction_length, id,
 
@@ -571,6 +573,8 @@ print.gp_forecaster_fit_impl <- function(x, ...) {
 #' Bridge prediction Function for GP Forecaster Models
 #'
 #' @inheritParams parsnip::predict.model_fit
+#'
+#' @keywords internal
 #'
 #' @export
 gp_forecaster_predict_impl <- function(object, new_data) {

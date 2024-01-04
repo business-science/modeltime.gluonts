@@ -387,6 +387,8 @@ translate.deep_state <- function(x, engine = x$engine, ...) {
 #'
 #' @param ... Additional parameters passed to `gluonts.model.deepstate.DeepStateEstimator()`
 #'
+#' @keywords internal
+#'
 #' @export
 deepstate_fit_impl <- function(x, y, freq, prediction_length, id,
 
@@ -597,6 +599,8 @@ print.deepstate_fit_impl <- function(x, ...) {
 #' Bridge prediction Function for GP Forecaster Models
 #'
 #' @inheritParams parsnip::predict.model_fit
+#'
+#' @keywords internal
 #'
 #' @export
 deepstate_predict_impl <- function(object, new_data) {

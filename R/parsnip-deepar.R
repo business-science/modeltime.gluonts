@@ -439,6 +439,8 @@ translate.deep_ar <- function(x, engine = x$engine, ...) {
 #' @param scale_by_id Scales numeric data by `id` group using mean = 0, standard deviation = 1 transformation. (default: FALSE)
 #' @param ... Additional parameters passed to `gluonts.model.deepar.DeepAREstimator()`
 #'
+#' @keywords internal
+#'
 #' @export
 deepar_fit_impl <- function(x, y, freq, prediction_length, id,
 
@@ -661,6 +663,8 @@ print.deepar_fit_impl <- function(x, ...) {
 #' @param num_feat_static_cat Number of static categorical features
 #' @param num_feat_static_real Number of static numeric features
 #' @param ... Parameters passed to `pytorch_lightning.trainer.Trainer()`
+#'
+#' @keywords internal
 #'
 #' @export
 deepar_torch_fit_impl <- function(x, y, freq, prediction_length, id,
@@ -907,6 +911,8 @@ deepar_torch_fit_impl <- function(x, y, freq, prediction_length, id,
 #' Bridge prediction Function for DeepAR Models
 #'
 #' @inheritParams parsnip::predict.model_fit
+#'
+#' @keywords internal
 #'
 #' @export
 deepar_predict_impl <- function(object, new_data) {
