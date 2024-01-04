@@ -47,6 +47,11 @@ jobs:
           activate-environment: r-gluonts
           python-version: 3.7.1
           environment-file: _environment.yml
+          auto-activate-base: false
+      - name: Conda Info
+        run: |
+          conda info
+          conda list
 
       - uses: r-lib/actions/setup-pandoc@v2
 

@@ -53,6 +53,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install miniconda r-gluonts env
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: r-gluonts
+          python-version: 3.7.1
+          environment-file: _environment.yml
+          auto-activate-base: false
+
+      - name: Conda Info
+        run: |
+          conda info
+          conda list
+
       - uses: r-lib/actions/pr-fetch@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
